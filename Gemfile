@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '1.9.3'
 gem 'rails', '3.2.18'
 gem 'haml'
+gem 'omniauth'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -11,6 +12,15 @@ group :development, :test do
   gem 'webrick', '~> 1.3.1'
   gem 'sqlite3'
   gem 'debugger'
+  gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
+  gem 'metric_fu'
+end
+
+group :test do
+  gem 'rspec-rails'
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner' # required by Cucumber
+  gem 'autotest-rails'
 end
 
 group :production do

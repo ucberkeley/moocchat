@@ -2,4 +2,3 @@
 
 MOOCchat is a SaaS application for bringing peer discussion and peer
 learning to MOOCs.
-
