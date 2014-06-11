@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140611000809) do
+ActiveRecord::Schema.define(:version => 20140611223314) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -57,10 +57,16 @@ ActiveRecord::Schema.define(:version => 20140611000809) do
     t.integer  "correct_answer_index"
   end
 
+  create_table "responses", :force => true do |t|
+    t.text     "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "tasks", :force => true do |t|
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-    t.integer  "activity_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.integer  "activity_schema_id"
     t.integer  "learner_id"
     t.integer  "condition_id"
     t.string   "chat_group"
