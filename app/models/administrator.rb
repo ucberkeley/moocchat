@@ -1,0 +1,3 @@
+class Administrator < User
+  
+end
