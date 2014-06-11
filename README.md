@@ -34,4 +34,8 @@ contain the app's class diagrams.  The most interesting is probably `doc/models_
 * `rake spec` runs all unit and functional tests
 * `rake cucumber` runs all features that should pass (user stories)
 * `rake metrics:all` generates a bunch of metrics; to see them, open
-`./tmp/metric_fu/output/index.html` in a browser after running this command
+`./tmp/metric_fu/output/index.html` in a browser after running this
+command
+* [CodeClimate code
+quality](https://codeclimate.com/github/ucberkeley/moocchat) for this project
+
