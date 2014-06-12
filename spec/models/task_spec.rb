@@ -18,10 +18,26 @@ describe Task do
       it 'creates new learner' do
         expect { Task.create_from_params @args }.to change { Learner.count }.by(1)
       end
-      it 'creates valid task' 
+      describe 'creates valid task' do
+        subject { Task.create_from_params @args }
+        it { should be_valid }
+        its(:current_question) { should == 1 }
+        its(:condition) { should == @condition }
+        its(:activity_schema) { should == @activity_schema }
+      end
       context 'when learner already exists' do
-        it 'does not create new learner'
-        it 'creates valid task'
+        before :each do
+          # use FactoryGirl to create the learner named 'joe' in advance
+          @learner = create(:learner, :name => 'joe')
+        end
+        it 'does not create new learner' do
+          expect { Task.create_from_params @args }.not_to change { Learner.count }
+        end
+        describe 'creates valid task' do
+          subject { Task.create_from_params @args }
+          it { should be_valid }
+          its(:learner) { should == @learner }
+        end
       end
     end
   end

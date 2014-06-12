@@ -58,9 +58,9 @@ ActiveRecord::Schema.define(:version => 20140611000809) do
   end
 
   create_table "tasks", :force => true do |t|
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-    t.integer  "activity_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.integer  "activity_schema_id"
     t.integer  "learner_id"
     t.integer  "condition_id"
     t.string   "chat_group"
