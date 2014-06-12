@@ -14,6 +14,9 @@ Moocchat::Application.routes.draw do
   # error encountered during task
   get '/tasks/error', :to => 'tasks#error', :as => 'task_error'
 
+  # render a particular page
+  get '/tasks/:id/page/:page_id', :to => 'tasks#page', :as => 'task_page'
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

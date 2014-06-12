@@ -18,6 +18,9 @@ describe TasksController do
     it 'routes to Welcome page' do
       expect(:get => '/tasks/10').to route_to :controller => 'tasks', :action => 'welcome', :id => '10'
     end
+    it 'routes to page render' do
+      expect(:get => '/tasks/10/page/3').to route_to :controller => 'tasks', :action => 'page', :id => '10', :page_id => '3'
+    end
   end
 
   describe 'establishing session' do

@@ -32,7 +32,11 @@ FactoryGirl.define do
     completed false
   end
 
-    
-    
+  factory :template do
+    url nil
+    html '<!DOCTYPE html><html><head></head><body><p><%= @page_id %></p></body></html>'
+    name 'test'
+  end
+  
 end
 
