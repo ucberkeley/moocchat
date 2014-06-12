@@ -1,0 +1,21 @@
+<h1>Listing activity_schemas</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activity_schemas.each do |activity_schema| %>
+  <tr>
+    <td><%= link_to 'Show', activity_schema %></td>
+    <td><%= link_to 'Edit', edit_activity_schema_path(activity_schema) %></td>
+    <td><%= link_to 'Destroy', activity_schema, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activity schema', new_activity_schema_path %>

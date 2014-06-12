@@ -1,0 +1,2 @@
+module ActivitySchemasHelper
+end

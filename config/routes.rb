@@ -1,4 +1,10 @@
 Moocchat::Application.routes.draw do
+  resources :activity_schemas
+
+
+  resources :questions
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
