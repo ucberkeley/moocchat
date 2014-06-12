@@ -4,3 +4,5 @@ class Task < ActiveRecord::Base
   belongs_to :learner
   belongs_to :condition
 end
+
+

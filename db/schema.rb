@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20140612005752) do
   end
 
   create_table "event_logs", :force => true do |t|
-    t.integer  "task_id_id"
+    t.integer  "tasks_id"
     t.text     "value"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -62,12 +62,6 @@ ActiveRecord::Schema.define(:version => 20140612005752) do
     t.text     "text"
     t.text     "answers"
     t.integer  "correct_answer_index"
-  end
-
-  create_table "responses", :force => true do |t|
-    t.text     "value"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "tasks", :force => true do |t|
