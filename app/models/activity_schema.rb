@@ -1,5 +1,5 @@
 class ActivitySchema < ActiveRecord::Base
-  belongs_to :task
+  has_many :tasks
   belongs_to :cohort
   serialize :questions, Array
 end

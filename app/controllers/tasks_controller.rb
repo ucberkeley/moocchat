@@ -4,7 +4,7 @@ class TasksController < ApplicationController
 
     begin
 
-      @task = Task.create_from_params(params.values_at(:learner, :activity_schema_id, :condition_id))
+      @task = Task.create_from_params(params)
       redirect_to :action => :welcome, :id => @task
 
     rescue ActiveRecord::RecordNotFound => @error

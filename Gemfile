@@ -21,6 +21,7 @@ group :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner' # required by Cucumber
   gem 'autotest-rails'
+  gem 'factory_girl_rails'
 end
 
 group :production do

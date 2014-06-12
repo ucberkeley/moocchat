@@ -87,6 +87,11 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.2.0)
+    factory_girl (4.1.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.1.0)
+      factory_girl (~> 4.1.0)
+      railties (>= 3.0.0)
     fattr (2.2.2)
     flay (2.5.0)
       ruby_parser (~> 3.0)
@@ -250,6 +255,7 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   debugger
+  factory_girl_rails
   haml
   jquery-rails
   metric_fu
