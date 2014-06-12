@@ -1,0 +1,6 @@
+%h1 Welcome to MOOCchat
+
+= form_for task_next_page_path(@task) do |form|
+  %p Welcome, #{@task.learner.name}!
+  %p Click below to start "#{@task.activity_schema.name}".
+  = form.submit 'Start'

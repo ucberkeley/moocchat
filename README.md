@@ -31,7 +31,7 @@ database, populate its schema, and insert any initial data
 cannot be deployed
 * `rake diagram:all` creates three `.svg` picture files in `doc/` that
 contain the app's class diagrams.  The most interesting is probably `doc/models_complete.svg`
-* `rake spec` runs all unit and functional tests
+* `rspec` runs all unit and functional tests
 * `rake cucumber` runs all features that should pass (user stories)
 * `rake metrics:all` generates a bunch of metrics; to see them, open
 `./tmp/metric_fu/output/index.html` in a browser after running this

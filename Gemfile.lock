@@ -77,6 +77,8 @@ GEM
       cucumber (>= 1.2.0)
       nokogiri (>= 1.5.0)
       rails (~> 3.0)
+    cucumber-rails-training-wheels (1.0.0)
+      cucumber-rails (>= 1.1.1)
     database_cleaner (1.2.0)
     debugger (1.6.8)
       columnize (>= 0.3.1)
@@ -87,6 +89,11 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.2.0)
+    factory_girl (4.1.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.1.0)
+      factory_girl (~> 4.1.0)
+      railties (>= 3.0.0)
     fattr (2.2.2)
     flay (2.5.0)
       ruby_parser (~> 3.0)
@@ -248,8 +255,10 @@ DEPENDENCIES
   autotest-rails
   coffee-rails (~> 3.2.1)
   cucumber-rails
+  cucumber-rails-training-wheels
   database_cleaner
   debugger
+  factory_girl_rails
   haml
   jquery-rails
   metric_fu
