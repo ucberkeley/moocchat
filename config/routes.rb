@@ -3,14 +3,17 @@ Moocchat::Application.routes.draw do
   # first created -> highest priority.
 
   # login and establish a session
-  post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create'
+  post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
 
   # welcome page ("Welcome! Click to start your learning activity")
   get '/tasks/:id', :to => 'tasks#welcome', :as => 'task_welcome'
 
   # go to next page/view of a task
   post '/tasks/:id', :to => 'tasks#next_page', :as => 'task_next_page'
-  
+
+  # error encountered during task
+  get '/tasks/error', :to => 'tasks#error', :as => 'task_error'
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

@@ -19,6 +19,7 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails-training-wheels'          # basic web steps like "I should see..."
   gem 'database_cleaner' # required by Cucumber
   gem 'autotest-rails'
   gem 'factory_girl_rails'

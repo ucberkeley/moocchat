@@ -25,10 +25,15 @@ describe TasksController do
       @dummy_params = { :activity_schema_id => '0', :learner_name => 'x', :condition_id => '1' }
     end
     it 'when successful redirects to task welcome page' do
-      Task.stub(:create_from_params).and_return(@t = mock_model(Task))
+      Task.stub(:create_from_params).and_return(@t = mock_model(Task, :enabled? => true))
       post :create, @dummy_params
-      response.should redirect_to(task_welcome_path(@t))
+      response.should redirect_to task_welcome_path(@t)
     end
+    it 'when activity is not enabled shows an error' do
+      Task.stub(:create_from_params).and_raise Task::ActivityNotOpenError
+      post :create, @dummy_params
+      response.should redirect_to task_error_path
+    end      
     context 'when error occurs' do
       before :each do ; Task.stub(:create_from_params).and_raise(ActiveRecord::RecordNotFound) ; end
       it 'logs the error' do
@@ -37,7 +42,7 @@ describe TasksController do
       end
       it 'shows error page' do
         post :create, @dummy_params
-        response.should render_template('application/error')
+        response.should redirect_to task_error_path
       end
     end
   end

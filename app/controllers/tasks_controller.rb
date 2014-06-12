@@ -5,16 +5,25 @@ class TasksController < ApplicationController
     begin
 
       @task = Task.create_from_params(params)
-      redirect_to :action => :welcome, :id => @task
+      redirect_to task_welcome_path(@task)
 
-    rescue ActiveRecord::RecordNotFound => @error
+    rescue ActiveRecord::RecordNotFound => error
 
-      Rails.logger.error @error
-      render 'application/error'
+      Rails.logger.error error
+      redirect_to(task_error_path, :alert => "The activity you tried to start couldn't be found.")
+
+    rescue Task::ActivityNotOpenError
+
+      redirect_to task_error_path, :alert => "This activity isn't open yet."
 
     end
   end
 
   def welcome
+    @task = Task.find params[:id]
+  end
+
+  def error
+    
   end
 end

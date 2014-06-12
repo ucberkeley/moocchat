@@ -12,10 +12,15 @@ class Task < ActiveRecord::Base
 
   attr_accessible :condition, :learner, :activity_schema, :completed, :chat_group, :current_question
 
+  class ActivityNotOpenError < RuntimeError ; end
+  
   def self.create_from_params(params)
     condition = Condition.find params[:condition_id]
     activity_schema = ActivitySchema.find params[:activity_schema_id]
     learner = Learner.find_or_create_by_name! params[:learner_name]
+
+    raise ActivityNotOpenError unless activity_schema.enabled?
+    
     @t = Task.create!(
       :condition => condition,
       :learner => learner,

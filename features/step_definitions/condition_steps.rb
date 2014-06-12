@@ -1,3 +1,3 @@
 Given /^a condition "(.*?)"$/ do |name|
-  build(:condition, :name => name)
+  create :condition, :name => name
 end
