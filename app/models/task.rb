@@ -1,5 +1,6 @@
 class Task < ActiveRecord::Base
 
+  has_one :event_log	
   belongs_to :activity_schema
   belongs_to :learner
   belongs_to :condition
@@ -31,3 +32,5 @@ class Task < ActiveRecord::Base
       )
   end
 end
+
+

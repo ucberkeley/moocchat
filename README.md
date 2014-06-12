@@ -39,3 +39,8 @@ command
 * [CodeClimate code
 quality](https://codeclimate.com/github/ucberkeley/moocchat) for this project
 
+Notes
+To access db in sqlite do the following:
+sqlite3 db/development.sqlite3
+
+
