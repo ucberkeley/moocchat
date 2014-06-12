@@ -1,4 +1,4 @@
 class EventLog < ActiveRecord::Base
-  attr_accessible :task_id, :value
+	belongs_to :task
    serialize :value, JSON
 end
