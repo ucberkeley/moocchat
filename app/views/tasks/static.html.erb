@@ -1,0 +1,42 @@
+<h1>Configueration Page for MoocChat, please Fill out the following</h1>
+<%= form_for @task,:as => :post, :url => "/data" do |f| %>
+  <% if f.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(f.errors.count, "error") %> prohibited this task from being saved:</h2>
+      <ul>
+      <% f.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :activity_schema_id %><br>
+    <%= f.text_field :activity_schema_id %>
+  </div>
+  <div class="field">
+    <%= f.label :learner_id %><br>
+    <%= f.text_field :learner_id %>
+  </div>
+  <div class="field">
+    <%= f.label :condition_id %><br>
+    <%= f.text_field :condition_id %>
+  </div>
+  <div class="field">
+    <%= f.label :chat_group %><br>
+    <%= f.text_field :chat_group %>
+  </div>
+  <div class="field">
+    <%= f.label :current_question %><br>
+    <%= f.check_box :current_question %>
+  </div>
+  <div class="field">
+    <%= f.label :completed %><br>
+    <%= f.text_field :completed %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

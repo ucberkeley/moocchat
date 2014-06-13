@@ -4,7 +4,12 @@ Moocchat::Application.routes.draw do
 
   resources :questions
 
+  #routes the landing page to be this static page we talked about
+  root 'tasks#static'
 
+  #a reference to post to create
+  post 'data' => 'tasks#create'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
