@@ -10,9 +10,11 @@ class Task < ActiveRecord::Base
     def current_page(condition=nil)
       @condition ||= condition
       array = array_for_current_subsequence
-      if (elt = array[subcounter])
-        increase_counters
-        return elt
+      # boundary condition: zero body iterations
+      unless (where == :in_body && body_reps.zero?)
+        if (elt = array[subcounter])
+          return elt
+        end
       end
       # end of subsequence reached: if in body, iterate again
       if where == :in_body && body_reps > 1
@@ -31,6 +33,7 @@ class Task < ActiveRecord::Base
 
     def next_page
       self.subcounter += 1
+      self.counter += 1
     end
 
     private
@@ -38,11 +41,6 @@ class Task < ActiveRecord::Base
     def start_new_body_iteration
       self.body_reps -= 1
       self.subcounter = 0
-    end
-
-    def increase_counters
-      self.counter += 1
-      self.subcounter += 1
     end
 
     def array_for_current_subsequence
