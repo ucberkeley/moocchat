@@ -21,12 +21,12 @@ class TasksController < ApplicationController
 
   def static
     #should this be created in the view or here?
-    @task = Task.new
-    if @task.save
-      redirect_to "/data", notice: 'Task was successfully created.'
-    else
-      render action: "new"
-    end
+    # @task = Task.new
+    # if @task.save
+    #   redirect_to "/data", notice: 'Task was successfully created.'
+    # else
+    #   render action: "new"
+    # end
   end
 
   def welcome

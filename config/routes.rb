@@ -15,6 +15,7 @@ Moocchat::Application.routes.draw do
 
   # login and establish a session
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
+  post '/tasks' => 'tasks#create' # regular form posting
 
   # welcome page ("Welcome! Click to start your learning activity")
   get '/tasks/:id', :to => 'tasks#welcome', :as => 'task_welcome'
