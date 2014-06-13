@@ -3,17 +3,21 @@ Moocchat::Application.routes.draw do
 
 
   resources :questions
+  root :to => 'tasks#static'
 
   #routes the landing page to be this static page we talked about
-  root :to => 'tasks#static'
 
   #a reference to post to create(replaces /task?)
   #post 'data' => 'tasks#create'
+
+  get "static" => 'tasks#static', :as => "static"
+
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   # login and establish a session
+
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
   post '/tasks' => 'tasks#create' # regular form posting
 

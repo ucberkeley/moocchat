@@ -1,25 +1,16 @@
 <h1>Configueration Page for MoocChat, please Fill out the following</h1>
 <%= form_for @task,:as => :post, :url => "/tasks" do |f| %>
-  <% if f.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(f.errors.count, "error") %> prohibited this task from being saved:</h2>
-      <ul>
-      <% f.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  
 
 	<% if false %>
-  <%= #added this to write comments in the view %>
-	<%= #TODO: - text input to enter learner name %>
-    <%= dropdown menu of Conditions
-    <%= dropdown menu of ActivitySchemas
-   <%= #dropdown menu acchieved by <%= collection_select( :condition_id, :id, Condtion.all), :id, {prompt: 'Please Select ...'}, :class => "form-control" ) %>
+   added this to write comments in the view
+	 TODO: - text input to enter learner name 
+   dropdown menu of Conditions 
+    dropdown menu of ActivitySchemas 
+    #dropdown menu acchieved by  collection_select( :condition_id, :id, Condtion.all), :id, {prompt: 'Please Select ...'}, :class => "form-control" ) 
 
-	<%= the following fields are not correct and represent a scaffold of what should go there =>
-	<%= the submitted value fields must be named learner_name, condition_id, and activity_schema_id %>
+	 the following fields are not correct and represent a scaffold of what should go there 
+	 the submitted value fields must be named learner_name, condition_id, and activity_schema_id 
   <% end %>
   <div class="field">
   	<%-# this should be learner name -%>
@@ -29,15 +20,15 @@
   <div class="field">
   	 <%-# this should be dropdown_menu for condition_id -%>
     <%= label_tag(:condition_id) %><br/>
-    <%= collection_select( :condition_id, :id, Condtion.all, :id,  {prompt: 'Please Select ...'}, :class => "form-control" ) %>
+    <%= collection_select( :condition_id, :id, Condition.all, :id,  {prompt: 'Please Select ...'}, :class => "form-control" ) %>
   </div>
   <div class="field">
   	<%-# this should be dropdown_menu for activity_schema -%>
     <%= label_tag(:activity_schema_id) %><br/>
-    <%= collection_select( :activity_schema_id, :id, ActivitySchemas.all, :id,  {prompt: 'Please Select ...'}, :class => "form-control" ) %>
+    <%= collection_select( :activity_schema_id, :id, ActivitySchema.all, :id,  {prompt: 'Please Select ...'}, :class => "form-control" ) %>
   </div>
   
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Submit Task~"%>
   </div>
 <% end %>
