@@ -1,6 +1,5 @@
 <h1>Configueration Page for MoocChat, please Fill out the following</h1>
-<%= form_for @task,:as => :post, :url => "/tasks" do |f| %>
-  
+<%= form_tag "/tasks" do  %>
 
 	<% if false %>
    added this to write comments in the view
@@ -14,21 +13,21 @@
   <% end %>
   <div class="field">
   	<%-# this should be learner name -%>
-    <%= f.label :learner_name %><br>
-    <%= f.text_field :learner_name %>
+    <%= label_tag :learner_name %><br>
+    <%= text_field_tag :learner_name %>
   </div>
   <div class="field">
   	 <%-# this should be dropdown_menu for condition_id -%>
     <%= label_tag(:condition_id) %><br/>
-    <%= collection_select( :condition_id, :id, Condition.all, :id,  {prompt: 'Please Select ...'}, :class => "form-control" ) %>
+    <%= collection_select( :condition_id, :id, Condition.all, :id, :name, {prompt: 'Please Select from the following choices'}, :class => "form-control" ) %>
   </div>
   <div class="field">
   	<%-# this should be dropdown_menu for activity_schema -%>
     <%= label_tag(:activity_schema_id) %><br/>
-    <%= collection_select( :activity_schema_id, :id, ActivitySchema.all, :id,  {prompt: 'Please Select ...'}, :class => "form-control" ) %>
+    <%= collection_select( :activity_schema_id, :id, ActivitySchema.all, :id, :name ,{prompt: 'Please Select from the following choices'}, :class => "form-control" ) %>
   </div>
   
   <div class="actions">
-    <%= f.submit "Submit Task~"%>
+    <%= submit_tag "Submit Task~"%>
   </div>
 <% end %>

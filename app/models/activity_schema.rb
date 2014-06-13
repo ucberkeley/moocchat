@@ -4,7 +4,6 @@ class ActivitySchema < ActiveRecord::Base
   serialize :questions, Array
 
   validates_presence_of :name
-
   attr_accessible :name
 
 end
