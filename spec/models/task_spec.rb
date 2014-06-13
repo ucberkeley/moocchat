@@ -6,7 +6,7 @@ describe Task do
     context 'when activity is enabled' do
       before :each do
         @condition = mock_model(Condition, :valid? => true)
-        @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => true)
+        @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => true, :num_questions => 2)
         @args = {
           :condition_id => @condition.id,
           :activity_schema_id => @activity_schema.id,
@@ -22,7 +22,6 @@ describe Task do
         describe 'creates valid task' do
           subject { Task.create_from_params @args }
           it { should be_valid }
-          its(:current_question) { should == 1 }
           its(:condition) { should == @condition }
           its(:activity_schema) { should == @activity_schema }
         end

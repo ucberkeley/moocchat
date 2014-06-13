@@ -28,8 +28,8 @@ FactoryGirl.define do
     learner { build :learner }
     condition { build :condition }
     chat_group '123'
-    current_question 1
     completed false
+    sequencer { Task::Sequencer.new }
   end
 
   factory :template do
