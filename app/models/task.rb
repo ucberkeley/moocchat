@@ -19,12 +19,19 @@ class Task < ActiveRecord::Base
     as = params[:activity_schema_id]
     con = params[:condition_id]
     #condition select returns a hash, so use temporary variables to hold the hash, and call on key
-    condition = Condition.find con[:id]
-    activity_schema = ActivitySchema.find  as[:id]
+    condition = Condition.find con[:id]#params[:id]#con[:id]
+    activity_schema = ActivitySchema.find as[:id]#params[:id]  #as[:id]
     learner = Learner.find_or_create_by_name! params[:learner_name]
+    # puts condition.inspect
+    # puts learner.inspect
+    # puts activity_schema.inspect
+    # puts condition.to_yaml
+    # puts learner.to_yaml
+    # puts activity_schema.to_yaml
 
     raise ActivityNotOpenError unless activity_schema.enabled?
     
+
     @t = Task.create!(
       :condition => condition,
       :learner => learner,
