@@ -1,5 +1,8 @@
 class Template < ActiveRecord::Base
 
+  # A representation of a page template, which must provide either a URL or a block of HTML
+  # but not both.
+
   validates_presence_of :name
   validates_format_of :url, :with => URI::regexp(['ftp','http','https']), :allow_nil => true
 
@@ -14,6 +17,14 @@ class Template < ActiveRecord::Base
 
   attr_accessible :name, :url, :html
 
+  # Return the template's HTML content.  In the future can also fetch and cache external URLs.
+  def content
+    if url.blank?
+      html
+    else
+      raise RuntimeError, "Template#content cannot handle external URLs yet"
+    end
+  end
 
 end
 
