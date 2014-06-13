@@ -3,4 +3,6 @@ class Condition < ActiveRecord::Base
   serialize :prologue, Array
   serialize :body, Array
   serialize :epilogue, Array
+  attr_accessible :name
+
 end

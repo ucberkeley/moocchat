@@ -20,13 +20,7 @@ class TasksController < ApplicationController
   end
 
   def static
-    #should this be created in the view or here?
-    # @task = Task.new
-    # if @task.save
-    #   redirect_to "/data", notice: 'Task was successfully created.'
-    # else
-    #   render action: "new"
-    # end
+    #this creates an anonomous form to fill in params that will be used in task#create
   end
 
   def welcome

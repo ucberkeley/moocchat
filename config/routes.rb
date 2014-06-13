@@ -6,10 +6,6 @@ Moocchat::Application.routes.draw do
   root :to => 'tasks#static'
 
   #routes the landing page to be this static page we talked about
-
-  #a reference to post to create(replaces /task?)
-  #post 'data' => 'tasks#create'
-
   get "static" => 'tasks#static', :as => "static"
 
   
