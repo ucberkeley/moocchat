@@ -54,8 +54,8 @@ describe TasksController do
     end
     describe 'it visits the static page AND fills in the right values' do
       before do
-        visit '/static'
-       # fill_in 'learner_name', :with  => 'steven'
+        visit 'static'
+        fill_in 'learner_name', :with  => 'steven'
         #select 'Chat Sequence 1', :from => "condition_id[id]"
         #select 'Quiz Review', :from => "activity_schema_id[:id]"
       end
