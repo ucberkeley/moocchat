@@ -43,4 +43,11 @@ Notes
 To access db in sqlite do the following:
 sqlite3 db/development.sqlite3
 
+Notes
+To use selium to test javascript cucumber do
+sudo mv chromedriver /usr/bin/ 
+sudo chmod +x /usr/bin/chromedriver
+
+then just cucumber --no-profile and you are all set
+
 
