@@ -4,12 +4,16 @@ Feature: start new task using Static Page
   So that I choose which peer learning activity to participate
   I want to start a new task using MoocChat's static page
 
+  Background:
+  Given a condition "Chat sequence 1"
+  Given an activity schema "Quiz review"
+
 Scenario: static root page, new learner
 
-  Given I am on root_page
-  When I fill in "Steven" for "learner name"
-  And I select "chat sequence 1" for "Condtion"
-  And I select "Quiz Review" for "Activity Schema"
-  When I click submit
+  Given I start on the Static Page
+  When I fill in "Steven" for "learner_name"
+  And I select "Chat sequence 1" from "condition_id[id]"
+  And I select "Quiz review" from "activity_schema_id[id]"
+  When I press "SUBMIT"
   Then I should see "Welcome, Steven!" 
   And I should see /Click below to start "Quiz review"/

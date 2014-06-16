@@ -16,11 +16,14 @@ class Task < ActiveRecord::Base
   class ActivityNotOpenError < RuntimeError ; end
   
   def self.create_from_params(params)
-    as = params[:activity_schema_id]
-    con = params[:condition_id]
-    #condition select returns a hash, so use temporary variables to hold the hash, and call on key
-    condition = Condition.find con[:id]#params[:id]#con[:id]
-    activity_schema = ActivitySchema.find as[:id]#params[:id]  #as[:id]
+    act = params[:activity_schema_id]
+    cond = params[:condition_id]
+    if(act.is_a?(Hash) && cond.is_a?(Hash)) #suggested by github to handle collection select(which returns {:id => value} rather than value)
+      act = act[:id]
+      cond = cond[:id]
+    end
+    condition = Condition.find  cond
+    activity_schema = ActivitySchema.find act
     learner = Learner.find_or_create_by_name! params[:learner_name]
     # puts condition.inspect
     # puts learner.inspect
