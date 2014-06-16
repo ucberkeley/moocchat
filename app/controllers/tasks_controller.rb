@@ -3,9 +3,7 @@ class TasksController < ApplicationController
   def create
 
     begin
-      puts "I am on the controller"
       @task = Task.create_from_params(params)
-      puts "I have left the model"
       redirect_to task_welcome_path(@task)
 
     rescue ActiveRecord::RecordNotFound => error

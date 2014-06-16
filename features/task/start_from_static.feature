@@ -17,3 +17,12 @@ Scenario: static root page, new learner
   When I press "SUBMIT"
   Then I should see "Welcome, Steven!" 
   And I should see /Click below to start "Quiz review"/
+
+@javascript
+Scenario: static root page, missing activity schema, new learner
+  Given I start on the Static Page
+  When I fill in "Robert" for "learner_name"
+  And I select "Chat sequence 1" from "condition_id[id]"
+  When I press "SUBMIT"
+  Then I should see a JS dialog saying "please fill out all the form"
+  Then I should not see "Welcome, Steven!" 

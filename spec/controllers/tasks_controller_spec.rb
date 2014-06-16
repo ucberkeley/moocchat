@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require 'spec_helper'
 
-describe TasksController, :type => :controller  do
+describe TasksController, type: :feature do
 
   describe 'using Static page to create Task' do
     before :all do
@@ -12,11 +12,11 @@ describe TasksController, :type => :controller  do
     describe 'it visits the static page' do
       
       it 'fills in the right vales' do
-        visit root_path
+        get "/static"
         #response.should be_success
         #puts "this is after page content"
         #have_content("Configueration Page for MoocChat")
-
+        puts page.html
         expect(page).to have_content "Configueration Page for MoocChat"
         fill_in 'learner_name', :with  => 'steven'
         #select 'Chat Sequence 1', :from => "condition_id[id]"

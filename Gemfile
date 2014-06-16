@@ -14,6 +14,7 @@ group :development, :test do
   gem 'debugger'
   gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
   gem 'metric_fu'
+  gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
 end
 
 group :test do
