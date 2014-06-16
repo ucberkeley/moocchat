@@ -1,21 +1,20 @@
 Moocchat::Application.routes.draw do
+  # The priority is based upon order of creation:
+  # first created -> highest priority.
   resources :activity_schemas
-
-
   resources :questions
-  root :to => 'tasks#static'
-
   #routes the landing page to be this static page we talked about
+  root :to => 'tasks#static'
+  #a simple get to redirect to this page
   get "static" => 'tasks#static', :as => "static"
 
   
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
+  #for posting to armando's create
+  post '/tasks' => 'tasks#create'
 
   # login and establish a session
-
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
-  post '/tasks' => 'tasks#create' # regular form posting
+
 
   # welcome page ("Welcome! Click to start your learning activity")
   get '/tasks/:id', :to => 'tasks#welcome', :as => 'task_welcome'

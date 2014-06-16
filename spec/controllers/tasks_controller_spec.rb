@@ -46,6 +46,24 @@ describe TasksController do
       end
     end
   end
+
+  describe 'using Static page to create Task' do
+    before :all do
+      @c = Condition.create!(:name => "Chat Sequence 1")
+      @a = ActivitySchema.create!(:name => "Quiz Review", :enabled => "true")
+    end
+    describe 'it visits the static page AND fills in the right values' do
+      before do
+        visit '/static'
+       # fill_in 'learner_name', :with  => 'steven'
+        #select 'Chat Sequence 1', :from => "condition_id[id]"
+        #select 'Quiz Review', :from => "activity_schema_id[:id]"
+      end
+      it 'should create a new task using Static Post' do
+
+      end
+    end
+  end
   
 
 end

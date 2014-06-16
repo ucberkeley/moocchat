@@ -30,4 +30,4 @@ Question.create(text:"The number of sports cars per square mile is 40% greater i
 Condition.delete_all
 ActivitySchema.delete_all
 Condition.create(name: "Chat Sequence 1")
-ActivitySchema.create(name: "Quiz Review")
+ActivitySchema.create(name: "Quiz Review",:enabled =>1)
