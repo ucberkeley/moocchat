@@ -11,6 +11,7 @@ require 'capybara/rails'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
@@ -38,6 +39,12 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+   # Capybara DSL
+  config.include Capybara::DSL
+
+  # Factory girl
+  config.include FactoryGirl::Syntax::Methods
 end
 
 

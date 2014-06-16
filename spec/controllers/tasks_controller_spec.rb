@@ -1,20 +1,24 @@
+# encoding: UTF-8
 require 'spec_helper'
 
-describe TasksController do
+describe TasksController, :type => :controller  do
 
   describe 'using Static page to create Task' do
     before :all do
       @c = Condition.create!(:name => "Chat Sequence 1")
       @a = ActivitySchema.create!(:name => "Quiz Review", :enabled => "true")
     end
-    describe 'it visits the static page' do
-      it 'fills in the right vales' do
-        puts "****************"
-        
-        puts "****************"
 
-        page.should have_content("Configueration Page for MoocChat")
-        #fill_in 'learner_name', :with  => 'steven'
+    describe 'it visits the static page' do
+      
+      it 'fills in the right vales' do
+        visit root_path
+        #response.should be_success
+        #puts "this is after page content"
+        #have_content("Configueration Page for MoocChat")
+
+        expect(page).to have_content "Configueration Page for MoocChat"
+        fill_in 'learner_name', :with  => 'steven'
         #select 'Chat Sequence 1', :from => "condition_id[id]"
         #select 'Quiz Review', :from => "activity_schema_id[:id]"
       end
