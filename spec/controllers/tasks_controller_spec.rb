@@ -2,17 +2,15 @@ require 'spec_helper'
 
 describe TasksController do
 
-  describe 'using Static page to create Task', :type => :request  do
+  describe 'using Static page to create Task' do
     before :all do
       @c = Condition.create!(:name => "Chat Sequence 1")
       @a = ActivitySchema.create!(:name => "Quiz Review", :enabled => "true")
     end
-    describe 'it visits the static page AND fills in the right values' do
-      
-      before do
-        visit root_path
+    describe 'it visits the static page' do
+      it 'fills in the right vales' do
         puts "****************"
-        puts page.html
+        
         puts "****************"
 
         page.should have_content("Configueration Page for MoocChat")
