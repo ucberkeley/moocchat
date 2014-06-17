@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe Task::Sequencer do
+  describe 'initializing' do
+    subject { Task::Sequencer.new(3) }
+    its(:counter) { should == 1 }
+    its(:where)   { should == :in_prologue }
+    its(:subcounter) { should == 0 }
+  end
   # each test case gives prologue, body, epilogue, body iteration count, and expected result
   TEST_CASES = {
     # no nonempty arrays, nonzero body iterations
@@ -16,7 +22,7 @@ describe Task::Sequencer do
   TEST_CASES.each_pair do |test, result|
     it "#{test}" do
       condition = mock_model(Condition,
-        :prologue => test[0], :body => test[1], :epilogue => test[2])
+        :prologue_pages => test[0], :body_pages => test[1], :epilogue_pages => test[2])
       sequencer = Task::Sequencer.new(test[3])
       test_result = []
       while (next_elt = sequencer.current_page(condition))
@@ -26,4 +32,16 @@ describe Task::Sequencer do
       test_result.should == result
     end
   end
+  it 'remains nil when done' do
+    condition = mock_model(Condition,
+      :prologue_pages => [], :body_pages => %w(a b), :epilogue_pages => [])
+    sequencer = Task::Sequencer.new(1)
+    sequencer.next_page
+    sequencer.current_page(condition).should == 'a'
+    sequencer.next_page
+    sequencer.current_page.should == 'b'
+    sequencer.next_page
+    sequencer.current_page.should be_nil
+    sequencer.current_page.should be_nil
+  end    
 end

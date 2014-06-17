@@ -3,6 +3,9 @@ require 'spec_helper'
 describe Task do
 
   describe 'creating' do
+    it 'delegates :counter attribute' do
+      (create :task).counter.should == 1
+    end
     context 'when activity is enabled' do
       before :each do
         @condition = mock_model(Condition, :valid? => true)

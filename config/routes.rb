@@ -12,6 +12,9 @@ Moocchat::Application.routes.draw do
   # go to next page/view of a task
   post '/tasks/:id', :to => 'tasks#next_page', :as => 'task_next_page'
 
+  # exit page of a task - when you finish it
+  get '/tasks/:id/complete', :to => 'tasks#complete', :as => 'task_complete'
+
   # error encountered during task
   get '/tasks/error', :to => 'tasks#error', :as => 'task_error'
 

@@ -1,5 +1,11 @@
 class Task < ActiveRecord::Base
 
+  # Ties together a +Learner+, +ActivitySchema+, and +Condition+ into
+  # a task that steps the learner through a sequence of pages.  The
+  # sequence state is tracked by an internal private class
+  # +Task::Sequencer+, certain elements of which are exposed via
+  # delegation as read-only attributes of this class.
+
   require_relative './task/task_sequencer'
 
   belongs_to :activity_schema
@@ -17,6 +23,15 @@ class Task < ActiveRecord::Base
 
   serialize :sequence_state, Sequencer
 
+  # Create a new task from a hash that includes a +condition_id+,
+  # +activity_schema_id+, and +learner_name+.
+  #
+  # +condition_id+ and +activity_schema_id+ must be the primary keys
+  # of an existing valid +Condition+ and +ActivitySchema+ respectively.
+  #
+  # +learner_name+ is the learner's nym; if it doesn't exist, an instance
+  # of +Learner+ will be created.
+ 
   def self.create_from_params(params)
     condition = Condition.find params[:condition_id]
     activity_schema = ActivitySchema.find params[:activity_schema_id]
@@ -34,4 +49,30 @@ class Task < ActiveRecord::Base
       )
   end
 
+  # The counter starts at 1 on the first page of the task and
+  # counts by 1 as each new page is visited.
+  delegate :counter, :to => :sequence_state
+
+  # Returns the +Template+ object that should be rendered for the
+  # current page in the task sequence.
+  def current_page
+    page = sequence_state.current_page(self.condition)
+    # the above call may modify sequence_state's internal state,
+    # so we have to save the task to serialize it
+    save! if sequence_state_changed?
+    page
+  end
+
+  # Advance to the next page of the task.  Returns that page, or +nil+
+  # if end of task has been reached.
+  def next_page!
+    sequence_state.next_page
+    save! if sequence_state_changed?
+    current_page
+  end
+
+  # Returns the next question to be consumed for the task.
+  def current_question
+    Question.new
+  end
 end

@@ -10,7 +10,7 @@ class Task < ActiveRecord::Base
     attr_reader :where
 
     # Current value of monotonically increasing sequence counter, which
-    # starts from 0
+    # starts from 1
     attr_reader :counter
 
     # Current position within prologue, body, or epilogue (starts at 0)
@@ -18,7 +18,8 @@ class Task < ActiveRecord::Base
 
     def initialize(body_reps=0)     # :nodoc:
       @body_reps = body_reps
-      @counter = @subcounter = 0
+      @counter = 1
+      @subcounter = 0
       @where = :in_prologue
     end
 
@@ -28,20 +29,23 @@ class Task < ActiveRecord::Base
     # or +nil+ if end of sequence.  (The task's +condition+ must be
     # passed in so we don't have to serialize it to the database.)
     def current_page(condition=nil)
+      return nil if @where.nil?
       @condition ||= condition
       array = array_for_current_subsequence
-      # boundary condition: zero body iterations
+      # boundary condition: zero body iterations => skip to epilogue
       unless (@where == :in_body && @body_reps.zero?)
+        # try to return an element
         if (elt = array[@subcounter])
           return elt
         end
+        # elt is nil: we must be at end of subsequence.
+        # if in body, iterate again
+        if @where == :in_body && @body_reps > 1
+          start_new_body_iteration
+          return current_page
+        end
       end
-      # end of subsequence reached: if in body, iterate again
-      if @where == :in_body && @body_reps > 1
-        start_new_body_iteration
-        return current_page
-      end
-      # end of subsequence reached: try next subsequence
+      # else we're not in body, must be in prologue or epilogue
       @where = next_subsequence
       # if we are all out of subsequences, this is the end of the flow
       return nil if @where.nil?
@@ -66,9 +70,9 @@ class Task < ActiveRecord::Base
 
     def array_for_current_subsequence
       case @where
-      when :in_prologue then @condition.prologue
-      when :in_body then @condition.body
-      when :in_epilogue then @condition.epilogue
+      when :in_prologue then @condition.prologue_pages
+      when :in_body then @condition.body_pages
+      when :in_epilogue then @condition.epilogue_pages
       else raise RuntimeError, "Unknown sequence state #{@where}"
       end
     end

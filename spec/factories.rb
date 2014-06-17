@@ -15,9 +15,9 @@ FactoryGirl.define do
 
   factory :condition do
     name 'dummy condition'
-    prologue []
-    body []
-    epilogue []
+    prologue_pages []
+    body_pages []
+    epilogue_pages []
   end
 
   factory :learner do
@@ -29,17 +29,22 @@ FactoryGirl.define do
     condition { build :condition }
     chat_group nil
     completed false
-    sequencer { Task::Sequencer.new }
+    activity_schema { build :activity_schema }
+    sequence_state { Task::Sequencer.new(self.activity_schema.num_questions) }
   end
 
   factory :template do
     random = 
     url nil
-    html '<!DOCTYPE html><html><head></head><body><p>PAGE_ID (<%= @page_id %>)</p></body></html>'
+    html '<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
+<div class="counter"> Page <%= @counter %></div>
+<div class="question">Question <%= @question.id %></div>
+<div class="footer">  <%= "#{@task_id},#{@template_id},#{@counter}" %></div>
+<%= form_for task_next_page_path(@task) do |f| %>
+  <%= f.submit "Continue" %>
+<% end %>
+</body></html>'
     name 'test'
-    after :create do |template|
-      template.update_attributes! :html => template.html.gsub(/PAGE_ID/, template.id)
-    end
   end
   
 end
