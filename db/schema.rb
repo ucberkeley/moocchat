@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140613010104) do
+ActiveRecord::Schema.define(:version => 20140617170845) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -41,12 +41,12 @@ ActiveRecord::Schema.define(:version => 20140613010104) do
   end
 
   create_table "conditions", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.string   "name"
-    t.text     "prologue"
-    t.text     "body"
-    t.text     "epilogue"
+    t.text     "prologue_pages"
+    t.text     "body_pages"
+    t.text     "epilogue_pages"
   end
 
   create_table "event_logs", :force => true do |t|
