@@ -45,8 +45,9 @@ To access db in sqlite do the following:
 
 ## to use selenium for the javascript inside cucumber test
 To use selium to test javascript cucumber do:
+
 0. sudo mv chromedriver /usr/bin/ 
 0. sudo chmod +x /usr/bin/chromedriver
-* then just 'cucumber --no-profile' and you are all set
+* then just `cucumber --no-profile` and you are all set
 
 
