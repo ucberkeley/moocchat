@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require 'spec_helper'
 
-describe TasksController, type: :feature do
+describe TasksController do
   describe 'task URI', :type => :routing do
     it 'creates new task on POST' do
       expect(:post => '/tasks/armandofox/237/15').to route_to(
@@ -46,31 +46,4 @@ describe TasksController, type: :feature do
       end
     end
   end
-
-  describe 'using Static page to create Task' do
-    before :all do
-      @c = Condition.create!(:name => "Chat Sequence 1")
-      @a = ActivitySchema.create!(:name => "Quiz Review", :enabled => "true")
-    end
-
-    describe 'it visits the static page' do
-
-      it 'fills in the right vales' do
-        visit root_path
-        #response.should be_success
-        #puts "this is after page content"
-        #have_content("Configueration Page for MoocChat")
-        puts page.html #does not render, we searched but nothing works, please help
-        #expect(page).to have_content "Configueration Page for MoocChat"
-        #fill_in 'learner_name', :with  => 'steven'
-        #select 'Chat Sequence 1', :from => "condition_id[id]"
-        #select 'Quiz Review', :from => "activity_schema_id[:id]"
-      end
-      it 'should create a new task using Static Post' do
-
-      end
-    end
-  end
-  
-
 end
