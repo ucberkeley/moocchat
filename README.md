@@ -39,15 +39,14 @@ command
 * [CodeClimate code
 quality](https://codeclimate.com/github/ucberkeley/moocchat) for this project
 
-Notes
+## To use DB
 To access db in sqlite do the following:
-sqlite3 db/development.sqlite3
+0. sqlite3 db/development.sqlite3
 
-Notes
-To use selium to test javascript cucumber do
-sudo mv chromedriver /usr/bin/ 
-sudo chmod +x /usr/bin/chromedriver
-
-then just cucumber --no-profile and you are all set
+## to use selenium for the javascript inside cucumber test
+To use selium to test javascript cucumber do:
+0. sudo mv chromedriver /usr/bin/ 
+0. sudo chmod +x /usr/bin/chromedriver
+* then just 'cucumber --no-profile' and you are all set
 
 
