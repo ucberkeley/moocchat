@@ -41,6 +41,7 @@ quality](https://codeclimate.com/github/ucberkeley/moocchat) for this project
 
 ## To use DB
 To access db in sqlite do the following:
+
 0. sqlite3 db/development.sqlite3
 
 ## to use selenium for the javascript inside cucumber test
