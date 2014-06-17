@@ -15,8 +15,11 @@ Moocchat::Application.routes.draw do
   # error encountered during task
   get '/tasks/error', :to => 'tasks#error', :as => 'task_error'
 
-  # render a particular page
-  get '/tasks/:id/page/:page_id', :to => 'tasks#page', :as => 'task_page'
+  # render current page of task
+  get '/tasks/:id/page', :to => 'tasks#page', :as => 'task_page'
+
+  # advance to next page of task
+  post '/tasks/:id/page', :to => 'tasks#next_page', :as => 'task_next_page'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

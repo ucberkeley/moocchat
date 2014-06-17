@@ -27,15 +27,19 @@ FactoryGirl.define do
   factory :task do
     learner { build :learner }
     condition { build :condition }
-    chat_group '123'
+    chat_group nil
     completed false
     sequencer { Task::Sequencer.new }
   end
 
   factory :template do
+    random = 
     url nil
-    html '<!DOCTYPE html><html><head></head><body><p><%= @page_id %></p></body></html>'
+    html '<!DOCTYPE html><html><head></head><body><p>PAGE_ID (<%= @page_id %>)</p></body></html>'
     name 'test'
+    after :create do |template|
+      template.update_attributes! :html => template.html.gsub(/PAGE_ID/, template.id)
+    end
   end
   
 end
