@@ -1,11 +1,33 @@
 require 'spec_helper'
 
+DUMMY_DB = {:adapter => 'sqlite3', :database => ':memory'}
 
-describe HasManyInline, :pending => 'HasManyInline module completion' do
-  class TestOwner
-    include HasManyInline
+class DummyDatabase < ActiveRecord::Base
+  # force this class to have its own DB connection
+  def self.abstract_class? ; true ;  end
+  establish_connection DUMMY_DB
+end
+
+def setup_db
+  # ActiveRecord::Schema.define(:version => 1) do
+  #   create_table :test_owners, :force => true do |t| ; t.text :things ; end
+  #   create_table :things, :force => true do |t| ; t.string :name ; end
+  # end
+end
+
+describe HasManyInline, :pending => true do
+
+  before :all do ; setup_db ; end
+
+  class Thing < DummyDatabase
+    establish_connection DUMMY_DB
   end
-  class Thing ; end
+  class TestOwner < DummyDatabase
+    establish_connection DUMMY_DB
+    include HasManyInline
+    has_many_inline :things
+  end
+
   it 'provides has_many_inline method' do
     TestOwner.should respond_to :has_many_inline
   end
@@ -14,9 +36,11 @@ describe HasManyInline, :pending => 'HasManyInline module completion' do
     it 'exists' do
       TestOwner.new.should respond_to :things
     end
-    it 'attempts to lookup each record' do
-      Thing.should_receive(:find).exactly(3).times.and_return(
-        mock_model(Thing), mock_model(Thing), mock_model(Thing))
+    it 'serializes a record' do
+      the_things = Array.new(3) { Thing.create! }
+      owner = TestOwner.new
+      owner.things = the_things
+      owner[:things].should == the_things.map(&:id)
     end
   end
   describe 'provides' do
@@ -28,4 +52,3 @@ describe HasManyInline, :pending => 'HasManyInline module completion' do
     it 'setter' 
   end
 end
-
