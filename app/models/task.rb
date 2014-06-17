@@ -59,7 +59,7 @@ class Task < ActiveRecord::Base
     page = sequence_state.current_page(self.condition)
     # the above call may modify sequence_state's internal state,
     # so we have to save the task to serialize it
-    save! if sequence_state_changed?
+    save!
     page
   end
 
@@ -67,8 +67,8 @@ class Task < ActiveRecord::Base
   # if end of task has been reached.
   def next_page!
     sequence_state.next_page
-    save! if sequence_state_changed?
-    current_page
+    save!
+    self.reload.current_page
   end
 
   # Returns the next question to be consumed for the task.

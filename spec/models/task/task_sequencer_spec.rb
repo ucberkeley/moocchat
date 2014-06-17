@@ -36,7 +36,6 @@ describe Task::Sequencer do
     condition = mock_model(Condition,
       :prologue_pages => [], :body_pages => %w(a b), :epilogue_pages => [])
     sequencer = Task::Sequencer.new(1)
-    sequencer.next_page
     sequencer.current_page(condition).should == 'a'
     sequencer.next_page
     sequencer.current_page.should == 'b'

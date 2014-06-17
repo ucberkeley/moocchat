@@ -25,11 +25,14 @@ FactoryGirl.define do
   end
 
   factory :task do
+    ignore do
+      num_questions 2
+    end
     learner { build :learner }
-    condition { build :condition }
+    condition { build(:condition) }
     chat_group nil
     completed false
-    activity_schema { build :activity_schema }
+    activity_schema { build :activity_schema, :num_questions => num_questions }
     sequence_state { Task::Sequencer.new(self.activity_schema.num_questions) }
   end
 

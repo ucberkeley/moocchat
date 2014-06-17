@@ -2,6 +2,8 @@ Moocchat::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
+  root :to => 'tasks#static', :as => 'static'
+
   # login and establish a session
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
   post '/tasks' => 'tasks#create' # regular form posting

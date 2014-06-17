@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-DUMMY_DB = {:adapter => 'sqlite3', :database => ':memory'}
+DUMMY_DB = {:adapter => 'sqlite3', :database => ':memory:'}
 
 class DummyDatabase < ActiveRecord::Base
   # force this class to have its own DB connection

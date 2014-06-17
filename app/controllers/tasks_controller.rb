@@ -27,6 +27,7 @@ class TasksController < ApplicationController
     @task_id = params[:id]
     @task = Task.find @task_id
     template = @task.current_page
+    redirect_to '/' if template.nil?
     # set up variables for template to consume
     @question = @task.current_question
     @template_id = template.id
@@ -42,7 +43,7 @@ class TasksController < ApplicationController
     if @task.current_page
       redirect_to task_page_path(@task)
     else
-      redirect_to :root
+      redirect_to '/'
     end
   end
 

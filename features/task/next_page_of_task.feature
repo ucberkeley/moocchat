@@ -6,14 +6,11 @@ Feature: visit next page of task
 
 Scenario: Step through task
 
-  Given a task with a 5-page condition repeated 1 time
+  Given a task with a 2-page condition repeated 1 time
   When I visit the first page of that task
   Then I should see "Page 1" within "div.counter"
   When I press "Continue"
   Then I should see "Page 2" within "div.counter"
-  When I press "Continue"
-  When I press "Continue"
-  When I press "Continue"
   When I press "Continue"
   Then I should be on the home page
 

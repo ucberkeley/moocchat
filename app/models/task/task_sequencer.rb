@@ -5,8 +5,11 @@ class Task < ActiveRecord::Base
     # Automatically initialized as part of a +Task+, and used by
     # +TaskController+ to sequence the pages.
 
-    # Returns one of +:in_prologue+, +:in_body+, or +:in_epilogue+ indicating
-    # where we are in the sequence
+    # Returns one of +:in_prologue+, +:in_body+, +:in_epilogue+,
+    # or +:finished+ indicating where we are in the sequence.  (NOTE: If the
+    # prologue is empty, the return value from this method will still
+    # be +:in_prologue+ until the first call to +current_page+, but the
+    # sequence of returned pages will be correct.)
     attr_reader :where
 
     # Current value of monotonically increasing sequence counter, which
@@ -29,7 +32,7 @@ class Task < ActiveRecord::Base
     # or +nil+ if end of sequence.  (The task's +condition+ must be
     # passed in so we don't have to serialize it to the database.)
     def current_page(condition=nil)
-      return nil if @where.nil?
+      return nil if @where == :finished
       @condition ||= condition
       array = array_for_current_subsequence
       # boundary condition: zero body iterations => skip to epilogue
@@ -69,6 +72,7 @@ class Task < ActiveRecord::Base
     end
 
     def array_for_current_subsequence
+      @where = next_subsequence if @where == :in_prologue && @condition.prologue_pages.empty?
       case @where
       when :in_prologue then @condition.prologue_pages
       when :in_body then @condition.body_pages
@@ -81,7 +85,7 @@ class Task < ActiveRecord::Base
       case @where
       when :in_prologue then :in_body
       when :in_body then :in_epilogue
-      when :in_epilogue then nil
+      when :in_epilogue then :finished
       else raise RuntimeError, "Unknown sequence state #{@where}"
       end
     end
