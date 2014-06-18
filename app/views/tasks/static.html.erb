@@ -1,5 +1,6 @@
-<h1 class="title">Configuration Page for MoocChat, please Fill out the following</h1>
-<%= form_tag tasks_path do  %>
+ <div class= "container"> 
+  <h1 class="title">Configuration Page for MoocChat, please Fill out the following</h1>
+  <%= form_tag tasks_path do  %>
   <div class="field">
     <label for="learner_name">Learner name</label><br/>
     <%= text_field_tag :learner_name %>
@@ -19,4 +20,5 @@
   <div class="actions">
     <%= submit_tag "SUBMIT" , :class => "btn btn-primary"%>
   </div>
-<% end %>
+  <% end %>
+</div>
