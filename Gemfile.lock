@@ -106,8 +106,6 @@ GEM
       sexp_processor (~> 4.4)
     gherkin (2.12.2)
       multi_json (~> 1.3)
-    haml (4.0.5)
-      tilt
     hashie (2.0.5)
     hike (1.2.3)
     hirb (0.7.2)
@@ -269,7 +267,6 @@ DEPENDENCIES
   database_cleaner
   debugger
   factory_girl_rails
-  haml
   jquery-rails
   metric_fu
   omniauth
