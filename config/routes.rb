@@ -9,6 +9,7 @@ Moocchat::Application.routes.draw do
   #routes the landing page to be this static page we talked about
   root :to => 'tasks#static'
   #a simple get to redirect to this page
+  get 'chat' => 'chat#chatpage'
   get "static" => 'tasks#static', :as => "static"
 
   
