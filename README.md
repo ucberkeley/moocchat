@@ -11,6 +11,13 @@ If you're not a developer, please go away now.
 0. Clone this repo
 0. Change into app's root directory
 0. Run `bundle` to make sure you have all gems/libraries
+0. Install Google Chrome and `chromedriver` for certain Cucumber tests
+that require it:
+  1. Mac OS with [homebrew](http://brew.sh): `brew install chromedriver`
+  1. Mac OS without homebrew, or other platforms:   [Download and
+  instructions are
+  here](https://code.google.com/p/selenium/wiki/ChromeDriver), but in
+  general, after download `sudo mv chromedriver /usr/bin/` and `sudo chmod +x /usr/bin/chromedriver`
 0. First time: run `rake db:migrate db:seed` to create your development
 database, populate its schema, and insert any initial data
 0. `rails server --debugger` to start the app
@@ -25,7 +32,7 @@ database, populate its schema, and insert any initial data
 
 ## Other useful tasks
 
-'''Do not push code that causes these tasks to fail!'''
+**Do not push code that causes these tasks to fail!**
 
 * `git push heroku master` deploys on Heroku; don't push code that
 cannot be deployed
@@ -38,12 +45,5 @@ contain the app's class diagrams.  The most interesting is probably `doc/models_
 command
 * [CodeClimate code
 quality](https://codeclimate.com/github/ucberkeley/moocchat) for this project
-
-## to use selenium for the javascript inside cucumber test
-To use selium to test javascript cucumber do:
-
-0. sudo mv chromedriver /usr/bin/ 
-0. sudo chmod +x /usr/bin/chromedriver
-* then just `cucumber --no-profile` and you are all set
 
 
