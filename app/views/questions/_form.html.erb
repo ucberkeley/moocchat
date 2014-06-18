@@ -6,9 +6,17 @@
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :answers, :class => 'control-label' %>
+    <%= f.label "Answer Choices", :class => 'control-label' %>
+    <% @question.answers.each do |element| %>
+      <div class="controls">
+        <%= f.text_area :answers, :class => "text_area" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="control-group">
+    <%= f.label :explanation, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_area :answers, :class => 'text_area' %>
+      <%= f.text_area :explanation, :class => 'text_area' %>
     </div>
   </div>
   <div class="control-group">
