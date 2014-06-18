@@ -1,7 +1,8 @@
 <h1>Welcome to MOOCchat</h1>
 
 <%= form_for task_next_page_path(@task) do |form| %>
-  <p> Welcome, <%= @task.learner.name %>!</p>
-  <p> Click below to start "<%= @task.activity_schema.name %>".
-  <%= form.submit 'Start' %>
+  <h3> Greetings, <%= @task.learner.name %>!</h3>
+  <p> Click below to start <strong>"<%= @task.activity_schema.name %>"</strong>.</p>
+  <%= form.submit 'Start', :class => "btn btn-primary" %>
 <% end %>
+
