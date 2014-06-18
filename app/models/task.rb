@@ -1,6 +1,13 @@
 class Task < ActiveRecord::Base
 
-  has_one :event_log	
+  # Ties together a +Learner+, +ActivitySchema+, and +Condition+ into
+  # a task that steps the learner through a sequence of pages.  The
+  # sequence state is tracked by an internal private class
+  # +Task::Sequencer+, certain elements of which are exposed via
+  # delegation as read-only attributes of this class.
+
+  require_relative './task/task_sequencer'
+
   belongs_to :activity_schema
   belongs_to :learner
   belongs_to :condition
@@ -9,12 +16,24 @@ class Task < ActiveRecord::Base
   validates_associated :learner
   validates_associated :condition
 
-  validates_numericality_of :current_question, :greater_than_or_equal_to => 1
+  has_one :event_log	
 
-  attr_accessible :condition, :learner, :activity_schema, :completed, :chat_group, :current_question
+  attr_accessible :condition, :learner, :activity_schema, :completed, :chat_group, :sequence_state
+
 
   class ActivityNotOpenError < RuntimeError ; end
-  
+
+  serialize :sequence_state, Sequencer
+
+  # Create a new task from a hash that includes a +condition_id+,
+  # +activity_schema_id+, and +learner_name+.
+  #
+  # +condition_id+ and +activity_schema_id+ must be the primary keys
+  # of an existing valid +Condition+ and +ActivitySchema+ respectively.
+  #
+  # +learner_name+ is the learner's nym; if it doesn't exist, an instance
+  # of +Learner+ will be created.
+ 
   def self.create_from_params(params)
     act = params[:activity_schema_id]
     cond = params[:condition_id]
@@ -40,9 +59,36 @@ class Task < ActiveRecord::Base
       :learner => learner,
       :completed => false,
       :chat_group => nil,
-      :current_question => 1,
-      :activity_schema => activity_schema
+      :activity_schema => activity_schema,
+      :sequence_state => Sequencer.new(activity_schema.num_questions)
       )
+  end
+
+  # The counter starts at 1 on the first page of the task and
+  # counts by 1 as each new page is visited.
+  delegate :counter, :to => :sequence_state
+
+  # Returns the +Template+ object that should be rendered for the
+  # current page in the task sequence.
+  def current_page
+    page = sequence_state.current_page(self.condition)
+    # the above call may modify sequence_state's internal state,
+    # so we have to save the task to serialize it
+    save!
+    page
+  end
+
+  # Advance to the next page of the task.  Returns that page, or +nil+
+  # if end of task has been reached.
+  def next_page!
+    sequence_state.next_page
+    save!
+    self.reload.current_page
+  end
+
+  # Returns the next question to be consumed for the task.
+  def current_question
+    Question.new
   end
 end
 

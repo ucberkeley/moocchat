@@ -15,9 +15,9 @@ FactoryGirl.define do
 
   factory :condition do
     name 'dummy condition'
-    prologue []
-    body []
-    epilogue []
+    prologue_pages []
+    body_pages []
+    epilogue_pages []
   end
 
   factory :learner do
@@ -25,14 +25,30 @@ FactoryGirl.define do
   end
 
   factory :task do
+    ignore do
+      num_questions 2
+    end
     learner { build :learner }
-    condition { build :condition }
-    chat_group '123'
-    current_question 1
+    condition { build(:condition) }
+    chat_group nil
     completed false
+    activity_schema { build :activity_schema, :num_questions => num_questions }
+    sequence_state { Task::Sequencer.new(self.activity_schema.num_questions) }
   end
 
-    
-    
+  factory :template do
+    random = 
+    url nil
+    html '<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
+<div class="counter"> Page <%= @counter %></div>
+<div class="question">Question <%= @question.id %></div>
+<div class="footer">  <%= "#{@task_id},#{@template_id},#{@counter}" %></div>
+<%= form_for task_next_page_path(@task) do |f| %>
+  <%= f.submit "Continue" %>
+<% end %>
+</body></html>'
+    name 'test'
+  end
+  
 end
 

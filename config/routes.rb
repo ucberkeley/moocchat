@@ -15,8 +15,11 @@ Moocchat::Application.routes.draw do
   #for posting to armando's create
   post '/tasks' => 'tasks#create'
 
+  root :to => 'tasks#static', :as => 'static'
+
   # login and establish a session
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
+  post '/tasks' => 'tasks#create' # regular form posting
 
 
   # welcome page ("Welcome! Click to start your learning activity")
@@ -25,8 +28,17 @@ Moocchat::Application.routes.draw do
   # go to next page/view of a task
   post '/tasks/:id', :to => 'tasks#next_page', :as => 'task_next_page'
 
+  # exit page of a task - when you finish it
+  get '/tasks/:id/complete', :to => 'tasks#complete', :as => 'task_complete'
+
   # error encountered during task
   get '/tasks/error', :to => 'tasks#error', :as => 'task_error'
+
+  # render current page of task
+  get '/tasks/:id/page', :to => 'tasks#page', :as => 'task_page'
+
+  # advance to next page of task
+  post '/tasks/:id/page', :to => 'tasks#next_page', :as => 'task_next_page'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

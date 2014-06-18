@@ -13,12 +13,12 @@ group :development, :test do
   gem 'sqlite3'
   gem 'debugger'
   gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
+  gem 'rspec-rails'
   gem 'metric_fu'
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
 end
 
 group :test do
-  gem 'rspec-rails'
   gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'          # basic web steps like "I should see..."
   gem 'database_cleaner' # required by Cucumber

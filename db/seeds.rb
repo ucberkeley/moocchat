@@ -6,6 +6,7 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+
 Question.delete_all
 Question.create(text:"Wolves can double their numbers every year. They do not do so, however, if the area in which they live is already full and the territory of each pack borders on the territory of other packs on all sides. Lone wolves, unable to establish a territory near their place of origin, disperse to a less desirable habitat and often are hunted by people. Which of the following conclusions may be properly drawn from the information in the passage above?",answers: ["The number of wolves in any area suitable for wolves may be predicted to quadruple in two years.", "Wolves are ejected from the pack to wander singly as lone wolves when the number of wolves in the pack has doubled.", "The amount of territory suitable for wolves has been diminishing in recent years as a result of human encroachment, with a resulting diminution in the wolf population.", "Wolf hunting can continue at a moderate rate on the fringes of a good habitat for wolves without a decrease in the average yearly wolf population in that territory.", "The wolf population density in a given area of wolf territory does not vary with the yearly rate of wolf reproduction."],correct_answer_index: 3)
 Question.create(text:"The TJ-700 and the Beta Turbomax are two models of cars of different manufacturers.  These two models have almost identical specifications and features, and they sell for almost the same price. Both were introduced on the market five years ago, and each year, the respective manufacturers spend about the same amount in advertising. In the past five years, the total number of TJ-700's sold is about 80% greater than the total number of Beta Turbomax's sold. Clearly, the advertising firm that created TJ-700 ads created much more effective ads than the firm that created Beta Turbomax ads. In evaluating the argument, it would be most useful to know which of the following?",answers: ["How the advertising budgets over the last five years for the TJ-700 and the Beta Turbomax compare to the budgets over the same period for comparable models of other manufacturers.", "Whether the ads for the TJ-700 and the Beta Turbomax included the address or websites of local dealerships selling these models.", "Whether buyers of the TJ-700 and the Beta Turbomax reported being familiar with the ads of these cars.", "What percentage the first two years maintenance costs of each model is of their respective advertising budgets.", "Whether buyer of cars of other manufacturers in the last five years are familiar with the ads for the TJ-700 and the Beta Turbomax."],correct_answer_index: 2)
@@ -27,7 +28,32 @@ Question.create(text:"Ornithologist: Eagles suffer about twice as many unhatched
 Question.create(text:"Due to an easing of state sanctions against hunting, Deersdale Preserve has experienced an influx of hunters in the last several months. During this time, the silvertail fox, a popular target for hunters, has seen a marked decrease in population.  Therefore, to prevent the population of silvertail fox—an important apex predator responsible for keeping the Deersdale County’s rabbit population in check—from falling even lower, the state should once again place strict sanctions against hunting.Which of the following, if true, may suggest that stricter sanctions against hunting would not have the desired effect?",answers: ["The population of rabbits has surged ever since the hunting sanctions in Deersdale County were lifted.","The silvertail fox population varies greatly throughout the year, especially during winter when prey becomes scarce.", "The local authorities are expecting even more hunters in the coming year to arrive to the park.","The silvertail fox had been experiencing a population surge shortly before the state sanctions against hunting were eased.","The grey wolf, a large predator that competes with the silvertail fox over Deersdale Preserve’s rabbit population, has seen its numbers decrease since the arrival of the hunters."],correct_answer_index: 1)
 Question.create(text: "The rate of health complications of patients on intravenous (IV) therapy at a particular hospital was higher than usual. Government inspectors found that the typical IV solutions used in this hospital had somewhat high concentrations of sodium and potassium, which were raising patients' blood pressure and taxing their kidneys. The government inspectors mandated lowering the sodium and potassium in these IV preparations, and threatened with a possible government fine.  In compliance, the hospital lowered the sodium and potassium levels in the IV solutions to the correct levels.  Nevertheless, patients on IV therapy at that hospital continued to have a high rate of health complications. Which of the following, if true, most helps to explain why acting on the government inspectors' recommendations failed to achieve its goal?",answers: ["The change in IV solution procedure meant a number of related legal documents had to be renegotiated and rewritten, at great cost.","When sodium and potassium levels in the blood fall below their baseline level, it can damage cells throughout the body by reverse osmosis.","It is typical for a patient's appetite to increase to healthy levels once they have completed a course of IV therapy.", "A high proportion of patients at this hospital are older, and older patients are more vulnerable to infections that can accompany IVs.", "Because the findings were published in the news, some patients have chosen to use another hospital in the region."],correct_answer_index: 3)
 Question.create(text:"The number of sports cars per square mile is 40% greater in downtown Terrera than in downtown Goldsville. If the entire metropolitan area of each city is compared—which includes downtown as well as suburbs and exurbs—then the number of sports cars per square mile is 20% greater in Goldsville. Based on the information above, which of the following can be inferred?",answers: ["There is a greater number of sports cars in the suburbs and exurbs of Goldsville than in those of Terrera.", "In total, there is a greater number of sports cars in metropolitan Goldsville than in metropolitan Terrera.","Metropolitan Goldsville covers a larger area than metropolitan Terrera.", "Per square mile, there are fewer sports cars in the exurbs and suburbs of Terrera than in those of Goldsville.","The number of sports cars per square mile is greater in downtown Goldsville than in the suburbs and exurbs of Goldsville."],correct_answer_index: 3)
+
 Condition.delete_all
-ActivitySchema.delete_all
 Condition.create(name: "Chat Sequence 1")
+
+ActivitySchema.delete_all
 ActivitySchema.create(name: "Quiz Review",:enabled =>1)
+
+# Default template page
+
+Template.delete_all
+Template.create! :name => 'Default', :html => <<EndOfPage
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MOOCchat Default Template</title>
+    <link rel="stylesheet" type="text/css" href="/public/stylesheets/default.css" media="all"/>
+  </head>
+  <body>
+    <div id="main">
+      <h1>Default Template</h1>
+      <p>This is a MOOCchat default page template.</p>
+    </div>
+    <div id="footer">
+      <p>Page ID: <%= @page_id %> </p>
+    </div>
+  </body>
+</html>
+
+EndOfPage
