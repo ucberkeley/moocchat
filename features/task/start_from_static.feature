@@ -13,7 +13,6 @@ Scenario: static root page, new learner
 
   Given I start on the Static Page
   When I fill in "Steven" for "learner_name"
-  Then show me the page
   And I select "Chat sequence 1" from "Condition"
   And I select "Quiz review" from "Activity"
   When I press "SUBMIT"
