@@ -1,21 +1,46 @@
-<h1>Listing activity_schemas</h1>
-
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @activity_schemas.each do |activity_schema| %>
-  <tr>
-    <td><%= link_to 'Show', activity_schema %></td>
-    <td><%= link_to 'Edit', edit_activity_schema_path(activity_schema) %></td>
-    <td><%= link_to 'Destroy', activity_schema, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<%- model_class = ActivitySchema -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:cohort_id) %></th>
+      <th><%= model_class.human_attribute_name(:enabled) %></th>
+      <th><%= model_class.human_attribute_name(:randomized) %></th>
+      <th><%= model_class.human_attribute_name(:num_questions) %></th>
+      <th><%= model_class.human_attribute_name(:tag) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @activity_schemas.each do |activity_schema| %>
+      <tr>
+        <td><%= link_to activity_schema.id, activity_schema_path(activity_schema) %></td>
+        <td><%= activity_schema.cohort_id %></td>
+        <td><%= activity_schema.enabled %></td>
+        <td><%= activity_schema.randomized %></td>
+        <td><%= activity_schema.num_questions %></td>
+        <td><%= activity_schema.tag %></td>
+        <td><%= activity_schema.name %></td>
+        <td><%=l activity_schema.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_activity_schema_path(activity_schema), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      activity_schema_path(activity_schema),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Activity schema', new_activity_schema_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_activity_schema_path,
+            :class => 'btn btn-primary' %>
