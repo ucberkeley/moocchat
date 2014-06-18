@@ -4,7 +4,8 @@ Feature: start new task using Static Page
   So that I choose which peer learning activity to participate
   I want to start a new task using MoocChat's static page
 
-  Background:
+Background:
+
   Given a condition "Chat sequence 1"
   Given an activity schema "Quiz review"
 
@@ -25,4 +26,4 @@ Scenario: static root page, missing activity schema, new learner
   And I select "Chat sequence 1" from "condition_id[id]"
   When I press "SUBMIT"
   Then I should see a JS dialog saying "please fill out all the form"
-  Then I should not see "Welcome, Steven!" 
+  But I should not see "Welcome, Steven!" 
