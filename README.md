@@ -31,18 +31,13 @@ database, populate its schema, and insert any initial data
 cannot be deployed
 * `rake diagram:all` creates three `.svg` picture files in `doc/` that
 contain the app's class diagrams.  The most interesting is probably `doc/models_complete.svg`
-* `rspec` runs all unit and functional tests
+* `rake spec` runs all unit and functional tests
 * `rake cucumber` runs all features that should pass (user stories)
 * `rake metrics:all` generates a bunch of metrics; to see them, open
 `./tmp/metric_fu/output/index.html` in a browser after running this
 command
 * [CodeClimate code
 quality](https://codeclimate.com/github/ucberkeley/moocchat) for this project
-
-## To use DB
-To access db in sqlite do the following:
-
-0. sqlite3 db/development.sqlite3
 
 ## to use selenium for the javascript inside cucumber test
 To use selium to test javascript cucumber do:

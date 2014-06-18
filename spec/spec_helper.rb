@@ -45,6 +45,10 @@ RSpec.configure do |config|
 
   # Factory girl
   config.include FactoryGirl::Syntax::Methods
+
+  # Don't run specs or describe blocks that have :pending => true
+  config.filter_run_excluding :pending => true
+
 end
 
 
