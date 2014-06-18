@@ -1,21 +1,42 @@
-<h1>Listing conditions</h1>
-
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @conditions.each do |condition| %>
-  <tr>
-    <td><%= link_to 'Show', condition %></td>
-    <td><%= link_to 'Edit', edit_condition_path(condition) %></td>
-    <td><%= link_to 'Destroy', condition, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+<%- model_class = Condition -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:prologue_pages) %></th>
+      <th><%= model_class.human_attribute_name(:body_pages) %></th>
+      <th><%= model_class.human_attribute_name(:epilogue_pages) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @conditions.each do |condition| %>
+      <tr>
+        <td><%= link_to condition.id, condition_path(condition) %></td>
+        <td><%= condition.name %></td>
+        <td><%= condition.prologue_pages %></td>
+        <td><%= condition.body_pages %></td>
+        <td><%= condition.epilogue_pages %></td>
+        <td><%=l condition.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_condition_path(condition), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      condition_path(condition),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Condition', new_condition_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_condition_path,
+            :class => 'btn btn-primary' %>
