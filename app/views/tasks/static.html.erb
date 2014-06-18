@@ -1,19 +1,20 @@
-<h1 class="title">Configueration Page for MoocChat, please Fill out the following</h1>
+<h1 class="title">Configuration Page for MoocChat, please Fill out the following</h1>
 <%= form_tag tasks_path do  %>
   <div class="field">
-  	<%-# this should be learner name -%>
-    <%= label_tag :learner_name %><br>
+    <label for="learner_name">Learner name</label><br/>
     <%= text_field_tag :learner_name %>
   </div>
   <div class="field">
-  	 <%-# this should be dropdown_menu for condition_id -%>
-    <%= label_tag(:condition_id) %><br/>
-    <%= collection_select( :condition_id, :id, Condition.all, :id, :name, {prompt: 'Please Select from the following choices'}, :class => "form-control" ) %>
+    <label for="condition_id">Condition</label><br/>
+    <%= collection_select( :condition, :id, Condition.all, :id, :name,
+        {prompt: 'Please Select from the following choices'}, 
+        {class: "form-control", name: "condition_id"}  ) %>
   </div>
   <div class="field">
-  	<%-# this should be dropdown_menu for activity_schema -%>
-    <%= label_tag(:activity_schema_id) %><br/>
-    <%= collection_select( :activity_schema_id, :id, ActivitySchema.all, :id, :name ,{prompt: 'Please Select from the following choices'}, :class => "form-control" ) %>
+    <label for="activity_schema_id">Activity</label><br/>
+    <%= collection_select( :activity_schema, :id, ActivitySchema.all, :id, :name,
+        {prompt: 'Please Select from the following choices'}, 
+        {class: "form-control", name: "activity_schema_id" }) %>
   </div>
   <div class="actions">
     <%= submit_tag "SUBMIT"%>
