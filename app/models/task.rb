@@ -44,12 +44,6 @@ class Task < ActiveRecord::Base
     condition = Condition.find  cond
     activity_schema = ActivitySchema.find act
     learner = Learner.find_or_create_by_name! params[:learner_name]
-    # puts condition.inspect
-    # puts learner.inspect
-    # puts activity_schema.inspect
-    # puts condition.to_yaml
-    # puts learner.to_yaml
-    # puts activity_schema.to_yaml
 
     raise ActivityNotOpenError unless activity_schema.enabled?
     
