@@ -1,26 +1,17 @@
-<%= form_for @question, :html => { :class => 'form-horizontal' } do |f| %>
-  <div class="control-group">
-    <%= f.label :text, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :text, :class => 'text_area' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :answers, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :answers, :class => 'text_area' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :correct_answer_index, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.number_field :correct_answer_index, :class => 'number_field' %>
-    </div>
-  </div>
+<%= form_for(@question) do |f| %>
+  <% if @question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
 
-  <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                questions_path, :class => 'btn' %>
+      <ul>
+      <% @question.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
   </div>
 <% end %>

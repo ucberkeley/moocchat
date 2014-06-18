@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140617170845) do
+ActiveRecord::Schema.define(:version => 20140618221347) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(:version => 20140617170845) do
     t.text     "text"
     t.text     "answers"
     t.integer  "correct_answer_index"
+    t.text     "explanation"
   end
 
   create_table "tasks", :force => true do |t|

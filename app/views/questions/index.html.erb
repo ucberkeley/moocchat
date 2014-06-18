@@ -8,6 +8,7 @@
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:text) %></th>
       <th><%= model_class.human_attribute_name(:answers) %></th>
+      <th><%= model_class.human_attribute_name(:explanation) %></th>
       <th><%= model_class.human_attribute_name(:correct_answer_index) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
@@ -19,6 +20,7 @@
         <td><%= link_to question.id, question_path(question) %></td>
         <td><%= question.text %></td>
         <td><%= question.answers %></td>
+        <td><%= question.explanation %></td>
         <td><%= question.correct_answer_index %></td>
         <td><%=l question.created_at %></td>
         <td>
