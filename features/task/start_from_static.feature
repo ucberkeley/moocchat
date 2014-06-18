@@ -21,6 +21,7 @@ Scenario: static root page, new learner
 
 @javascript
 Scenario: static root page, missing activity schema, new learner
+
   Given I start on the Static Page
   When I fill in "Learner name" with "Robert"
   And I select "Chat sequence 1" from "Condition"
