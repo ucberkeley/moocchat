@@ -9,7 +9,7 @@ class WaitingRoom < ActiveRecord::Base
   # <ActivitySchema,Condition> pair.
   belongs_to :condition
   belongs_to :activity_schema
-  validates_uniqueness_of :condition_id, :scope => :activity_schema_id
+  validates :condition_id, :uniqueness => {:scope => :activity_schema_id}
   validates_associated :condition
   validates_associated :activity_schema
   #
@@ -17,7 +17,6 @@ class WaitingRoom < ActiveRecord::Base
   # +Task+s, which include the learner, activity schema, and condition.
   #
   has_many :tasks
-  validates_associated :task
 
   # When the class method +process_all!+ is called, all waiting rooms
   # are checked to see if any of them have an expired timer, and
