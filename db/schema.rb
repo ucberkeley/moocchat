@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140617170845) do
+ActiveRecord::Schema.define(:version => 20140617170846) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20140617170845) do
     t.integer  "num_questions"
     t.string   "tag"
     t.string   "name"
+    t.text     "questions"
   end
 
   create_table "cohorts", :force => true do |t|
