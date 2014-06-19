@@ -16,7 +16,7 @@ FactoryGirl.define do
   factory :condition do
     name 'dummy condition'
     prologue_pages []
-    body_pages []
+    body_pages { [create(:template)] }
     epilogue_pages []
   end
 
@@ -37,7 +37,6 @@ FactoryGirl.define do
   end
 
   factory :template do
-    random = 
     url nil
     html '<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
 <div class="counter"> Page <%= @counter %></div>

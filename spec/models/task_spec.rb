@@ -92,4 +92,8 @@ describe Task do
       end
     end
   end
+
+  describe 'user state' do
+    
+  end
 end

@@ -49,4 +49,26 @@ describe TasksController do
       end
     end
   end
+
+  describe 'user state' do
+    before :each do
+      @task = create :task
+      @user_state = {'foo' => '1', 'bar' => "bar", 'baz' => '["x","y"]'}
+    end
+    it 'saves user state encoded as params[:u]' do
+      post :next_page, :id => @task, :u => @user_state
+      @task.reload.user_state.should == @user_state
+    end
+    it 'does not overwrite user state if params[:u] absent' do
+      @task.update_attribute :user_state, {'x' => '1'}
+      post :next_page, :id => @task
+      @task.reload.user_state.should == {'x' => '1'}
+    end
+    it 'serves user state when next page is displayed' do
+      Task.any_instance.stub(:current_page).and_return(Template.first)
+      @task.update_attribute :user_state, @user_state
+      get :page, :id => @task
+      assigns[:u].should == @user_state
+    end
+  end
 end
