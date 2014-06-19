@@ -32,6 +32,7 @@ FactoryGirl.define do
     condition { build(:condition) }
     chat_group nil
     completed false
+    user_state nil
     activity_schema { build :activity_schema, :num_questions => num_questions }
     sequence_state { Task::Sequencer.new(self.activity_schema.num_questions) }
   end
