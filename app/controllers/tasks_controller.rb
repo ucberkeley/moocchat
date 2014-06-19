@@ -35,6 +35,7 @@ class TasksController < ApplicationController
     @question = @task.current_question
     @template_id = template.id
     @counter = @task.counter
+    @submit_to = task_next_page_path @task
     @u = @task.user_state || {}
     # HTML text that will be injected into generic uber-template
     @html = template.html

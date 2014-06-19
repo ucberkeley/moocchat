@@ -68,7 +68,17 @@ describe TasksController do
       Task.any_instance.stub(:current_page).and_return(Template.first)
       @task.update_attribute :user_state, @user_state
       get :page, :id => @task
-      assigns[:u].should == @user_state
+      assigns(:u).should == @user_state
     end
+  end
+
+  it 'sets up template variables' do
+    @task = create :task, :user_state => {'foo' => '1'}
+    get :page, :id => @task
+    assigns(:task_id).to_i.should == @task.id
+    assigns(:question).should be_a_kind_of Question
+    assigns(:counter).should be > 0
+    assigns(:u).should be_a Hash
+    assigns(:submit_to).should == task_next_page_path(@task)
   end
 end
