@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20140617170845) do
     t.string   "chat_group"
     t.boolean  "completed"
     t.string   "sequence_state"
+    t.integer  "tasks_id"
   end
 
   create_table "templates", :force => true do |t|
