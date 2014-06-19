@@ -37,7 +37,6 @@ FactoryGirl.define do
   end
 
   factory :template do
-    random = 
     url nil
     html '<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
 <div class="counter"> Page <%= @counter %></div>
@@ -49,6 +48,11 @@ FactoryGirl.define do
 </body></html>'
     name 'test'
   end
-  
+
+  factory :waiting_room do
+    condition { create :condition }
+    activity_schema { create :activity_schema }
+    expires_at { 1.minute.from_now }
+  end
 end
 

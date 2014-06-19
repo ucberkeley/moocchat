@@ -8,9 +8,9 @@ class AddWaitingRoom < ActiveRecord::Migration
     end
     add_index :waiting_rooms, [:condition_id, :activity_schema_id], :unique => true
     change_table :tasks do |t|
-      t.references :tasks, :waiting_room
-      add_index :tasks, :waiting_room_id
+      t.references :waiting_room
     end
+    add_index :tasks, :waiting_room_id
   end
 
   def down
