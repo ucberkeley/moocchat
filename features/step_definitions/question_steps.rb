@@ -1,5 +1,5 @@
-Given(/^I am on the Questions Page$/) do 
-		visit question_path
+Given(/^I am at the Questions Page$/) do 
+	visit questions_path
 end
 
 

@@ -7,11 +7,23 @@
   </div>
   <div class="control-group">
     <%= f.label "Answer Choices", :class => 'control-label' %>
-    <% @question.answers.each do |element| %>
-      <div class="controls">
-        <textarea class="text_area"><%= element %></textarea>
-      </div>
-    <% end %>
+    <%if @question.answers.any? %>
+    <% index = 0 %>
+      <% @question.answers.each do |element| %>
+        <div class="controls">
+          <textarea class="text_area" id="question_Answer<%= "#{index}"%>"><%= element %></textarea>
+          <% index+=1 %>
+        </div>
+      <% end %>
+    <%else%>
+    <% index = 0 %>
+        <% 5.times do %>
+        <div class="controls">
+          <textarea class="text_area" id="question_Answer<%= "#{index}"%>"></textarea>
+          <% index+=1 %>
+        </div>
+      <% end %>
+    <%end%>
   </div>
   <div class="control-group">
     <%= f.label :explanation, :class => 'control-label' %>
