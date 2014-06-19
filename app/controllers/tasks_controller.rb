@@ -19,7 +19,7 @@ class TasksController < ApplicationController
   end
 
   def static
-    #this creates an anonomous form to fill in params that will be used in task#create
+    # creates an anonymous form to fill in params that will be used in task#create
   end
 
   def welcome
@@ -35,6 +35,7 @@ class TasksController < ApplicationController
     @question = @task.current_question
     @template_id = template.id
     @counter = @task.counter
+    @u = @task.user_state || {}
     # HTML text that will be injected into generic uber-template
     @html = template.html
     render :inline => @html, :layout => false
@@ -42,6 +43,8 @@ class TasksController < ApplicationController
 
   def next_page
     @task = Task.find params[:id]
+    # save any user state posted by template; if none provided, don't overwrite
+    @task.update_attribute(:user_state, params[:u].stringify_keys) if params[:u]
     @task.next_page!
     if @task.current_page
       redirect_to task_page_path(@task)

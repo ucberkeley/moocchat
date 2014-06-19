@@ -25,6 +25,8 @@ class Task < ActiveRecord::Base
 
   serialize :sequence_state, Sequencer
 
+  serialize :user_state, Hash
+
   # Create a new task from a hash that includes a +condition_id+,
   # +activity_schema_id+, and +learner_name+.
   #
