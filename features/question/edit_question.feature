@@ -11,7 +11,7 @@ Scenario: edit page, valid conditions, Administrator
 
   Given I start on the Edit Page
   When I fill in "Text text text" for "question_text"
-  And I fill in "Question Explanation" for "question_explanation"
+  And I rfill in "Question Explanation" for "question_explanation"
   And I press "Update Question"
   Then I should see "Question Explanation" 
 
