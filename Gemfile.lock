@@ -273,6 +273,7 @@ PLATFORMS
 
 DEPENDENCIES
   autotest-rails
+  capybara
   coffee-rails (~> 3.2.1)
   cucumber-rails
   cucumber-rails-training-wheels
