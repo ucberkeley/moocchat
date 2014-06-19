@@ -9,7 +9,7 @@
     <%= f.label "Answer Choices", :class => 'control-label' %>
     <% @question.answers.each do |element| %>
       <div class="controls">
-        <%= f.text_area :answers, :class => "text_area" %>
+        <textarea class="text_area"><%= element %></textarea>
       </div>
     <% end %>
   </div>
