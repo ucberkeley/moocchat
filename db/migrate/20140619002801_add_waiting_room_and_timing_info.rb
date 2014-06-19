@@ -18,6 +18,7 @@ class AddWaitingRoomAndTimingInfo < ActiveRecord::Migration
     add_index :tasks, :activity_schema_id
     #remove_column :tasks, :tasks_id # bug in earlier migration
 
+
     # condition has min group size and max group size
     change_table :conditions do |t|
       t.integer :preferred_group_size

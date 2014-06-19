@@ -25,6 +25,10 @@ class WaitingRoom < ActiveRecord::Base
 
 
 
+  # It is an error to try to enqueue (put in a waiting room) the same
+  # task more than once. 
+  class ::TaskAlreadyWaitingError < RuntimeError ; end
+
   # When the class method +process_all!+ is called, all waiting rooms
   # are checked to see if any of them have an expired timer, and
   # +WaitingRoom#process!+ is called on any ready instances.  The call

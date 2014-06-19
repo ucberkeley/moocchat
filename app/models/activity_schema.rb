@@ -13,6 +13,7 @@ class ActivitySchema < ActiveRecord::Base
 
   has_many_inline :questions, :class_name => :question
 
+
   # Boolean attribute: whether this activity is enabled (open for business)
   # TBD: Is this obsoleted by having the start and end times?
   attr_accessible :enabled
