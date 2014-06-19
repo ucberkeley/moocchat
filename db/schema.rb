@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20140618221347) do
     t.integer  "num_questions"
     t.string   "tag"
     t.string   "name"
+    t.text     "questions"
   end
 
   create_table "cohorts", :force => true do |t|
