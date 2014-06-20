@@ -6,8 +6,8 @@
     </div>
   </div>
   <div class="control-group">
-    <%= f.label "Answer Choices", :class => 'control-label' %>
-    <%if @question.answers.any? %>
+  <%= f.label "Answer Choices", :class => 'control-label' %>
+   <%if @question.answers.any? %>
     <% index = 0 %>
       <% @question.answers.each do |element| %>
         <div class="controls">
@@ -24,6 +24,7 @@
         </div>
       <% end %>
     <%end%>
+
   </div>
   <div class="control-group">
     <%= f.label :explanation, :class => 'control-label' %>
