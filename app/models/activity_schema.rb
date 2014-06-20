@@ -7,7 +7,7 @@ class ActivitySchema < ActiveRecord::Base
   MINIMUM_INTERVAL_BETWEEN_EXPERIMENTS = 5
 
   # Human friendly name for the activity schema.
-  attr_accessible :name
+  attr_accessible :name, :cohort,:randomized,:num_questions,:tag,:questions
   validates_presence_of :name
 
   has_many_inline :questions
