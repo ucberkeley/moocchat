@@ -1,11 +1,24 @@
 
 .title{
 	background-color:#005199;
-	height: 2em;
-	font-size: 2em;
+	font-size: 3em;
 	border-radius: 2em;
+	color: white
 }
 
 body{
 	background-color:#F5F5F5;
+}
+
+.field{
+	line-height: 4em;
+}
+
+#learner_name{
+	height: 34px;
+	width: 40%;
+}
+
+.form-control{
+	width:40% !important;
 }
