@@ -2,27 +2,6 @@
 require 'spec_helper'
 
 describe TasksController do
-  describe 'task URI', :type => :routing do
-    it 'creates new task on POST' do
-      expect(:post => '/tasks/armandofox/237/15').to route_to(
-        :controller => 'tasks',
-        :action => 'create',
-        :learner_name => 'armandofox',
-        :activity_schema_id => '237',
-        :condition_id => '15'
-        )
-    end
-    it 'does not create task on GET' do
-      expect(:get => '/tasks/armandofox/237/15').not_to be_routable
-    end
-    it 'routes to Welcome page' do
-      expect(:get => '/tasks/10').to route_to :controller => 'tasks', :action => 'welcome', :id => '10'
-    end
-    it 'routes to page render' do
-      expect(:get => '/tasks/10/page').to route_to :controller => 'tasks', :action => 'page', :id => '10'
-    end
-  end
-
   describe 'establishing session' do
     before :all do 
       @dummy_params = { :activity_schema_id => '0', :learner_name => 'x', :condition_id => '1' }
@@ -48,5 +27,37 @@ describe TasksController do
         response.should redirect_to task_error_path
       end
     end
+  end
+
+  describe 'user state' do
+    before :each do
+      @task = create :task
+      @user_state = {'foo' => '1', 'bar' => "bar", 'baz' => '["x","y"]'}
+    end
+    it 'saves user state encoded as params[:u]' do
+      post :next_page, :id => @task, :u => @user_state
+      @task.reload.user_state.should == @user_state
+    end
+    it 'does not overwrite user state if params[:u] absent' do
+      @task.update_attribute :user_state, {'x' => '1'}
+      post :next_page, :id => @task
+      @task.reload.user_state.should == {'x' => '1'}
+    end
+    it 'serves user state when next page is displayed' do
+      Task.any_instance.stub(:current_page).and_return(Template.first)
+      @task.update_attribute :user_state, @user_state
+      get :page, :id => @task
+      assigns(:u).should == @user_state
+    end
+  end
+
+  it 'sets up template variables' do
+    @task = create :task, :user_state => {'foo' => '1'}
+    get :page, :id => @task
+    assigns(:task_id).to_i.should == @task.id
+    assigns(:question).should be_a_kind_of Question
+    assigns(:counter).should be > 0
+    assigns(:u).should be_a Hash
+    assigns(:submit_to).should == task_next_page_path(@task)
   end
 end

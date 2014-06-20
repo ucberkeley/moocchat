@@ -2,21 +2,24 @@ source 'https://rubygems.org'
 
 ruby '1.9.3'
 gem 'rails', '3.2.18'
-
+gem 'capybara'
+gem 'puma'
+gem 'faye-websocket'
 gem 'omniauth'
+gem 'jquery-rails'
+gem 'date_validator'            # datetime validations for ActiveRecord
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-  gem 'webrick', '~> 1.3.1'
   gem 'sqlite3'
   gem 'debugger'
   gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
-  gem 'rspec-rails'
+  gem 'rspec-rails', '2.14.0'
   gem 'metric_fu'
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
-  gem 'therubyracer', :platforms => :ruby
+  #gem 'therubyracer', :platforms => :ruby
 end
 
 group :test do
@@ -30,7 +33,6 @@ end
 group :production do
   gem 'rails_12factor'
   gem 'pg'
-  gem 'capybara', ">= 0.4.0"
 end
 
 
@@ -39,17 +41,15 @@ end
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'twitter-bootstrap-rails'
-  gem 'libv8'
-  gem 'less'
-  gem 'less-rails'
+  #gem 'twitter-bootstrap-rails'
+  #gem 'libv8'
+  #gem 'less'
+  #gem 'less-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 
   gem 'uglifier', '>= 1.0.3'
 end
-
-gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
