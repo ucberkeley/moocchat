@@ -1,7 +1,7 @@
 $(window).bind("load", function()
 {
 var scheme = "<%= ENV['RACK_ENV'] == 'production' ? 'wss://' : 'ws://' %>";
-var uri      = scheme + window.document.location.host + "/chat";
+var uri      = scheme + window.document.location.host + window.document.location.pathname;
 var ws=new WebSocket(uri);
 ws.onmessage = function(message) {
   var data = JSON.parse(message.data);
