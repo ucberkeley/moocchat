@@ -90,6 +90,9 @@ conjunction with `@subcounter` and/or `@task_id` to style page elements
 accordingly by giving them CSS classes based on these variables' values,
 as in `<body class=<%= @where + "-" @subcounter %>>', giving class names
 such as `prologue-0`, `body-2`, etc.
+* `@chat_group` - a string that identifies the chat group this
+learner is in; think of it as a channel.  If empty, it means the learner
+has not yet been assigned to a group.
 * `@u` - a hash (associative array) containing any state you want to
 store.  See Learner Navigation.
 
