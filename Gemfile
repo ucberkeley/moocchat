@@ -32,7 +32,6 @@ end
 group :production do
   gem 'rails_12factor'
   gem 'pg'
-  gem 'capybara', ">= 0.4.0"
 end
 
 # Gems used only for assets and not required
@@ -40,10 +39,10 @@ end
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'twitter-bootstrap-rails'
-  gem 'libv8'
-  gem 'less'
-  gem 'less-rails'
+  #gem 'twitter-bootstrap-rails'
+  #gem 'libv8'
+  #gem 'less'
+  #gem 'less-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 
