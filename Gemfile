@@ -7,6 +7,7 @@ gem 'puma'
 gem 'faye-websocket'
 gem 'omniauth'
 gem 'jquery-rails'
+gem 'date_validator'            # datetime validations for ActiveRecord
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
