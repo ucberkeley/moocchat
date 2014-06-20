@@ -17,7 +17,6 @@ group :development, :test do
   gem 'metric_fu'
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
   gem 'therubyracer', :platforms => :ruby
-  gem 'node'
 end
 
 group :test do
@@ -31,6 +30,7 @@ end
 group :production do
   gem 'rails_12factor'
   gem 'pg'
+  gem 'capybara', ">= 0.4.0"
 end
 
 

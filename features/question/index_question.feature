@@ -6,7 +6,7 @@ Feature: edit question as Administrator
 
   Scenario: Create a question, valid conditions
   Given I am at the Questions Page
-  When I click "New"
+  When I follow "New"
   Then I should see "Answer choices"
   When I fill in "Text text text" for "question_text"
   And I fill in "Question Explanation" for "question_explanation"
@@ -24,7 +24,7 @@ Feature: edit question as Administrator
   Scenario: Create a question, missing condition
 
   Given I am at the Questions Page
-  When I click "New"
+  When I follow "New"
   Then I should see "Answer choices"
   When I fill in "Text text text" for "question_text"
   And I fill in "Question Explanation" for "question_explanation"
@@ -36,7 +36,7 @@ Feature: edit question as Administrator
 
   Scenario: Show a question, valid conditions
   Given I am at the Questions Page
-  When I click "New"
+  When I follow "New"
   Then I should see "Answer choices"
   When I fill in "Text text text" for "question_text"
   And I fill in "Question Explanation" for "question_explanation"
@@ -48,15 +48,15 @@ Feature: edit question as Administrator
   And I fill in "1" for "question_correct_answer_index"
   And I press "Create Question"
   Then I should see "Question Explanation"
-  When I click "Back"
-  When I click "1"
+  When I follow "Back"
+  When I follow "1"
   Then I should see "Question Explanation"
 
 
   @javascript
   Scenario: Delete a question
   Given I am at the Questions Page
-  When I click "New"
+  When I follow "New"
   Then I should see "Answer choices"
   When I fill in "Text text text" for "question_text"
   And I fill in "Question Explanation" for "question_explanation"
@@ -68,6 +68,6 @@ Feature: edit question as Administrator
   And I fill in "1" for "question_correct_answer_index"
   And I press "Create Question"
   Then I should see "Question Explanation"
-  When I click "Delete"
+  When I follow "Delete"
   Then I should see a JS dialog saying "Are you sure?"
   Then I should not see "Question Explanation"
