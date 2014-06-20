@@ -82,6 +82,8 @@ GEM
     cucumber-rails-training-wheels (1.0.0)
       cucumber-rails (>= 1.1.1)
     database_cleaner (1.2.0)
+    date_validator (0.7.0)
+      activemodel (>= 3)
     debugger (1.6.8)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -265,6 +267,7 @@ DEPENDENCIES
   cucumber-rails
   cucumber-rails-training-wheels
   database_cleaner
+  date_validator
   debugger
   factory_girl_rails
   jquery-rails

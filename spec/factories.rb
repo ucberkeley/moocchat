@@ -7,6 +7,9 @@ FactoryGirl.define do
     num_questions 1
     tag ''
     name 'activity'
+    start_time 1.day.from_now
+    end_time   2.days.from_now
+    starts_every 30             # minutes
   end
 
   factory :cohort do
