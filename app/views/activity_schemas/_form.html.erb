@@ -1,7 +1,8 @@
 <%= form_for(@activity_schema) do |f| %>
   <% if @activity_schema.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@activity_schema.errors.count, "error") %> prohibited this activity_schema from being saved:</h2>
+      <h2><%= pluralize(@activity_schema.errors.count, "error") %>
+        prohibited this activity schema from being saved:</h2>
 
       <ul>
       <% @activity_schema.errors.full_messages.each do |msg| %>
@@ -11,9 +12,19 @@
     </div>
   <% end %>
 
-  <div="field">
-    <%= label_tag :name %>
-    <%= text_field_tag :name %> 
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %> 
+    <br/>
+    <%= f.label :start_time %>
+    <%= datetime_select :activity_schema, :start_time, :seconds => false %>
+    <br/>
+    <%= f.label :end_time %>
+    <%= datetime_select :activity_schema, :end_time, :seconds => false %>
+    <br/>
+    <%= f.label :starts_every %>
+    <%= f.text_field :starts_every %> minutes 
+    <br/>
   </div>
 
   <div class="actions">
