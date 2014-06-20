@@ -15,6 +15,8 @@ FactoryGirl.define do
 
   factory :condition do
     name 'dummy condition'
+    preferred_group_size 3
+    minimum_group_size 1
     prologue_pages []
     body_pages []
     epilogue_pages []

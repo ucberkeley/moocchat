@@ -11,6 +11,19 @@
     </div>
   <% end %>
 
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    <br/>
+    <%= f.label :preferred_group_size %>
+    <%= f.select :preferred_group_size, (1..Condition::MAX_ALLOWABLE_GROUP_SIZE) %>
+    <br/>
+    <%= f.label :minimum_group_size %>
+    <%= f.select :minimum_group_size, (1..Condition::MAX_ALLOWABLE_GROUP_SIZE) %>
+  </div>
+
+  <!-- TBD: create UI for specifying prologue/epilogue/body pages -->
+
   <div class="actions">
     <%= f.submit %>
   </div>
