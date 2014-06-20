@@ -11,21 +11,19 @@
     <%if @question.answers.any? %>
       <% index = 0 %>
       <% @question.answers.each do |element| %>
-      <div class="controls">
-        <label for="Question Answers">
-          <textarea name="question[answers][]"class="text_area" id="question_Answer<%= "#{index}"%>">
-            <%="#{element}"%>
-          </textarea>
-        </label>
-        <% index+=1 %>
-      </div>
+        <div class="controls">
+          <label for="Question Answers">
+            <textarea name="question[answers][]" class="text_area" id="question_Answer<%= index%>"><%=sanitize_str(element)%></textarea>
+          </label>
+          <% index+=1 %>
+        </div>
       <% end %>
     <%else%>
       <% index = 0 %>
       <% 5.times do %>
        <div class="controls">
           <label for="Question Answers">
-            <input type="textbox" name="question[answers][]" value='' class="text_area" id="question_Answer<%= "#{index}"%>">          
+            <textarea name="question[answers][]" class="text_area" id="question_Answer<%= index%>"></textarea>
           <% index+=1 %>
         </div>
       <% end %>

@@ -7,7 +7,7 @@
   <dt><strong><%= model_class.human_attribute_name(:text) %>:</strong></dt>
   <dd><%= @question.text %></dd>
   <dt><strong><%= model_class.human_attribute_name(:answers) %>:</strong></dt>
-  <dd><%= @question.answers %></dd>
+  <dd><%= arr_sanitize(@question.answers) %></dd>
   <dt><strong><%= model_class.human_attribute_name(:correct_answer_index) %>:</strong></dt>
   <dd><%= @question.correct_answer_index %></dd>
   <dt><strong><%= model_class.human_attribute_name(:explanation) %>:</strong></dt>
