@@ -15,14 +15,18 @@ that require it:
 0. First time: run `rake db:migrate db:seed` to create your development
 database, populate its schema, and insert any initial data
 0. `rails server --debugger` to start the app
+0. run `gem install foreman` to install foreman
+0. `foreman run local` to start the app
 0. It should now be live on `http://localhost:3000`
 
 ## To deploy on Heroku for your own staging:
 
 0. First time: `heroku app:create pick-some-app-name`
+0. First time: `heroku labs:enable websockets` to enable websockets for chat app
 0. Make sure your changes are committed locally
 0. `git push heroku master`
 0. Your app should now be live at `http://pick-some-app-name.herokuapp.com`
+0. If you get an application failed error message, try 'heroku run rake db:migrate' then refresh page
 
 ## Other useful tasks
 

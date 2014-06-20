@@ -1,30 +1,8 @@
-<<<<<<< HEAD
-<center><h1 class="title">Configuration Page for MoocChat, please Fill out the following</h1></center>
-  <%= form_tag tasks_path do  %>
-    <div class="field">
-      <label for="learner_name">Learner name</label><br/>
-      <%= text_field_tag :learner_name %>
-    </div>
-    <div class="field">
-      <label for="condition_id">Condition</label><br/>
-      <%= collection_select( :condition, :id, Condition.all, :id, :name,
-          {prompt: 'Please Select from the following choices'}, 
-          {class: "form-control", name: "condition_id"}  ) %>
-    </div>
-    <div class="field">
-      <label for="activity_schema_id">Activity</label><br/>
-      <%= collection_select( :activity_schema, :id, ActivitySchema.all, :id, :name,
-          {prompt: 'Please Select from the following choices'}, 
-          {class: "form-control", name: "activity_schema_id" }) %>
-    </div>
-    <div class="actions">
-      <%= submit_tag "SUBMIT" , :class => "btn btn-primary"%>
-    </div>
-=======
- <div class= "container">
-  <center><h1 class="title">MoocChat Configuration Page</h1></center>
-  <i><h6>Please fill out the following</h6></i>
-  <%= form_tag tasks_path do  %>
+<div class= "container">
+  <center><h1 class="title"><strong>MoocChat Configuration Page</strong></h1></center>
+  <br><br>
+  <i><h4>Please fill out the following</h4></i>
+  <%= form_tag tasks_path , :class => 'form-warning' do  %>
   <div class="field">
     <label for="learner_name"><b>Learner name</b></label><br/>
     <%= text_field_tag :learner_name,nil, :placeholder=> "Put Your Name Here" %>
@@ -41,9 +19,8 @@
         {prompt: 'Please Select from the following choices'}, 
         {class: "form-control", name: "activity_schema_id" }) %>
   </div>
+  <br><br>
   <div class="actions">
     <%= submit_tag "SUBMIT" , :class => "btn btn-primary"%>
   </div>
->>>>>>> 5fef92f... checkpoint for static page
-  <% end %>
-
+<% end %>

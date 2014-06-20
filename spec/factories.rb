@@ -7,6 +7,9 @@ FactoryGirl.define do
     num_questions 1
     tag ''
     name 'activity'
+    start_time 1.day.from_now
+    end_time   2.days.from_now
+    starts_every 30             # minutes
   end
 
   factory :cohort do
@@ -15,6 +18,8 @@ FactoryGirl.define do
 
   factory :condition do
     name 'dummy condition'
+    preferred_group_size 3
+    minimum_group_size 1
     prologue_pages []
     body_pages { [create(:template)] }
     epilogue_pages []
@@ -49,6 +54,11 @@ FactoryGirl.define do
 </body></html>'
     name 'test'
   end
-  
+
+  factory :waiting_room do
+    condition { create :condition }
+    activity_schema { create :activity_schema }
+    expires_at { 1.minute.from_now }
+  end
 end
 

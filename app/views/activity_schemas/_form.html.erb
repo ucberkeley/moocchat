@@ -35,6 +35,25 @@
       <%= f.text_field :name, :class => 'text_field' %>
     </div>
   </div>
+  <div class="control-group">
+    <%= f.label :start_time, :class => 'control-label'   %>
+    <div class="controls">
+    <%= datetime_select :activity_schema, :start_time, :seconds => false %>
+    </div>
+  </div>
+    <div class="control-group">
+    <%= f.label :end_time, :class => 'control-label'   %>
+    <div class="controls">
+    <%= datetime_select :activity_schema, :end_time, :seconds => false %>
+    </div>
+  </div>
+    <div class="control-group">
+    <%= f.label :starts_every, :class => 'control-label'   %>
+    <div class="controls">
+    <%= f.text_field :starts_every %> minutes 
+    </div>
+  </div>
+    
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
