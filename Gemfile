@@ -2,18 +2,20 @@ source 'https://rubygems.org'
 
 ruby '1.9.3'
 gem 'rails', '3.2.18'
-
+gem 'capybara'
+gem 'puma'
+gem 'faye-websocket'
 gem 'omniauth'
+gem 'jquery-rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-  gem 'webrick', '~> 1.3.1'
   gem 'sqlite3'
   gem 'debugger'
   gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
-  gem 'rspec-rails'
+  gem 'rspec-rails', '2.14.0'
   gem 'metric_fu'
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
   #gem 'therubyracer', :platforms => :ruby
@@ -33,7 +35,6 @@ group :production do
   gem 'capybara', ">= 0.4.0"
 end
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -49,9 +50,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
-gem 'therubyracer', :platforms => :ruby #needed by the twitter-boostrap-rails as a dependency
-
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -66,4 +64,4 @@ gem 'therubyracer', :platforms => :ruby #needed by the twitter-boostrap-rails as
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+# gem 'debugger'g
