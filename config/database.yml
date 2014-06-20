@@ -5,7 +5,7 @@
 #   gem 'sqlite3'
 development:
   adapter: sqlite3
-  database: db/development-<%= `git branch --no-color | grep '^*'`.gsub(/^../,'').chomp %>.sqlite3
+  database: db/development-<%= `git branch --no-color | grep '^*'`.gsub(/^../,'').gsub(/\//,'-').chomp %>.sqlite3
   pool: 5
   timeout: 5000
 
@@ -14,7 +14,7 @@ development:
 # Do not set this db to the same as development or production.
 test: &test
   adapter: sqlite3
-  database: db/test-<%= `git branch --no-color | grep '^*'`.gsub(/^../,'').chomp %>.sqlite3
+  database: db/test-<%= `git branch --no-color | grep '^*'`.gsub(/^../,'').gsub(/\//,'-').chomp %>.sqlite3
   pool: 5
   timeout: 5000
 
