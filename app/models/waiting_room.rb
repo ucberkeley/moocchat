@@ -16,7 +16,7 @@ class WaitingRoom < ActiveRecord::Base
   # In terms of the app architecture, the waiting room actually collects
   # +Task+s, which include the learner, activity schema, and condition.
   #
-  has_many :tasks
+  has_many :tasks, :dependent => :nullify
 
   # It is an error to try to enqueue (put in a waiting room) the same
   # task more than once. 
@@ -45,4 +45,22 @@ class WaitingRoom < ActiveRecord::Base
     end
   end
 
+  # Process a waiting room.  Forms as many groups as possible of size
+  #  +Condition#max_group_size+, then as many as possible of size
+  #  +Condition#min_group_size+, then kick out the rest.  Kicking
+  # someone out is done by placing the sentinel value 'NONE' as the
+  # chat group ID for those learners' tasks.
+  # def process
+  #   transaction do
+  #     tasks.each_slice(condition.max_group_size) do |set_of_tasks|
+  #       create_group_from set_of_tasks
+  # end  
+
+  private
+
+  # Create a chat group from a list of tasks
+  def create_group_from task_list # :nodoc:
+    group_name = task_list.map(&:id).sort.map(&:to_s).join(',')
+    task_list.each.update_attribute :chat_group, group_name
+  end
 end
