@@ -4,6 +4,7 @@ ruby '1.9.3'
 gem 'rails', '3.2.18'
 
 gem 'omniauth'
+gem 'date_validator'            # datetime validations for ActiveRecord
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
