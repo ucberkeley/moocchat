@@ -9,5 +9,3 @@ Then(/^I should see a JS dialog saying "(.*?)"$/) do |statement|
 end
 
 
-
-

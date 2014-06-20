@@ -19,6 +19,7 @@ group :development, :test do
   gem 'rspec-rails', '2.14.0'
   gem 'metric_fu'
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
+  #gem 'therubyracer', :platforms => :ruby
 end
 
 group :test do
@@ -34,18 +35,21 @@ group :production do
   gem 'pg'
 end
 
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'twitter-bootstrap-rails'
+  #gem 'libv8'
+  #gem 'less'
+  #gem 'less-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -60,4 +64,4 @@ end
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+# gem 'debugger'g

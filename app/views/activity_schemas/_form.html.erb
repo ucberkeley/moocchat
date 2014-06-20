@@ -1,21 +1,42 @@
-<%= form_for(@activity_schema) do |f| %>
-  <% if @activity_schema.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@activity_schema.errors.count, "error") %>
-        prohibited this activity schema from being saved:</h2>
-
-      <ul>
-      <% @activity_schema.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<<<<<<< HEAD
+<%= form_for @activity_schema, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :cohort_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :cohort_id, :class => 'number_field' %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %> 
-    <br/>
+  </div>
+  <div class="control-group">
+    <%= f.label :enabled, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :enabled, :class => 'check_box' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :randomized, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.check_box :randomized, :class => 'check_box' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :num_questions, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :num_questions, :class => 'number_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :tag, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :tag, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+  <br/>
     <%= f.label :start_time %>
     <%= datetime_select :activity_schema, :start_time, :seconds => false %>
     <br/>
@@ -25,9 +46,10 @@
     <%= f.label :starts_every %>
     <%= f.text_field :starts_every %> minutes 
     <br/>
-  </div>
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                activity_schemas_path, :class => 'btn' %>
   </div>
 <% end %>
