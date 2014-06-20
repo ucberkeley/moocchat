@@ -17,7 +17,6 @@ group :development, :test do
   gem 'metric_fu'
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
   gem 'therubyracer', :platforms => :ruby
-  gem 'node'
 end
 
 group :test do

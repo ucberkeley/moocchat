@@ -5,26 +5,26 @@
       <%= f.text_area :text, :class => 'text_area' %>
     </div>
   </div>
+  <br>
   <div class="control-group">
-  <%= f.label "Answer Choices", :class => 'control-label' %>
-   <%if @question.answers.any? %>
-    <% index = 0 %>
+    <%= f.label "Answer Choices" %>
+    <%if @question.answers.any? %>
+      <% index = 0 %>
       <% @question.answers.each do |element| %>
-        <div class="controls">
-          <textarea class="text_area" id="question_Answer<%= "#{index}"%>"><%= element %></textarea>
-          <% index+=1 %>
-        </div>
+        <label for="Question Answers">
+          <input type="textbox" name="question[answers][]" value=<%= "#{element}"%> class="text_area" id="question_Answer<%= "#{index}"%>"> 
+        </label>
+        <% index+=1 %>
       <% end %>
     <%else%>
-    <% index = 0 %>
-        <% 5.times do %>
-        <div class="controls">
-          <textarea class="text_area" id="question_Answer<%= "#{index}"%>"></textarea>
+      <% index = 0 %>
+      <% 5.times do %>
+          <label for="Question Answers">
+            <input type="textbox" name="question[answers][]" value='' class="text_area" id="question_Answer<%= "#{index}"%>">          
           <% index+=1 %>
         </div>
       <% end %>
     <%end%>
-
   </div>
   <div class="control-group">
     <%= f.label :explanation, :class => 'control-label' %>
@@ -38,7 +38,6 @@
       <%= f.number_field :correct_answer_index, :class => 'number_field' %>
     </div>
   </div>
-
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
