@@ -23,10 +23,19 @@
       <%= f.text_area :epilogue_pages, :class => 'text_area' %>
     </div>
   </div>
+  <br/>
+    <%= f.label :preferred_group_size %>
+    <%= f.select :preferred_group_size, (1..Condition::MAX_ALLOWABLE_GROUP_SIZE) %>
+    <br/>
+    <%= f.label :minimum_group_size %>
+    <%= f.select :minimum_group_size, (1..Condition::MAX_ALLOWABLE_GROUP_SIZE) %>
+    <br/>
+    <!-- TBD: create UI for specifying prologue/epilogue/body pages -->
+
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                conditions_path, :class => 'btn' %>
+                conditions_path, :class => 'btn' %> 
   </div>
 <% end %>
