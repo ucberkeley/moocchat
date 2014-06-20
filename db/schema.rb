@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140618221347) do
+ActiveRecord::Schema.define(:version => 20140619200002) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(:version => 20140618221347) do
     t.string   "chat_group"
     t.boolean  "completed"
     t.string   "sequence_state"
+    t.text     "user_state"
   end
 
   create_table "templates", :force => true do |t|
