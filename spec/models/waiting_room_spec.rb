@@ -15,5 +15,11 @@ describe WaitingRoom do
       expect { WaitingRoom.add @t }.to raise_error(WaitingRoom::TaskAlreadyWaitingError)
     end
   end
+  describe 'processing' do
+    # how to test transactional integrity, since we have to atomically
+    # empty the waiting room and assign tasks to groups?
+    describe 'splitting' do
+    end
+  end
 
 end
