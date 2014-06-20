@@ -74,12 +74,8 @@ ActiveRecord::Schema.define(:version => 20140619200002) do
     t.string   "chat_group"
     t.boolean  "completed"
     t.string   "sequence_state"
-    t.integer  "tasks_id"
-    t.integer  "waiting_room_id"
     t.text     "user_state"
   end
-
-  add_index "tasks", ["waiting_room_id"], :name => "index_tasks_on_waiting_room_id"
 
   create_table "templates", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -95,15 +91,5 @@ ActiveRecord::Schema.define(:version => 20140619200002) do
     t.string   "type"
     t.string   "name"
   end
-
-  create_table "waiting_rooms", :force => true do |t|
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-    t.integer  "condition_id"
-    t.integer  "activity_schema_id"
-    t.datetime "expires_at"
-  end
-
-  add_index "waiting_rooms", ["condition_id", "activity_schema_id"], :name => "index_waiting_rooms_on_condition_id_and_activity_schema_id", :unique => true
 
 end
