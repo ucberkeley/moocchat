@@ -16,7 +16,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'metric_fu'
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
-  gem 'therubyracer', :platforms => :ruby
+  #gem 'therubyracer', :platforms => :ruby
 end
 
 group :test do
@@ -50,6 +50,8 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'therubyracer', :platforms => :ruby #needed by the twitter-boostrap-rails as a dependency
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
