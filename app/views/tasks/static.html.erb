@@ -1,7 +1,7 @@
 <div class= "container">
   <center><h1 class="title">MoocChat Configuration Page</h1></center>
   <i><h6>Please fill out the following</h6></i>
-  <%= form_tag tasks_path do  %>
+  <%= form_tag tasks_path , :class => 'form-warning' do  %>
   <div class="field">
     <label for="learner_name"><b>Learner name</b></label><br/>
     <%= text_field_tag :learner_name,nil, :placeholder=> "Put Your Name Here" %>

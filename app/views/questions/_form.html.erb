@@ -1,4 +1,4 @@
-<%= form_for @question, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_for @question, :html => { :class => 'form-horizontal', :class => 'form-warning' } do |f| %>
   <div class="control-group">
     <%= f.label :text, :class => 'control-label' %>
     <div class="controls">
@@ -13,7 +13,9 @@
       <% @question.answers.each do |element| %>
       <div class="controls">
         <label for="Question Answers">
-          <input type="textbox" name="question[answers][]" value=<%= "#{element}"%> class="text_area" id="question_Answer<%= "#{index}"%>"> 
+          <textarea name="question[answers][]"class="text_area" id="question_Answer<%= "#{index}"%>">
+            <%="#{element}"%>
+          </textarea>
         </label>
         <% index+=1 %>
       </div>
