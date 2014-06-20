@@ -22,6 +22,9 @@ ActiveRecord::Schema.define(:version => 20140619002801) do
     t.integer  "num_questions"
     t.string   "tag"
     t.string   "name"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "starts_every"
   end
 
   create_table "cohorts", :force => true do |t|
@@ -41,12 +44,14 @@ ActiveRecord::Schema.define(:version => 20140619002801) do
   end
 
   create_table "conditions", :force => true do |t|
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.string   "name"
     t.text     "prologue_pages"
     t.text     "body_pages"
     t.text     "epilogue_pages"
+    t.integer  "preferred_group_size"
+    t.integer  "minimum_group_size"
   end
 
   create_table "event_logs", :force => true do |t|
@@ -73,10 +78,12 @@ ActiveRecord::Schema.define(:version => 20140619002801) do
     t.string   "chat_group"
     t.boolean  "completed"
     t.string   "sequence_state"
-    t.integer  "tasks_id"
     t.integer  "waiting_room_id"
   end
 
+  add_index "tasks", ["activity_schema_id"], :name => "index_tasks_on_activity_schema_id"
+  add_index "tasks", ["condition_id"], :name => "index_tasks_on_condition_id"
+  add_index "tasks", ["learner_id"], :name => "index_tasks_on_learner_id"
   add_index "tasks", ["waiting_room_id"], :name => "index_tasks_on_waiting_room_id"
 
   create_table "templates", :force => true do |t|
