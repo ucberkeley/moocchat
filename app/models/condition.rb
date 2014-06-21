@@ -16,7 +16,8 @@ class Condition < ActiveRecord::Base
   validates_numericality_of :preferred_group_size,
   :greater_than_or_equal_to => 1,
   :less_than_or_equal_to => MAX_ALLOWABLE_GROUP_SIZE
-  validates_numericality_of :minimum_group_size, :greater_than_or_equal_to => 1,
+  validates_numericality_of :minimum_group_size,
+  :greater_than_or_equal_to => 1,
   :less_than_or_equal_to => ->(condition) { condition.preferred_group_size },
   :message => 'must be between 1 and preferred group size'
   
