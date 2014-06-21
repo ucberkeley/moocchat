@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('form').submit(function() {
+    $('.form-warning').submit(function() {
         var incomplete = $('form :input').filter(function() {
                              return $(this).val() == '';
                          });

@@ -1,51 +1,24 @@
-input[type=submit] {
-    width: 10em;  
-    height: 2em;
-    display:block;
-    position:absolute;
-    border:1px solid #ccc;
-    border-radius: 15px;
-    align:center;
-    position: absolute;
-	left: 30em;
-}
 
 .title{
-	text-align:center;
-    border:1px solid #ccc;
-    border-radius: 15px;
-    height: 50px;
-    background: #C0C0C0;
-    line-height: 50px;
+	background-color:#005199;
+	font-size: 3em;
+	border-radius: 2em;
+	color: white
 }
 
-
-input[type=text] {
-       font-family:courier;
-       font-size:80%; 
-       padding: 0.1em;
-       border-radius: 10px;
-    	height: 15px;
-    	display: inline-block;
-    	width: 250px;
-    	
-} 
-
-#condition_id_id{
-	text-align:center;
-    border:1px solid #ccc;
-    border-radius: 15px;
-    height: 20px;
-    background: #C0C0C0;
-    width: 250px;
-   
+body{
+	background-color:#F5F5F5;
 }
 
-#activity_schema_id_id{
-	text-align:center;
-    border:1px solid #ccc;
-    border-radius: 15px;
-    height: 20px;
-    background: #C0C0C0;
-    width: 250px;
+.field{
+	line-height: 4em;
+}
+
+#learner_name{
+	height: 34px;
+	width: 40%;
+}
+
+.form-control{
+	width:40% !important;
 }

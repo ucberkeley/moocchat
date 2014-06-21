@@ -1,17 +1,49 @@
-<%= form_for(@question) do |f| %>
-  <% if @question.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@question.errors.count, "error") %> prohibited this question from being saved:</h2>
-
-      <ul>
-      <% @question.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @question, :html => { :class => 'form-horizontal', :class => 'form-warning' } do |f| %>
+  <div class="control-group">
+    <%= f.label :text, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :text, :class => 'text_area' %>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit %>
+  </div>
+  <br>
+  <div class="control-group">
+    <%= f.label "Answer Choices", :class => 'control-label' %>
+    <%if @question.answers.any? %>
+      <% index = 0 %>
+      <% @question.answers.each do |element| %>
+        <div class="controls">
+          <label for="Question Answers">
+            <textarea name="question[answers][]" class="text_area" id="question_Answer<%= index%>"><%=sanitize_str(element)%></textarea>
+          </label>
+          <% index+=1 %>
+        </div>
+      <% end %>
+    <%else%>
+      <% index = 0 %>
+      <% 5.times do %>
+       <div class="controls">
+          <label for="Question Answers">
+            <textarea name="question[answers][]" class="text_area" id="question_Answer<%= index%>"></textarea>
+          <% index+=1 %>
+        </div>
+      <% end %>
+    <%end%>
+  </div>
+  <div class="control-group">
+    <%= f.label :explanation, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :explanation, :class => 'text_area' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :correct_answer_index, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :correct_answer_index, :class => 'number_field' %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                questions_path, :class => 'btn' %>
   </div>
 <% end %>
