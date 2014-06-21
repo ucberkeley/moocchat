@@ -42,6 +42,17 @@ class WaitingRoom < ActiveRecord::Base
     wr.add task
   end
 
+  # Wake up and check all waiting rooms.  For any waiting rooms whose +expired_at+ now
+  # matches or exceeds the current time, process it, then destroy it.
+  def self.process_all!
+    WaitingRoom.where(['expires_at <= ?', Time.zone.now]).each do |wr|
+      wr.process
+      wr.destroy
+    end
+  end
+
+  # Add a task to *this* waiting room.  Called by +WaitingRoom.add+.
+
   def add task
     if tasks.include? task
       raise TaskAlreadyWaitingError

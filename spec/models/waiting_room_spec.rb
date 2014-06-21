@@ -15,6 +15,22 @@ describe WaitingRoom do
       expect { WaitingRoom.add @t }.to raise_error(WaitingRoom::TaskAlreadyWaitingError)
     end
   end
+  describe 'wakeup task' do
+    before :each do
+      @expiring = Array.new(3) { create(:waiting_room, :expires_at => 1.minute.ago) }
+      @not_expiring = Array.new(2) { create(:waiting_room, :expires_at => 10.minutes.from_now) }
+      WaitingRoom.process_all!
+    end
+    it 'processes & destroys expired waiting rooms' do
+      @expiring.each do |wr|
+        lambda { WaitingRoom.find(wr.id) }.should raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+    it 'leaves alone unexpired waiting rooms' do
+      @not_expiring.each { |wr| WaitingRoom.find(wr.id).should be_a WaitingRoom }
+    end
+  end
+
   describe 'processing' do
     # how to test transactional integrity, since we have to atomically
     # empty the waiting room and assign tasks to groups?
