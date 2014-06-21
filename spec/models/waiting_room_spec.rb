@@ -21,20 +21,37 @@ describe WaitingRoom do
     before :each do
       @condition = create :condition
       @activity = create :activity_schema
-      @args = {:condition => @condition, :activity_schema => @activity}
     end
-    describe 'splitting' do
-      context 'a queue of 6 into groups of 2' do
+    # test cases:
+    # q length, pref'd grp size, min grp size, expected #grps, expected #small grps, expected # rejects
+    @tests = [
+      [6, 2, 1, 3, 0, 0],
+      [7, 2, 1, 3, 1, 0],
+      [5, 4, 2, 1, 0, 1],
+      [3, 5, 3, 0, 1, 0],
+      [3, 5, 2, 0, 1, 1],
+      [3, 5, 4, 0, 0, 3],
+    ]
+    @tests.each do |test_case|
+      len,size,min_size,num_groups,num_small,num_rejects = test_case
+      describe "Split #{len} learners into groups of #{size} and small-groups of #{min_size}" do
         before :each do
-          @condition.update_attributes(:preferred_group_size => 2, :minimum_group_size => 1)
-          6.times { WaitingRoom.add(create(:task, @args)) }
+          @condition.update_attributes(:preferred_group_size => size, :minimum_group_size => min_size)
+          len.times { WaitingRoom.add(create(:task, :condition => @condition, :activity_schema => @activity)) }
           @w = WaitingRoom.find_by_activity_schema_id_and_condition_id!(@condition.id, @activity.id)
           @w.process
+          @groups = Task.group('chat_group')
         end
-        it 'should result in 3 chat groups' do
-          Task.count('chat_group', :distinct => true).should == 3
+        it "should create #{num_groups} large groups" do
+          @groups.having("COUNT(*)=#{size}").length.should == num_groups
         end
-        it 'should empty the waiting room' do
+        it "should create #{num_small} small groups" do
+          @groups.having("COUNT(*)=#{min_size}").length.should == num_small
+        end
+        it "should have #{num_rejects} rejects" do
+          Task.where('chat_group = "NONE"').count.should == num_rejects
+        end
+        it "should empty the waiting room" do
           @w.tasks.length.should == 0
         end
       end
