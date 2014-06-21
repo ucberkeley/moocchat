@@ -16,7 +16,7 @@ Scenario: static root page, new learner
   And I select "Chat sequence 1" from "Condition"
   And I select "Quiz review" from "Activity"
   When I press "SUBMIT"
-  Then I should see "Welcome, Steven!" 
+  Then I should see "Greetings, Steven!" 
   And I should see /Click below to start "Quiz review"/
 
 @javascript

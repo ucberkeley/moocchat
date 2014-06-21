@@ -1,3 +1,10 @@
 // Place all the styles related to the activity_schemas controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#activity_schema_cohort_id, #activity_schema_enabled, #activity_schema_randomized, #activity_schema_num_questions, #activity_schema_tag, #activity_schema_name, #activity_schema_starts_every{
+	height:30px;
+}
+
+#activity_schema_end_time_1i,#activity_schema_end_time_2i,#activity_schema_end_time_1i,#activity_schema_end_time_3i,#activity_schema_end_time_4i,#activity_schema_end_time_5i,#activity_schema_start_time_1i,#activity_schema_start_time_2i,#activity_schema_start_time_3i,#activity_schema_start_time_4i,#activity_schema_start_time_5i{
+	width: 150px
+}

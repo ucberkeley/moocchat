@@ -1,30 +1,46 @@
-<%= form_for(@condition) do |f| %>
-  <% if @condition.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@condition.errors.count, "error") %> prohibited this condition from being saved:</h2>
-
-      <ul>
-      <% @condition.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @condition, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
     </div>
-  <% end %>
-
-  <div>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <br/>
-    <%= f.label :preferred_group_size %>
-    <%= f.select :preferred_group_size, (1..Condition::MAX_ALLOWABLE_GROUP_SIZE) %>
-    <br/>
-    <%= f.label :minimum_group_size %>
-    <%= f.select :minimum_group_size, (1..Condition::MAX_ALLOWABLE_GROUP_SIZE) %>
   </div>
+  <div class="control-group">
+    <%= f.label :prologue_pages, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :prologue_pages, :class => 'text_area' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :body_pages, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :body_pages, :class => 'text_area' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :epilogue_pages, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :epilogue_pages, :class => 'text_area' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :preferred_group_size, :class => 'control-label'  %>
+    <div class="controls">
+    <%= f.select :preferred_group_size, (1..Condition::MAX_ALLOWABLE_GROUP_SIZE) %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :minimum_group_size, :class => 'control-label'  %>
+    <div class="controls">
+    <%= f.select :minimum_group_size, (1..Condition::MAX_ALLOWABLE_GROUP_SIZE) %>
+    </div>
+  </div>
+    <!-- TBD: create UI for specifying prologue/epilogue/body pages -->
 
-  <!-- TBD: create UI for specifying prologue/epilogue/body pages -->
 
-  <div class="actions">
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                conditions_path, :class => 'btn' %> 
   </div>
 <% end %>

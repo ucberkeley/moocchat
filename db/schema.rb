@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20140619200002) do
     t.text     "text"
     t.text     "answers"
     t.integer  "correct_answer_index"
+    t.text     "explanation"
   end
 
   create_table "tasks", :force => true do |t|
