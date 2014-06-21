@@ -11,7 +11,6 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-
 ActiveRecord::Schema.define(:version => 20140619200002) do
 
   create_table "activity_schemas", :force => true do |t|
