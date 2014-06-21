@@ -17,7 +17,7 @@ FactoryGirl.define do
   end
 
   factory :condition do
-    name 'dummy condition'
+    sequence(:name) { |n| "Condition#{n}" }
     preferred_group_size 3
     minimum_group_size 1
     prologue_pages []
@@ -26,7 +26,7 @@ FactoryGirl.define do
   end
 
   factory :learner do
-    name 'learner'
+    sequence(:name) { |n| "Learner#{n}" }
   end
 
   factory :task do
