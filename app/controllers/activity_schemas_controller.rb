@@ -43,7 +43,7 @@ class ActivitySchemasController < ApplicationController
     @activity_schema = ActivitySchema.new(params[:activity_schema])
 
     respond_to do |format|
-      if @activity_schema.save
+      if @activity_schema.save!
         format.html { redirect_to @activity_schema, notice: 'Activity schema was successfully created.' }
         format.json { render json: @activity_schema, status: :created, location: @activity_schema }
       else
@@ -59,7 +59,7 @@ class ActivitySchemasController < ApplicationController
     @activity_schema = ActivitySchema.find(params[:id])
 
     respond_to do |format|
-      if @activity_schema.update_attributes(params[:activity_schema])
+      if @activity_schema.update_attributes!(params[:activity_schema])
         format.html { redirect_to @activity_schema, notice: 'Activity schema was successfully updated.' }
         format.json { head :no_content }
       else

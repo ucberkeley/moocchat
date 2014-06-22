@@ -9,7 +9,7 @@ Background:
 
 Scenario: edit page, valid conditions, Administrator
 
-  Given I start on the Edit Page
+  Given I start on the Edit Page for question
   When I fill in "Text text text" for "question_text"
   And I fill in "Question Explanation" for "question_explanation"
   And I press "Update Question"

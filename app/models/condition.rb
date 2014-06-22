@@ -4,6 +4,10 @@ class Condition < ActiveRecord::Base
   has_many_inline :prologue_pages, :class_name => :template
   has_many_inline :body_pages, :class_name => :template
   has_many_inline :epilogue_pages, :class_name => :template
+  serialize :prologue_pages, Array
+  serialize :body_pages, Array
+  serialize :epilogue_pages, Array
+
 
   # The maximum allowable group size; experiments cannot specify chat groups
   # containing more than this number of learners.

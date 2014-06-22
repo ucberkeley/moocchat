@@ -8,6 +8,7 @@ gem 'faye-websocket'
 gem 'omniauth'
 gem 'jquery-rails'
 gem 'date_validator'            # datetime validations for ActiveRecord
+gem 'foreman'
 
 
 
@@ -20,7 +21,6 @@ group :development, :test do
   gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
   gem 'rspec-rails', '2.14.0'
   gem 'metric_fu'
-  gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
   #gem 'therubyracer', :platforms => :ruby
 end
 
@@ -30,6 +30,7 @@ group :test do
   gem 'database_cleaner' # required by Cucumber
   gem 'autotest-rails'
   gem 'factory_girl_rails'
+  gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
 end
 
 group :production do
@@ -43,13 +44,11 @@ end
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-  gem 'twitter-bootstrap-rails'
+  gem 'twitter-bootstrap-rails' #added the static bootstrap css
   #gem 'libv8'
   #gem 'less'
   #gem 'less-rails'
-
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-
   gem 'uglifier', '>= 1.0.3'
 end
 

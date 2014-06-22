@@ -3,7 +3,8 @@ class TemplatesController < ApplicationController
   # GET /templates.json
   def index
     @templates = Template.all
-
+    @name = Template
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @templates }
@@ -43,8 +44,8 @@ class TemplatesController < ApplicationController
     @template = Template.new(params[:template])
 
     respond_to do |format|
-      if @template.save
-        format.html { redirect_to @template, notice: 'Template was successfully created.' }
+      if @template.save!
+        format.html { redirect_to template_path(@template), notice: 'Template was successfully created.' }
         format.json { render json: @template, status: :created, location: @template }
       else
         format.html { render action: "new" }
@@ -57,9 +58,8 @@ class TemplatesController < ApplicationController
   # PUT /templates/1.json
   def update
     @template = Template.find(params[:id])
-
     respond_to do |format|
-      if @template.update_attributes(params[:template])
+      if @template.update_attributes!(params[:template])
         format.html { redirect_to @template, notice: 'Template was successfully updated.' }
         format.json { head :no_content }
       else
@@ -80,4 +80,9 @@ class TemplatesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+  def template_params
+      params.require(:template).permit(:name,:url,:html)
+   end
 end

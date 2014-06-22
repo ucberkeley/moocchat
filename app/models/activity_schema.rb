@@ -8,7 +8,7 @@ class ActivitySchema < ActiveRecord::Base
 
   # Human friendly name for the activity schema.
 
-  attr_accessible :name, :cohort,:randomized,:num_questions,:tag,:questions
+  attr_accessible :name, :cohort,:randomized,:num_questions,:tag,:questions, :cohort_id
   validates_presence_of :name
 
   has_many_inline :questions, :class_name => :question

@@ -6,22 +6,46 @@
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :prologue_pages, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :prologue_pages, :class => 'text_area' %>
-    </div>
+      <%= f.label "Prologue Pages", :class => 'control-label' %>
+      <%if @condition.prologue_pages.any? %>
+        <% index = 0 %>
+        <% @condition.prologue_pages.each do |element| %>
+          <div class="controls">
+            <label for="Prologue">
+              <textarea name="condition[prologue_pages][]" class="text_area" id="condition_prologue_pages<%= index%>"><%- link_to template_path(element) -%></textarea>
+            </label>
+            <% index+=1 %>
+          </div>
+        <% end %>
+      <% end %>
   </div>
   <div class="control-group">
-    <%= f.label :body_pages, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :body_pages, :class => 'text_area' %>
-    </div>
+      <%= f.label "Body Pages", :class => 'control-label' %>
+      <%if @condition.body_pages.any? %>
+        <% index = 0 %>
+        <% @condition.body_pages.each do |element| %>
+          <div class="controls">
+            <label for="Body">
+              <textarea name="condition[body_pages][]" class="text_area" id="condition_body_pages<%= index%>"><%=element.html%></textarea>
+            </label>
+            <% index+=1 %>
+          </div>
+        <% end %>
+      <% end %>
   </div>
   <div class="control-group">
-    <%= f.label :epilogue_pages, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :epilogue_pages, :class => 'text_area' %>
-    </div>
+      <%= f.label "Epilogue Pages", :class => 'control-label' %>
+      <%if @condition.epilogue_pages.any? %>
+        <% index = 0 %>
+        <% @condition.epilogue_pages.each do |element| %>
+          <div class="controls">
+            <label for="Epilogue">
+              <textarea name="condition[epilogue_pages][]" class="text_area" id="condition_epilogue_pages<%= index%>"><%=element.html%></textarea>
+            </label>
+            <% index+=1 %>
+          </div>
+        <% end %>
+      <% end %>
   </div>
   <div class="control-group">
     <%= f.label :preferred_group_size, :class => 'control-label'  %>

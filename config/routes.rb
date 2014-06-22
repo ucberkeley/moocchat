@@ -6,6 +6,7 @@ Moocchat::Application.routes.draw do
   # first created -> highest priority.
   resources :activity_schemas
   resources :questions
+  resources :templates
   #routes the landing page to be this static page we talked about
   root :to => 'tasks#static'
   #a simple get to redirect to this page
