@@ -5,7 +5,7 @@ class WaitingRoom < ActiveRecord::Base
   # waiting room are split up into groups and the waiting room is
   # emptied.
 
-  # There is one waiting room for each
+  # There is at most one waiting room for each
   # <ActivitySchema,Condition> pair.
   belongs_to :condition
   belongs_to :activity_schema
@@ -26,7 +26,7 @@ class WaitingRoom < ActiveRecord::Base
   # Any time a new +WaitingRoom+ is created, its expiration time is automatically set
   # to the next 'boundary' of when the experiment repeats.
   before_create do
-    self.expires_at = compute_expiration_time
+    self.expires_at ||= compute_expiration_time
   end
 
   # When the class method +process_all!+ is called, all waiting rooms
