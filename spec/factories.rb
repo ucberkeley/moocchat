@@ -7,8 +7,8 @@ FactoryGirl.define do
     num_questions 1
     tag ''
     name 'activity'
-    start_time 1.day.from_now
-    end_time   2.days.from_now
+    start_time 1.day.from_now.midnight
+    end_time   2.days.from_now.midnight
     starts_every 30             # minutes
   end
 
@@ -58,7 +58,6 @@ FactoryGirl.define do
   factory :waiting_room do
     condition { create :condition }
     activity_schema { create :activity_schema }
-    expires_at { 1.minute.from_now }
   end
 end
 
