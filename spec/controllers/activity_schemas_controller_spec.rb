@@ -23,7 +23,7 @@ describe ActivitySchemasController do
   # This should return the minimal set of attributes required to create a valid
   # ActivitySchema. As you add validations to ActivitySchema, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {:name => "Steven", :start_time => 1.day.from_now, :end_time => 2.days.from_now, :starts_every => 30  } }
+  let(:valid_attributes) { {:name => "Steven", :start_time => 1.day.from_now.midnight, :end_time => 3.days.from_now, :starts_every => 30  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in

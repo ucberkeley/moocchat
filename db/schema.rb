@@ -80,8 +80,8 @@ ActiveRecord::Schema.define(:version => 20140619200002) do
     t.string   "chat_group"
     t.boolean  "completed"
     t.string   "sequence_state"
-    t.text     "user_state"
     t.integer  "waiting_room_id"
+    t.text     "user_state"
   end
 
   add_index "tasks", ["activity_schema_id"], :name => "index_tasks_on_activity_schema_id"

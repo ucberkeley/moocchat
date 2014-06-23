@@ -15,6 +15,22 @@ describe WaitingRoom do
       expect { WaitingRoom.add @t }.to raise_error(WaitingRoom::TaskAlreadyWaitingError)
     end
   end
+  describe 'expiration time' do
+    before :each do ; @c = create :condition ; end
+    [
+      [6, 15, 18], [6, 0, 6], [6, 58, 0],
+       
+    ].each do |test|
+      starts_every, minute_now, minute_to_expire = test
+      specify "should be :#{'%02d' % minute_to_expire} if it's now :#{'%02d' % minute_now} and tasks are every #{starts_every} minutes" do
+        a = create(:activity_schema, :starts_every => starts_every)
+        Timecop.freeze(Time.now.change :min => minute_now, :sec => 0)
+        rollover = (minute_to_expire.zero? ? 1 : 0)
+        (create(:waiting_room, :activity_schema => a)).expires_at.
+          should == Time.now.change(:min => minute_to_expire, :sec => 0) + rollover.hours
+      end
+    end
+  end
   describe 'wakeup task' do
     before :each do
       @expiring = Array.new(3) { create(:waiting_room, :expires_at => 1.minute.ago) }
