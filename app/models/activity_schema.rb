@@ -12,6 +12,7 @@ class ActivitySchema < ActiveRecord::Base
 
   attr_accessible :cohort,:randomized,:num_questions,:tag
 
+  attr_accessible :questions
   has_many_inline :questions
 
   # Boolean attribute: whether this activity is enabled (open for business)
