@@ -16,9 +16,9 @@ module ChatDemo
     def call(env)
       if Faye::WebSocket.websocket?(env)
         ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME })
-        p "hello"
+        #p "hello"
         path = env["ORIGINAL_FULLPATH"]
-        p 'path is' + path
+        #p 'path is' + path
 
         if @groups.has_key?(path)
           @groups[path] << ws
@@ -27,17 +27,17 @@ module ChatDemo
         end
 
         ws.on :open do |event|
-          p [:open, ws.object_id]
+          #p [:open, ws.object_id]
           @clients << ws
         end
 
         ws.on :message do |event|
-          p [:message, event.data]
+          #p [:message, event.data]
           @groups[path].each {|client| client.send(event.data) }
         end
 
         ws.on :close do |event|
-          p [:close, ws.object_id, event.code, event.reason]
+          #p [:close, ws.object_id, event.code, event.reason]
           @clients.delete(ws)
           @groups[path].delete(ws)
           ws = nil
