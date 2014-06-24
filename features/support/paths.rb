@@ -16,7 +16,6 @@ module NavigationHelpers
     when /^the home\s?page$/ then '/'
     when /^the error page$/ then '/error'
     when /^root_page$/ then '/'
-    when /^chat page/ then '/chat'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
