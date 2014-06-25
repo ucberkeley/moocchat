@@ -1,4 +1,4 @@
-Feature: update Condition as Administrator
+Feature: Update Condition as Administrator
 
   As an Administrator
   So that I configure my specific condition

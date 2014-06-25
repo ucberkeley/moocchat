@@ -8,7 +8,7 @@ Background:
   Given I am at the Questions Page
   And I follow "New"
 
-Scenario: Create a question, valid conditions
+Scenario: Create a question, valid conditions, Administrator
  
   When I fill in "Text text text" for "question_text"
   And I fill in "Question Explanation" for "question_explanation"
