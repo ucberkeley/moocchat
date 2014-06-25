@@ -58,9 +58,7 @@ class ConditionsController < ApplicationController
   def update
    
     @condition = Condition.find(params[:id])
-    p params
     respond_to do |format|
-      p "updating"
       if @condition.update_attributes!(params[:condition])
          p "save con"
         format.html { redirect_to @condition, notice: 'Condition was successfully updated.' }
