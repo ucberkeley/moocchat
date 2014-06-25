@@ -19,7 +19,7 @@ Scenario: Create a activity schema, valid conditions, Administrator
   And I select "June" from "activity_schema_start_time_2i"
   And I select "1" from "activity_schema_start_time_3i"
   And I select "2014" from "activity_schema_end_time_1i"
-  And I select "June" from "activity_schema_end_time_2i"
+  And I select "July" from "activity_schema_end_time_2i"
   And I select "3" from "activity_schema_end_time_3i"
   And I press "Create Activity schema"
   Then I should see "example"
