@@ -1,10 +1,14 @@
-Feature: create activity schema as Administrator
+Feature: Create Activity Schema as Administrator
 
   As an Administrator
-  So that I see the name of my activity schema
+  So that I can customize my Activity Schema
   I want to create an activity schema
 
-  Scenario: Create a activity schema, valid conditions
+Background:
+  Given I am on the activity_schemas page
+
+
+Scenario: Create a activity schema, valid conditions
   Given I am on the activity_schemas page
   When I follow "New"
   Then I should see "Name"

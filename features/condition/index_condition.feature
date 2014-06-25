@@ -9,7 +9,7 @@ Feature: create activity schema as Administrator
   When I follow "New"
   Then I should see "Name"
   When I fill in "rob" for "condition_name"
-  And I fill in "3" for "condition_prologue_pages"
+  And I filled in "3" for "condition_prologue_pages"
   And I fill in "trello" for "condition_body_pages"
   And I fill in "end" for "condition_epilogue_pages"
   And I press "Create Condition"
