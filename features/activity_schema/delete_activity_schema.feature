@@ -11,4 +11,4 @@ Background:
   Scenario: Delete an activity schema, valid conditions
   Given I am on the activity_schemas page
   When I follow "Delete"
-  Then I should not see "example"
+  Then I should not see "act1"

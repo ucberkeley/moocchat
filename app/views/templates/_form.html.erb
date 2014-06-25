@@ -1,18 +1,18 @@
 <%= form_for @template do |f| %>
   <div class="control-group">
-    <%= f.label :name, :class => 'control-label' %>
+    <%= f.label :name, "Name",:class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :name, :class => 'text_field' %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :url, :class => 'control-label' %>
+    <%= f.label :url, "Url",:class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :url, :class => 'text_field' %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :html, :class => 'control-label' %>
+    <%= f.label :html,"Html", :class => 'control-label' %>
     <div class="controls">
       <%= f.text_area :html, :class => 'text_area' %>
     </div>

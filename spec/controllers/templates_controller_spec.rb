@@ -23,7 +23,7 @@ describe TemplatesController do
   # This should return the minimal set of attributes required to create a valid
   # Template. As you add validations to Template, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {  } }
+  let(:valid_attributes) { { :name => "Steven", :url => "http://www.google.com" } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -84,14 +84,14 @@ describe TemplatesController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved template as @template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Template.any_instance.stub(:save).and_return(false)
+        Template.any_instance.stub(:save!).and_return(false)
         post :create, {:template => {  }}, valid_session
         assigns(:template).should be_a_new(Template)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Template.any_instance.stub(:save).and_return(false)
+        Template.any_instance.stub(:save!).and_return(false)
         post :create, {:template => {  }}, valid_session
         response.should render_template("new")
       end
@@ -106,7 +106,7 @@ describe TemplatesController do
         # specifies that the Template created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Template.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
+        Template.any_instance.should_receive(:update_attributes!).with({ "these" => "params" })
         put :update, {:id => template.to_param, :template => { "these" => "params" }}, valid_session
       end
 
@@ -127,7 +127,7 @@ describe TemplatesController do
       it "assigns the template as @template" do
         template = Template.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Template.any_instance.stub(:save).and_return(false)
+        Template.any_instance.stub(:save!).and_return(false)
         put :update, {:id => template.to_param, :template => {  }}, valid_session
         assigns(:template).should eq(template)
       end
@@ -135,7 +135,7 @@ describe TemplatesController do
       it "re-renders the 'edit' template" do
         template = Template.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Template.any_instance.stub(:save).and_return(false)
+        Template.any_instance.stub(:save!).and_return(false)
         put :update, {:id => template.to_param, :template => {  }}, valid_session
         response.should render_template("edit")
       end

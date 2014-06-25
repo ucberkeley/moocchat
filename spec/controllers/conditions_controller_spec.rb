@@ -84,14 +84,14 @@ describe ConditionsController do
     describe "with invalid params" do
       it "assigns a newly created but unsaved condition as @condition" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Condition.any_instance.stub(:save).and_return(false)
+        Condition.any_instance.stub(:save!).and_return(false)
         post :create, {:condition => {  }}, valid_session
         assigns(:condition).should be_a_new(Condition)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Condition.any_instance.stub(:save).and_return(false)
+        Condition.any_instance.stub(:save!).and_return(false)
         post :create, {:condition => {  }}, valid_session
         response.should render_template("new")
       end
@@ -106,7 +106,7 @@ describe ConditionsController do
         # specifies that the Condition created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Condition.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
+        Condition.any_instance.should_receive(:update_attributes!).with({ "these" => "params" })
         put :update, {:id => condition.to_param, :condition => { "these" => "params" }}, valid_session
       end
 
@@ -127,7 +127,7 @@ describe ConditionsController do
       it "assigns the condition as @condition" do
         condition = Condition.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Condition.any_instance.stub(:save).and_return(false)
+        Condition.any_instance.stub(:save!).and_return(false)
         put :update, {:id => condition.to_param, :condition => {  }}, valid_session
         assigns(:condition).should eq(condition)
       end
@@ -135,7 +135,7 @@ describe ConditionsController do
       it "re-renders the 'edit' template" do
         condition = Condition.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Condition.any_instance.stub(:save).and_return(false)
+        Condition.any_instance.stub(:save!).and_return(false)
         put :update, {:id => condition.to_param, :condition => {  }}, valid_session
         response.should render_template("edit")
       end
