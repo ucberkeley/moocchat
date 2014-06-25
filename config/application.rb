@@ -6,7 +6,6 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "sprockets/railtie"
-require "./app/middleware/chat_backend.rb"
 # require "rails/test_unit/railtie"
 
 if defined?(Bundler)
@@ -20,7 +19,6 @@ end
 module Moocchat
   class Application < Rails::Application
 
-    config.middleware.use ChatDemo::ChatBackend
 
 
 
