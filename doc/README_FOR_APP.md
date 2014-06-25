@@ -14,7 +14,6 @@ that require it:
   general, after download `sudo mv chromedriver /usr/bin/` and `sudo chmod +x /usr/bin/chromedriver`
 0. First time: run `rake db:migrate db:seed` to create your development
 database, populate its schema, and insert any initial data
-0. `rails server --debugger` to start the app
 0. run `gem install foreman` to install foreman
 0. `foreman run local` to start the app
 0. It should now be live on `http://localhost:3000`

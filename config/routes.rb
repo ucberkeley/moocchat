@@ -1,4 +1,6 @@
 Moocchat::Application.routes.draw do
+  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
+
   resources :conditions
 
 
@@ -12,7 +14,6 @@ Moocchat::Application.routes.draw do
   #a simple get to redirect to this page
   get 'chat' => 'chat#chatpage'
   get 'test' => 'chat#chattest'
-
   get "static" => 'tasks#static', :as => "static"
 
   

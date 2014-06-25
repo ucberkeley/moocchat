@@ -15,4 +15,3 @@ Scenario: edit page, valid conditions, Administrator
   And I press "Update Question"
   Then I should see "Question Explanation" 
   And I should see "Text text text"
-

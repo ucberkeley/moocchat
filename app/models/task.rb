@@ -87,6 +87,14 @@ class Task < ActiveRecord::Base
     self.reload.current_page
   end
 
+  # Assign this task to a particular chat group.  As a side effect, this removes the task
+  # from its waiting room.
+  def assign_to_chat_group(group)
+    self.chat_group = group
+    self.waiting_room = nil
+    self.save!
+  end
+
   # Returns the next question to be consumed for the task.
   def current_question
     Question.new

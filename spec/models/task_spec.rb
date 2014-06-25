@@ -46,16 +46,20 @@ describe Task do
         Condition.stub(:find).and_return(@condition)
         ActivitySchema.stub(:find).and_return(@activity_schema)
       end
-      context 'and new learner:' do
-        it 'creates new learner' do
-          expect { Task.create_from_params @args }.to change { Learner.count }.by(1)
-        end
+      shared_examples_for 'starting task' do
         describe 'creates valid task' do
           subject { Task.create_from_params @args }
           it { should be_valid }
           its(:condition) { should == @condition }
           its(:activity_schema) { should == @activity_schema }
+          its('learner.name') { should == 'joe' }
         end
+      end
+      context 'and new learner:' do
+        it 'creates new learner' do
+          expect { Task.create_from_params @args }.to change { Learner.count }.by(1)
+        end
+        it_should_behave_like 'starting task'
       end
       context 'and existing learner:' do
         before :each do
@@ -65,11 +69,7 @@ describe Task do
         it 'does not create new learner' do
           expect { Task.create_from_params @args }.not_to change { Learner.count }
         end
-        describe 'creates valid task' do
-          subject { Task.create_from_params @args }
-          it { should be_valid }
-          its(:learner) { should == @learner }
-        end
+        it_should_behave_like 'starting task'
       end
     end
     context 'when activity is not enabled' do
