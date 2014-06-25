@@ -11,6 +11,6 @@ Background:
 Scenario: edit page, valid conditions, Administrator
 
   Given I start on the Edit Page for condition
-  And I fill in "new_name" for "condition_name"
+  And I fill in "example_name" for "condition_name"
   And I press "Update Condition"
   Then I should see "example_name" 
