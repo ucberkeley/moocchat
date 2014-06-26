@@ -29,16 +29,22 @@ class TasksController < ApplicationController
   def page
     @task_id = params[:id]
     @task = Task.find @task_id
-    template = @task.current_page
-    redirect_to '/' if template.nil?
+    if @task.chat_group == WaitingRoom::CHAT_GROUP_NONE
+      render(:action => 'sorry')
+      @task.destroy
+      return
+    end
+    @template = @task.current_page
+    if @template.nil?
+      redirect_to('/', :notice => 'No more pages left in task')
+    end
     # set up variables for template to consume
     @question = @task.current_question
-    @template_id = template.id
     @counter = @task.counter
     @submit_to = task_next_page_path @task
     @u = @task.user_state || {}
     # HTML text that will be injected into generic uber-template
-    @html = template.html
+    @html = @template.html
     render :inline => @html, :layout => false
   end
 

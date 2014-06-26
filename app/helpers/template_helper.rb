@@ -4,15 +4,25 @@
 module TemplateHelper
   # Produce a JavaScript timer that counts down from +seconds+ and submits the first (only)
   # form on the page when it expires.
-  # The helper emits a <span> with id="_timer_"; its *presence on the page* causes a 
+  # The helper emits a +<span>+ with +id="_timer_"+;
+  # its *presence on the page* causes a  
   # Timer to be started.  See +timer.js+ for the timer code.
   # Only one timer per view is allowed.
-   def timer(seconds)
-    if defined? timer
+  #
+  # ==== Options
+  # * +:seconds+ - number of seconds to count down from.  If not given uses value of +@timer+ variable
+  # * +:submit+ - a URL that will be fetched via GET (replacing the current page) when the timer expires.  If absent, the one and only form on the page will be submitted via POST.
+  def timer(opts = {})
+    seconds = opts[:seconds] || @timer
+    if defined? __timer
       raise "Can only have a single timer per template"
     else
-      timer = true
+      __timer = true
     end
-    %Q{<span id="_timer_" data-countfrom="<%= seconds.to_i %>"></span>}
+    attribs = {'id' => '_timer_',
+      'class' => 'timer',
+      'data-countfrom' => seconds.to_i,
+      'data-submit' => opts[:submit]}
+    content_tag 'span', '00:00', attribs
   end
 end

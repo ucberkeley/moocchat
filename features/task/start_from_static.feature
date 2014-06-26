@@ -17,7 +17,7 @@ Scenario: static root page, new learner
   And I select "Quiz review" from "Activity"
   When I press "SUBMIT"
   Then I should see "Greetings, Steven!" 
-  And I should see /Click below to start "Quiz review"/
+  And I should see /"Quiz review" will start automatically/
 
 @javascript
 Scenario: static root page, missing activity schema, new learner
@@ -27,4 +27,4 @@ Scenario: static root page, missing activity schema, new learner
   And I select "Chat sequence 1" from "Condition"
   And I press "SUBMIT"
   Then I should see a JS dialog saying "please fill out all the form"
-  But I should not see "Welcome, Steven!" 
+  But I should not see "Greetings, Steven!" 

@@ -11,4 +11,4 @@ Scenario: valid condition and activity schema, new learner
   And a condition "Chat sequence 1"
   When I post to the URL for learner: "Armando", activity schema: "Quiz review", condition: "Chat sequence 1"
   Then I should see "Greetings, Armando!" 
-  And I should see /Click below to start "Quiz review"/
+  And I should see /"Quiz review" will start automatically/

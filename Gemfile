@@ -26,7 +26,8 @@ group :test do
   gem 'autotest-rails'
   gem 'factory_girl_rails'
   gem 'simplecov', :require => false
-  gem 'timecop'                 # for testing code that relies on time of day
+  gem 'timecop'
+  gem 'cucumber-timecop', :require => false   # for testing code that relies on time of day
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
 end
 
