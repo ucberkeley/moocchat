@@ -60,4 +60,3 @@ FactoryGirl.define do
     activity_schema { create :activity_schema }
   end
 end
-

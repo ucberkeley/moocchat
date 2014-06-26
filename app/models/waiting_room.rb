@@ -23,6 +23,9 @@ class WaitingRoom < ActiveRecord::Base
   # task more than once. 
   class WaitingRoom::TaskAlreadyWaitingError < RuntimeError ; end
 
+  # Sentinel value meaning you're not assigned to any chat group
+  CHAT_GROUP_NONE = 'NONE'
+
   # Any time a new +WaitingRoom+ is created, its expiration time is automatically set
   # to the next 'boundary' of when the experiment repeats.
   before_create do
@@ -70,7 +73,7 @@ class WaitingRoom < ActiveRecord::Base
   # Process a waiting room.  Forms as many groups as possible of size
   #  +Condition#preferred_group_size+, then as many as possible of size
   #  +Condition#minimum_group_size+; the rest stay in the waiting room.  Kicking
-  # someone out is done by placing the sentinel value 'NONE' as the
+  # someone out is done by placing the sentinel value +CHAT_GROUP_NONE+ as the
   # chat group ID for those learners' tasks.
   def process
     transaction do
@@ -79,7 +82,7 @@ class WaitingRoom < ActiveRecord::Base
       # if there are leftover people, create groups of the minimum size (which could be singletons)...
       rejects = leftovers.empty? ? [ ] : create_groups_of(condition.minimum_group_size, leftovers)
       # if there are any singletons now, they're rejects
-      rejects.each { |t| t.assign_to_chat_group 'NONE' }
+      rejects.each { |t| t.assign_to_chat_group CHAT_GROUP_NONE }
       self.reload
     end
   end

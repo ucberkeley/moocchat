@@ -1,5 +1,10 @@
 <h1>Welcome to MOOCchat</h1>
 
   <h3> Greetings, <%= @task.learner.name %>!</h3>
-  <p> Click below to start <strong>"<%= @task.activity_schema.name %>"</strong>.</p>
-  <%= link_to 'Start', task_page_path(@task), :class => "btn btn-primary" %>
+  <p> 
+    Your activity <strong>"<%= @task.activity_schema.name %>"</strong>
+    will start automatically in
+    <span class="timer">
+      <%= timer :submit => task_page_path(@task) %>
+    </span> minutes.
+  </p>
