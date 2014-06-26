@@ -1,13 +1,12 @@
 Moocchat::Application.routes.draw do
   mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
 
-  resources :conditions
-
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
+  resources :conditions
   resources :activity_schemas
   resources :questions
+  resources :templates
   #routes the landing page to be this static page we talked about
   root :to => 'tasks#static'
   #a simple get to redirect to this page
