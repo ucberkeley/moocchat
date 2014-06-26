@@ -18,6 +18,20 @@ database, populate its schema, and insert any initial data
 0. `foreman run local` to start the app
 0. It should now be live on `http://localhost:3000`
 
+## Deploying to master
+
+0. Before you do any merging:  go back to master and do a git pull to make sure you have latest master
+0. Then switch back into your branch and rebase against master, fixing any conflicts, and making sure all your tests are passing.
+0. Run 'bash bugtest.sh' to do the following:
+rm db/development-master.sqlite3
+rake db:migrate
+rake db:seed
+rake db:test:prepare
+rake cucumber
+rake spec
+to verify that there is no bug introduced
+0. Then do pull request
+
 ## To deploy on Heroku for your own staging:
 
 0. First time: `heroku app:create pick-some-app-name`
@@ -42,5 +56,4 @@ contain the app's class diagrams.  The most interesting is probably `doc/models_
 command
 * [CodeClimate code
 quality](https://codeclimate.com/github/ucberkeley/moocchat) for this project
-
 
