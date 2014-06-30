@@ -1,4 +1,257 @@
-== MOOCchat
+MOOCchat is a SaaS app for integrating peer learning/peer discussion
+into MOOCs and similar settings.
 
-MOOCchat is a SaaS application for bringing peer discussion and peer
-learning to MOOCs.
+This document gives an overview of how to set up experiments/activities
+with MOOCchat.  Partial URLs are given for all paths, so that if the
+app is hosted on <tt>http://moocchat.herokuapp.com</tt>, the path
+<tt>/tasks/welcome</tt> refers to <tt>http://moocchat.herokuapp.com/tasks/welcome</tt>.
+
+= Data Model and Terminology
+
+User Roles:
+
+* A Learner is a person in a course who participates in peer instruction
+  activities.  
+* A Cohort is a group of learners, e.g., the enrollees in a course.  A
+  learner can belong to multiple cohorts.
+* An Instructor is an instructional staff member or researcher who sets
+  up peer instruction activities and can also do anything a Learner can do
+  (for example, test-drive an activity).
+* An Administrator administers the use of the system and can also do
+  everything that Learners and Instructors can do.
+
+Objects:
+
+* A Question is an opportunity for a learner to respond to something,
+  via multiple choice, open ended text, or whatever.
+* An Activity Schema is a list of Questions that may feature some peer
+  instruction, for example, a quiz review session.
+* A Condition describes how a learner or group of learners interacts
+  with an Activity Schema (set of questions).  The Condition consists of a
+  set of page views based on Templates.  Specifically, a condition
+  consists of a sequence of zero or more prologue pages, a sequence of one
+  or more body pages that is repeated for each question in the Activity
+  Schema, and a sequence of zero or more epilogue pages.
+
+= Creating Templates
+
+Templates should be complete legal HTML 5 pages.
+At the moment, we store the raw HTML of the pages verbatim, so you can
+author your templates in whatever environment you want and then
+cut-and-paste the HTML.
+You can incorporate inline CSS styles in the template, or use a <tt><link></tt>
+element to point to an external stylesheet.
+
+Templates are processed through <tt>erb</tt>, which allows the values of
+Ruby variables and expressions to be interpolated into the HTML.  The
+notation <tt><%= expr %></tt> evaluates the Ruby 
+expression <tt>expr</tt> and inserts the result into the HTML template.
+
+Non-Rubyists may find it helpful to know that Ruby instance variable
+names begin with <tt>@</tt>.
+
+== Templates and Timers
+
+Most templates will have a timer element that automatically advances to
+the next page if the learner hasn't manually done so when the timer runs
+out.  
+
+Therefore, when a template is first displayed to the learner, the
+element with the HTML5 element id <tt>interstitial</tt> (if one exists)
+is immediately hidden; if the learner advances to the next page _before_
+the timer runs out, this element is revealed, so it should display a
+message to the effect that "You'll proceed to the next step as soon as
+all learners in your group are ready."  You can use CSS to 
+float the element in a lightbox, overlay it on top of the main HTML, or
+whatever. 
+
+
+== Displaying a question and answer choices
+
+
+Below is a line-numbered example of the <tt><body></tt> of a template keyed to
+the following explanation.  Line numbers are in parentheses.
+
+(1) <tt>@submit_to</tt>:: 
+ The URL for form submission that will cause
+ the next page 
+ in the sequence to be displayed.  See the next subsection on Learner
+ Navigation.  Example: <tt><form action="<%= @submit_to %>"></tt> will
+ generate something like <tt><form action="/tasks/32/next_page"></tt>.  Do not
+ try to construct the submit URL manually.
+
+(3) <tt>@question</tt>:: 
+  The text of the current question.  In practice you'd probably put this
+  in a properly-styled +div+.
+
+(6) <tt>@answers</tt>:: 
+  An array of strings representing the possible
+  answers; you can iterate over it with <tt>each</tt> or <tt>each_with_index</tt>.
+  <tt>@correct_answer_index</tt> 
+  is the zero-based index of which answer is the correct one.
+
+(7, 11)  <tt>@u</tt>:: 
+  A hash
+  that stores any user-defined state information associated with *this
+  learner*; you can name elements of this hash in your forms to cause data
+  to be collected or displayed.  *Only* form fields named <tt>u[...]</tt> will be
+  persisted and logged.  
+
+(23) <tt>timer</tt>:: 
+    A macro that creates a JavaScript countdown
+    timer.  By default it will count down from <tt>@timer</tt> seconds,
+    which is set from the experimental condition, and on reaching zero, it will cause the
+    form-submit button on the page's single form to be "clicked".  Both of
+    these default behaviors can be overridden; see the TemplateHelper#timer documentation.
+
+  1 <form action="<%= @submit_to %>">
+  2   <p>Here is a question:</p>
+  3       <%= @question %>
+  4   <p>Select the best answer:</p>
+  5     <!-- capture learner's answer as choice number, 0..n-1  -->
+  6     <% @answers.each_with_index do |answer, index| %>
+  7       <input type="radio" value="<%= index %>" name="u[response]"> <%= answer %>
+  8     <% end %>
+  9   <!-- optional: collect free-text explanation from learner -->
+ 10   <p>Please explain your answer (will be seen by instructor)</p>
+ 11   <input type="textarea" name="u[explanation]"> <br>
+ 12   <!-- timer - by default, countdown specified by Condition -->
+ 13   <%= timer %>
+ 14   <!-- submit button - automatically "clicked" if timer expires first -->
+ 15   <input type="submit" value="Ready to Continue">
+ 16 </form>
+
+
+== Showing a chat room and/or showing other learners' responses
+
+(3) <tt>@data</tt>::  
+  An _array of hashes_, where each element is a hash of
+  one learner's user data (collected by form fields named
+  <tt>u[...]</tt>).  Here it's used to display what answers and explanations the
+  other learners gave; its keys are the same as those you specified as
+  in lines 7 and 11 in the previous example.
+
+(4) <tt>@me</tt>:: 
+  The index of the array corresponding to *this* learner.
+  <tt>@u['foo']</tt> is therefore a synonym for <tt>@data[@me]['foo']</tt>.  *BUT
+  (important)* to *persist* collected data, you must use form fields named
+  <tt>u[...]</tt>.
+
+(10) <tt>chat</tt>:: 
+   A macro that shows a chat window that is "listening"
+   to the chat channel <tt>@chat_group</tt>.
+  
+TBD::
+   If learners all click Request to End Chat, this should override the
+   timer-based form submission and allow everyone to proceed.  This will
+  require modifying the +page+  method to check that all learners in the
+  task are on the same page.
+
+  1 <form action="<%= @submit_to %>">
+  2   <p>Here are the answers your peers gave:</p>
+  3   <% @data.each_with_index do |other, index| %>
+  4     <% next if index == @me %>
+  5     <p>Student <%= index %> selected choice <%= other['response'] %> because:</p>
+  6     <p> <%= other['explanation'] %>
+  7   <% end %>
+  8   <!-- chat room -->
+  9   <p>Discuss with others until time runs out or you're ready to go on :</p>
+ 10   <%= chat %> 
+ 11   <%= timer %>  
+ 12   <input type="submit" value="Request to end chat">  
+ 13 </form>
+
+== Revealing the correct answer and going on to next question
+
+(3) <tt>@correct_answer_index</tt>::
+  Numerical index into the array of answers.    
+
+(5)  <tt>next_question</tt>:: 
+  If this hidden field is present and has any nonblank
+  value, the question counter will be advanced to cause the next
+  question to be consumed.  You would use this if a single pass
+  through the activity involves answering more than one question, for
+  example, a basic question followed by a transfer question.
+
+  1 <form action="<%= @submit_to %>">
+  2   <p>The correct answer was:</p>
+  3   <%= @answers[@correct_answer_index] %>
+  4   <!-- make next page in flow advance to the next question -->
+  5   <input type="hidden" name="next_question" value="true">
+  6 </form>
+
+= Server's view of task flow
+
+The relevant controller actions in <tt>TasksController</tt> are:
+
+[+create+] Create a new +Task+ from a learner name, +Condition+
+  (experimental setup specifying page flow, group sizes, time spent on
+  each page, and so on) and
+  +ActivitySchema+ (list of questions to be used in the task).  Also
+  adds the task to a +WaitingRoom+ with other learners assigned to the
+  same condition and activity.  The +ActivitySchema+ specifies how often the
+  waiting room is "emptied". 
+
+[+welcome+] A successful +POST+ to +create+ results in a redirect to the
+  welcome action, which shows a timer that counts down to when this 
+  waiting room is to be emptied.  On expiration, a POST to
+  [+first_page+] occurs.
+
+[+first_page+] processes the waiting room, so that every +Task+ in the
+  waiting room gets assigned to a +chat_group+. 
+  If the value of +chat_group+ is the same as the value of the constant
+  <tt>WaitingRoom::CHAT_GROUP_NONE</tt>, then there weren't enough
+  waiting learners to fill out the minimum group size specified by the
+  +Condition+, and this learner is redirected to +sorry+ and asked to
+  retry the activity later.  Otherwise, the learner is redirected to
+  +page+, a generic endpoint that will be called to render the next
+  template in the flow.
+
+[+page+] sets up all the variables described under Templates, above, and
+  renders the page.  Most templates will have a timer.  Advancing past
+  the current page, whether manually by clicking the Submit button or
+  automatically on timer expiration, results in a POST to +next_page+, 
+  which advances the page counter and then redirects back to +page+.
+  As described above, the presence of the <tt>next_question</tt> hidden form
+  element determines whether the next usage of <tt>@question</tt> (and its
+  corresponding <tt>@answers</tt>) will use the same question or a new one.  The
+  body portion of the condition will be repeated while questions remain.
+
+== Additional template elements
+
+These will be less frequently used but are listed here for completeness.
+
+<tt>@task_id</tt>::
+  an identifier for a data structure that associates a
+  specific Learner, Condition, and Activity Schema, and stores all state
+  related to that learner.  Useful to display for debugging purposes.
+
+<tt>@counter</tt>::
+  an integer tracking the page number in the overall
+  activity, starting from 1 for the first prologue page.  For example, a
+  task with 1 prologue page, 2 epilogue pages, and a 4-page sequence for
+  each of three questions has 1<tt>2</tt>(3*4)=15 total pages, so counter values
+  will range from 1 to 15.
+
+<tt>@subcounter</tt>:: 
+  a _zero-based_ counter tracking the page number within
+  the current 
+  sequence (prologue, body, epilogue).  E.g., for the
+  preceding example, its successive values would be 0, 0,1,2,3, 0,1,2,3,
+  0,1,2,3, 0,1.
+
+<tt>@where</tt>:: 
+  one of the three strings <tt>prologue</tt>,
+  <tt>body</tt>, or  <tt>epilogue</tt>,
+  indicating where we are in the current condition.  Can be used, e.g., in
+  conjunction with <tt>@subcounter</tt> and/or <tt>@task_id</tt> to
+  style page elements 
+  accordingly by giving them CSS classes based on these variables' values,
+  as in <tt><body class=<%= @where </tt> "-" @subcounter %>>', giving class names
+  such as <tt>prologue-0</tt>, <tt>body-2</tt>, etc.
+
+<tt>@chat_group</tt>:: 
+  a string that identifies the chat group this
+  learner is in; think of it as a channel.  If empty, it means the learner
+  has not yet been assigned to a group.
+
