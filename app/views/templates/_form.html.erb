@@ -1,0 +1,26 @@
+<%= form_for @template do |f| %>
+  <div class="control-group">
+    <%= f.label :name, "Name",:class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :url, "Url",:class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :url, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :html,"Html", :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :html, :class => 'text_area' %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                templates_path, :class => 'btn' %> 
+  </div>
+   
+<% end %>

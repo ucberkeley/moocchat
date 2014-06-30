@@ -4,7 +4,7 @@ class Template < ActiveRecord::Base
   # but not both.
 
   validates_presence_of :name
-  validates_format_of :url, :with => URI::regexp(['ftp','http','https']), :allow_nil => true
+  validates_format_of :url, :with => URI::regexp(['ftp','http','https']), :allow_blank => true
 
   # exactly one of URL and HTML must be blank
   validate :provides_html_xor_url

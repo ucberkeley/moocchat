@@ -16,6 +16,13 @@
   <dd><%= @activity_schema.tag %></dd>
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @activity_schema.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:start_time) %>:</strong></dt>
+  <dd><%= @activity_schema.start_time %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:end_time) %>:</strong></dt>
+  <dd><%= @activity_schema.end_time %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:starts_every) %>:</strong></dt>
+  <dd><%= @activity_schema.starts_every %></dd>
+
 </dl>
 
 <div class="form-actions">

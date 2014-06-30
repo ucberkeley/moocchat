@@ -17,3 +17,9 @@
    overflow: auto;
    height: 500px;
  }
+ 
+.notice{
+	color: red;
+	font-weight: bold;
+	font-style: italic;
+}
