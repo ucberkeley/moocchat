@@ -1,3 +1,10 @@
+<div class = "notice">
+  <%if @activity_schema.errors.any? %>
+   <% @activity_schema.errors.full_messages.each do |message| %>
+      <%= message %>
+    <% end%>
+  <% end%>
+</div>
 <%= form_for @activity_schema, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="control-group">
     <%= f.label :cohort_id, :class => 'control-label' %>
