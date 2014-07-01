@@ -42,6 +42,14 @@ cut-and-paste the HTML.
 You can incorporate inline CSS styles in the template, or use a <tt><link></tt>
 element to point to an external stylesheet.
 
+HOWEVER, IT IS VERY IMPORTANT that every template include the following
+inside the <tt>head</tt> element:
+
+    <%= javascript_include_tag "application" %>
+
+This will ensure the page loads the JavaScript functions that allow the
+timer and other interactions to work.
+
 Templates are processed through <tt>erb</tt>, which allows the values of
 Ruby variables and expressions to be interpolated into the HTML.  The
 notation <tt><%= expr %></tt> evaluates the Ruby 
@@ -167,11 +175,11 @@ TBD::
   Numerical index into the array of answers.    
 
 (5)  <tt>next_question</tt>:: 
-  If this hidden field is present and has any nonblank
-  value, the question counter will be advanced to cause the next
-  question to be consumed.  You would use this if a single pass
-  through the activity involves answering more than one question, for
-  example, a basic question followed by a transfer question.
+    If this hidden field is present and has any nonblank
+    value, the question counter will be advanced to cause the next
+    question to be consumed.  You would use this if a single pass
+    through the activity involves answering more than one question, for
+    example, a basic question followed by a transfer question.
 
   1 <form action="<%= @submit_to %>">
   2   <p>The correct answer was:</p>
@@ -184,7 +192,8 @@ TBD::
 
 The relevant controller actions in <tt>TasksController</tt> are:
 
-[+create+] Create a new +Task+ from a learner name, +Condition+
++create+::
+  Create a new +Task+ from a learner name, +Condition+
   (experimental setup specifying page flow, group sizes, time spent on
   each page, and so on) and
   +ActivitySchema+ (list of questions to be used in the task).  Also
@@ -192,12 +201,14 @@ The relevant controller actions in <tt>TasksController</tt> are:
   same condition and activity.  The +ActivitySchema+ specifies how often the
   waiting room is "emptied". 
 
-[+welcome+] A successful +POST+ to +create+ results in a redirect to the
++welcome+:: 
+  A successful +POST+ to +create+ results in a redirect to the
   welcome action, which shows a timer that counts down to when this 
   waiting room is to be emptied.  On expiration, a POST to
-  [+first_page+] occurs.
+  +first_page+ occurs.
 
-[+first_page+] processes the waiting room, so that every +Task+ in the
++first_page+::
+  processes the waiting room, so that every +Task+ in the
   waiting room gets assigned to a +chat_group+. 
   If the value of +chat_group+ is the same as the value of the constant
   <tt>WaitingRoom::CHAT_GROUP_NONE</tt>, then there weren't enough
@@ -207,7 +218,8 @@ The relevant controller actions in <tt>TasksController</tt> are:
   +page+, a generic endpoint that will be called to render the next
   template in the flow.
 
-[+page+] sets up all the variables described under Templates, above, and
++page+:: 
+  sets up all the variables described under Templates, above, and
   renders the page.  Most templates will have a timer.  Advancing past
   the current page, whether manually by clicking the Submit button or
   automatically on timer expiration, results in a POST to +next_page+, 
@@ -216,6 +228,10 @@ The relevant controller actions in <tt>TasksController</tt> are:
   element determines whether the next usage of <tt>@question</tt> (and its
   corresponding <tt>@answers</tt>) will use the same question or a new one.  The
   body portion of the condition will be repeated while questions remain.
+
++sorry+::
+  A dead-end page that asks the learner to come back later, since they
+  couldn't be placed into a chat group. 
 
 == Additional template elements
 
