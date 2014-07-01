@@ -45,3 +45,4 @@ group :assets do
   gem 'twitter-bootstrap-rails' #added the static bootstrap css
   gem 'uglifier', '>= 1.0.3'
 end
+

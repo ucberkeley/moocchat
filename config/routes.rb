@@ -28,6 +28,9 @@ Moocchat::Application.routes.draw do
   # welcome page ("Welcome! Click to start your learning activity")
   get '/tasks/:id', :to => 'tasks#welcome', :as => 'task_welcome'
 
+  # go to first page/view of a task
+  post '/tasks/:id/start', :to => 'tasks#first_page', :as => 'task_first_page'
+
   # go to next page/view of a task
   post '/tasks/:id', :to => 'tasks#next_page', :as => 'task_next_page'
 

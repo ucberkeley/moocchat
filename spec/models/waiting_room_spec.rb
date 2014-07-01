@@ -14,13 +14,28 @@ describe WaitingRoom do
       WaitingRoom.add @t
       expect { WaitingRoom.add @t }.to raise_error(WaitingRoom::TaskAlreadyWaitingError)
     end
+    describe 'sets timer' do
+      # time_now, starts_every, time_until_emptying
+      [ 
+        [ "12:01:00 pm", 5, 4.minutes ],
+      ].each do |test_case|
+        time_now = test_case[0]
+        starts_every = test_case[1]
+        time_to_go =  test_case[2]
+        #test_case_name = "to #{Time.at(time_to_go).strftime('%M:%S')} if it's #{time_now.strftime('%I:%M:%S')} and start every #{starts_every}"
+        test_case_name = "#{time_now} start every #{starts_every}"
+        specify test_case_name do
+          flunk  
+        end
+      end
+    end
   end
   describe 'expiration time' do
     [
       [6, 15, 18], [6, 0, 6], [6, 58, 0],
        
-    ].each do |test|
-      starts_every, minute_now, minute_to_expire = test
+    ].each do |test_case|
+      starts_every, minute_now, minute_to_expire = test_case
       specify "should be :#{'%02d' % minute_to_expire} if it's now :#{'%02d' % minute_now} and tasks are every #{starts_every} minutes" do
         a = create(:activity_schema, :starts_every => starts_every)
         Timecop.freeze(Time.now.change :min => minute_now, :sec => 0) do
