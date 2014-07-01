@@ -7,12 +7,32 @@
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @condition.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:prologue_pages) %>:</strong></dt>
-  <dd><%= @condition.prologue_pages %></dd>
+  <dd><% if @condition.prologue_pages.any? %>
+          <% @condition.prologue_pages.each do |elm| %>
+            <%= link_to elm.name, template_path(elm) %>
+          <%end%>
+        <%end%>
+  </dd>
   <dt><strong><%= model_class.human_attribute_name(:body_pages) %>:</strong></dt>
-  <dd><%= @condition.body_pages %></dd>
+  <dd><% if @condition.body_pages.any? %>
+          <% @condition.body_pages.each do |elm| %>
+            <%= link_to elm.name, template_path(elm) %>
+          <%end%>
+      <%end%>
+  </dd>
   <dt><strong><%= model_class.human_attribute_name(:epilogue_pages) %>:</strong></dt>
-  <dd><%= @condition.epilogue_pages %></dd>
+  <dd><% if @condition.epilogue_pages.any? %>
+          <% @condition.epilogue_pages.each do |elm| %>
+            <%= link_to elm.name, template_path(elm) %>
+          <%end%>
+      <%end%>
+  </dd>
+  <dt><strong><%= model_class.human_attribute_name(:preferred_group_size) %>:</strong></dt>
+  <dd><%= @condition.preferred_group_size %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:minimum_group_size) %>:</strong></dt>
+  <dd><%= @condition.minimum_group_size %></dd>
 </dl>
+  
 
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),

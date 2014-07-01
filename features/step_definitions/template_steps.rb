@@ -7,6 +7,6 @@ Given(/^I start on the Edit Page for template$/) do
 	visit edit_template_path(@template)
 end
 
-Then(/^I should redirect to the show page for "(.*?)"$/) do |template|
+Then(/^I should redirect to the show page for template$/) do 
 	current_path.should == template_path(@template)
 end

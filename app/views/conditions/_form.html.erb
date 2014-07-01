@@ -1,3 +1,10 @@
+<div class = "notice">
+  <%if @condition.errors.any? %>
+   <% @condition.errors.full_messages.each do |message| %>
+      <%= message %>
+    <% end%>
+  <% end%>
+</div>
 <%= form_for @condition, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
@@ -7,22 +14,41 @@
   </div>
   <div class="control-group">
     <%= f.label :prologue_pages, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :prologue_pages, :class => 'text_area' %>
-    </div>
+    <% index = 0 %>
+      <% 10.times do %>
+        <div class="controls">
+              <%= collection_select( :prologue_pages, :id, ::Template.all, :id, :name,
+                {prompt: 'None'}, 
+                {class: "form-control", id: "prologue_Pages#{index}", name: "condition[prologue_pages][]"}  ) %> 
+        </div>
+        <% index+=1 %>
+      <%end %>
   </div>
   <div class="control-group">
     <%= f.label :body_pages, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :body_pages, :class => 'text_area' %>
-    </div>
+    <% index = 0 %>
+      <% 10.times do %>
+        <div class="controls">
+            <%= collection_select( :body_pages, :id, ::Template.all, :id, :name,
+          {prompt: 'None'}, 
+          {class: "form-control", id: "body_Pages#{index}", name: "condition[body_pages][]"}  ) %> 
+        </div>
+        <% index+=1 %>
+      <% end %>
   </div>
   <div class="control-group">
     <%= f.label :epilogue_pages, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :epilogue_pages, :class => 'text_area' %>
-    </div>
+    <% index = 0 %>
+      <% 10.times do %> 
+        <div class="controls">
+             <%= collection_select( :epilogue_pages, :id, ::Template.all, :id, :name,
+          {prompt: 'None'}, 
+          {class: "form-control", id: "epilogue_Pages#{index}", name: "condition[epilogue_pages][]"}  ) %>       
+      </div>
+      <% index+=1 %>
+      <% end %>
   </div>
+  <br>
   <div class="control-group">
     <%= f.label :preferred_group_size, :class => 'control-label'  %>
     <div class="controls">

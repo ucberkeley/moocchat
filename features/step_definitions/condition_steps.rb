@@ -1,11 +1,11 @@
 Given /^a condition "(.*?)"$/ do |name|
-  @condition = create(:condition, :name => name, :prologue_pages => [create(:template)], :preferred_group_size => 3, :minimum_group_size => 1)
+  @condition = create(:condition, :name => name, :prologue_pages => [create(:template)])
 end
 
 Given(/^I start on the Edit Page for condition$/) do 
-	visit edit_condition_path(@c1)
+	visit edit_condition_path(@condition)
 end
 
-When(/^I filled in "(.*?)" for "(.*?)"$/) do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+Then(/^I should redirect to the show page for condition$/) do 
+	current_path.should == condition_path(@condition)
 end
