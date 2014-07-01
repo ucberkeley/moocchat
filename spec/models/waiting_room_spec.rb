@@ -15,18 +15,19 @@ describe WaitingRoom do
       expect { WaitingRoom.add @t }.to raise_error(WaitingRoom::TaskAlreadyWaitingError)
     end
     describe 'sets timer' do
-      # time_now, starts_every, time_until_emptying
-      [ 
-        [ "12:01:00 pm", 5, 4.minutes ],
-      ].each do |test_case|
-        time_now = Time.parse(test_case[0])
-        starts_every = test_case[1]
-        time_to_go =  test_case[2]
-        test_case_name = "to #{Time.at(time_to_go).strftime('%M:%S')} if it's #{time_now.strftime('%I:%M:%S')} and start every #{starts_every}"
-        test_case_name = "#{time_now} start every #{starts_every}"
-        specify test_case_name do
-          @t.activity_schema.update_attribute(:starts_every, starts_every)
-          WaitingRoom.add(@t).should == time_to_go
+      # for task starting every 5 mins, given current time, what should timer
+      # countdown be?
+      { 
+        "12:01:00 pm" => 4.minutes,
+        "12:01:45 pm" => 3.minutes + 15.seconds,
+        "12:04:58 pm" => 2.seconds,
+      }.each_pair do |now, time_to_go|
+        specify "to #{Time.at(time_to_go).strftime('%M:%S')} if it's #{now}" do
+          Timecop.freeze(now) do
+            a = create :activity_schema, :starts_every => 5
+            t = create :task, :activity_schema => a
+            WaitingRoom.add(t).should == time_to_go
+          end
         end
       end
     end
@@ -44,6 +45,11 @@ describe WaitingRoom do
           (create(:waiting_room, :activity_schema => a)).expires_at.
             should == Time.now.change(:min => minute_to_expire, :sec => 0) + rollover.hours
         end
+      end
+    end
+    it 'should be aligned on 1-minute boundary' do
+      Timecop.freeze(Time.now.change :sec => 27) do
+        (create :waiting_room).expires_at.sec.should == 0
       end
     end
   end
