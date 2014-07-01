@@ -1,4 +1,3 @@
-# encoding: UTF-8
 require 'spec_helper'
 
 describe TasksController do
@@ -6,10 +5,19 @@ describe TasksController do
     before :all do 
       @dummy_params = { :activity_schema_id => '0', :learner_name => 'x', :condition_id => '1' }
     end
-    it 'when successful redirects to task welcome page' do
-      Task.stub(:create_from_params).and_return(@t = mock_model(Task, :enabled? => true))
-      post :create, @dummy_params
-      response.should redirect_to task_welcome_path(@t)
+    describe 'when successful' do
+      it 'redirects to task welcome page' do
+        Task.stub(:create_from_params).and_return(@t = mock_model(Task, :enabled? => true))
+        post :create, @dummy_params
+        response.should redirect_to task_welcome_path(@t)
+      end
+      it 'adds the task to a waiting room' do
+        Task.stub(:create_from_params).and_return(@t = mock_model(Task, :enabled? => true))
+        WaitingRoom.should_receive(:add).with(@t)
+      end
+      it 'sets the timer based on waiting room processing interval' do
+        pending 'pending'
+      end
     end
     it 'when activity is not enabled shows an error' do
       Task.stub(:create_from_params).and_raise Task::ActivityNotOpenError

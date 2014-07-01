@@ -4,7 +4,10 @@
   <p> 
     Your activity <strong>"<%= @task.activity_schema.name %>"</strong>
     will start automatically in
-    <span class="timer">
-      <%= timer :submit => task_page_path(@task) %>
-    </span> minutes.
+    <%= form_for task_first_page_path(@task) do |f| %>
+      <span class="timer">
+        <%= timer %>
+      </span> minutes.
+      <input type="submit" id="_submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;">
+    <% end %>
   </p>
