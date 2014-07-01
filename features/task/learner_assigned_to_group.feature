@@ -1,3 +1,4 @@
+@wip
 Feature: assign learner to a chat group
 
   As a learner
@@ -15,13 +16,13 @@ Background:
 
 Scenario: learner assigned to a chat group
 
-  When the server assigns me to chat group "1,2,3"
   And the timer expires
-  Then I should see "Page 1"
+  When the server assigns me to chat group "1,2,3"
+  Then I should see "Page 1 of task"
 
 Scenario: learner not assigned to any chat group
 
-  When the server does not assign me to any chat group
   And the timer expires
+  When the server does not assign me to any chat group
   Then I should not see "Page 1"
   But I should see "Please try this activity again later"
