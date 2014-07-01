@@ -67,6 +67,12 @@ class Task < ActiveRecord::Base
   # counts by 1 as each new page is visited.
   delegate :counter, :to => :sequence_state
 
+  # Where we are in the condition flow (prologue, body, epilogue)
+  delegate :where, :to => :sequence_state
+
+  # Subcounter of where we are within the prologue/body/etc.
+  delegate :subcounter, :to => :sequence_state
+  
   # Returns the +Template+ object that should be rendered for the
   # current page in the task sequence.
   def current_page

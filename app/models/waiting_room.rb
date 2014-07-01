@@ -7,8 +7,8 @@ class WaitingRoom < ActiveRecord::Base
 
   # There is at most one waiting room for each
   # <ActivitySchema,Condition> pair.
-  belongs_to :condition
-  belongs_to :activity_schema
+  belongs_to :condition, :dependent => :destroy
+  belongs_to :activity_schema, :dependent => :destroy
   validates :condition_id, :uniqueness => {:scope => :activity_schema_id}
   validates_associated :condition
   validates_associated :activity_schema
@@ -58,7 +58,6 @@ class WaitingRoom < ActiveRecord::Base
   def self.process_all!
     WaitingRoom.where(['expires_at <= ?', Time.zone.now]).each do |wr|
       wr.process
-      wr.destroy
     end
   end
 
@@ -85,7 +84,7 @@ class WaitingRoom < ActiveRecord::Base
       rejects = leftovers.empty? ? [ ] : create_groups_of(condition.minimum_group_size, leftovers)
       # if there are any singletons now, they're rejects
       rejects.each { |t| t.assign_to_chat_group CHAT_GROUP_NONE }
-      self.reload
+      self.destroy
     end
   end
 

@@ -1,9 +1,13 @@
 class TasksController < ApplicationController
 
+  def static
+    # creates an anonymous form to fill in params that will be used in task#create
+  end
+
   def create
     begin
       @task = Task.create_from_params(params)
-      WaitingRoom.add @task
+      @timer = WaitingRoom.add @task
       redirect_to task_welcome_path(@task)
     rescue ActiveRecord::RecordNotFound => error
       Rails.logger.error error
@@ -13,26 +17,24 @@ class TasksController < ApplicationController
     end
   end
 
-  def static
-    # creates an anonymous form to fill in params that will be used in task#create
-  end
-
   def welcome
     @task = Task.find params[:id]
   end
 
-  def first_page
-    
+  def join_group
+    @task = Task.find params[:id]
+    WaitingRoom.process_all!
+    if @task.chat_group == WaitingRoom::CHAT_GROUP_NONE
+      render :action => 'sorry'
+      @task.destroy
+    else
+      redirect_to task_page_path(@task)
+    end
   end
   
   def page
     @task_id = params[:id]
     @task = Task.find @task_id
-    if @task.chat_group == WaitingRoom::CHAT_GROUP_NONE
-      render(:action => 'sorry')
-      @task.destroy
-      return
-    end
     @template = @task.current_page
     if @template.nil?
       redirect_to('/', :notice => 'No more pages left in task')

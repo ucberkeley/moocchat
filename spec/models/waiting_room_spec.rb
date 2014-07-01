@@ -108,6 +108,9 @@ describe WaitingRoom do
         it "should empty the waiting room" do
           @w.tasks.length.should == 0
         end
+        it "should give a nonblank chat_group to every task" do
+          @w.tasks.all { |task| task.chat_group.should_not be_blank }
+        end
       end
     end
   end
