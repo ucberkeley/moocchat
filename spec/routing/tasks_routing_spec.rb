@@ -23,5 +23,17 @@ describe TasksController do
     it 'routes to page render' do
       expect(:get => '/tasks/10/page').to route_to :controller => 'tasks', :action => 'page', :id => '10'
     end
+    it 'cannot post to page render' do
+      expect(:post => '/tasks/10/page').not_to be_routable
+    end
+    it 'routes to join-group page' do
+      expect(:post => '/tasks/9/join_group').to route_to :controller => 'tasks', :action => 'join_group', :id => '9'
+    end
+    it 'routes next-page action' do
+      expect(:post => '/tasks/9/next_page').to route_to :controller => 'tasks', :action => 'next_page', :id => '9'
+    end
+    it 'routes the error page' do
+      expect(:get => '/tasks/error').to route_to :controller => 'tasks', :action => 'error'
+    end
   end
 end
