@@ -45,9 +45,7 @@ FactoryGirl.define do
   factory :template do
     url nil
     html '<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
-<div class="counter"> Page <%= @counter %></div>
-<div class="question">Question <%= @question.id %></div>
-<div class="footer">  <%= "#{@task_id},#{@template_id},#{@counter}" %></div>
+<div class="debugging">  <%= "Page #{@counter} of task #{@task_id}" %></div>
 <%= form_for task_next_page_path(@task) do |f| %>
   <%= f.submit "Continue" %>
 <% end %>

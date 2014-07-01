@@ -37,15 +37,16 @@ template1 = Template.create! :name => 'Default', :html => <<EndOfPage
 <html>
   <head>
     <title>MOOCchat Default Template</title>
-    <link rel="stylesheet" type="text/css" href="/public/stylesheets/default.css" media="all"/>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
   </head>
   <body>
     <div id="main">
       <h1>Default Template</h1>
       <p>This is a MOOCchat default page template.</p>
     </div>
-    <div id="footer">
-      <p>Page ID: <%= @page_id %> </p>
+    <div id="footer" class="debugging">
+      Page <%= @counter %> (<%= @task.where %>:<%= @task.subcounter %>) of task <%= @task_id %>
     </div>
   </body>
 </html>
@@ -61,3 +62,5 @@ cohort = Cohort.create!(name: "Cohort 1")
 ActivitySchema.delete_all
 ActivitySchema.create!(name: "Quiz Review", cohort: cohort, enabled: true, randomized: false, num_questions: 1, tag: "Quiz Review", questions: [q1], start_time: Time.zone.now.midnight, end_time: Time.zone.now + 2.days, starts_every: 5)
 
+# delete any WaitingRooms, since they have foreign keys to activity schemas and conditions
+WaitingRoom.delete_all
