@@ -19,13 +19,14 @@ describe WaitingRoom do
       [ 
         [ "12:01:00 pm", 5, 4.minutes ],
       ].each do |test_case|
-        time_now = test_case[0]
+        time_now = Time.parse(test_case[0])
         starts_every = test_case[1]
         time_to_go =  test_case[2]
-        #test_case_name = "to #{Time.at(time_to_go).strftime('%M:%S')} if it's #{time_now.strftime('%I:%M:%S')} and start every #{starts_every}"
+        test_case_name = "to #{Time.at(time_to_go).strftime('%M:%S')} if it's #{time_now.strftime('%I:%M:%S')} and start every #{starts_every}"
         test_case_name = "#{time_now} start every #{starts_every}"
         specify test_case_name do
-          flunk  
+          @t.activity_schema.update_attribute(:starts_every, starts_every)
+          WaitingRoom.add(@t).should == time_to_go
         end
       end
     end
