@@ -21,4 +21,15 @@ class Condition < ActiveRecord::Base
   :less_than_or_equal_to => ->(condition) { condition.preferred_group_size },
   :message => 'must be between 1 and preferred group size'
   
+  validate :at_least_one_page?
+
+  def at_least_one_page?
+    a1=self.prologue_pages.size
+    a2=self.body_pages.size
+    a3=self.epilogue_pages.size
+    if !(a1 + a2 + a3 >0)
+      errors.add(:condition,'must at least contain a prologue_page,a body_page, or an epilogue_page') 
+    end
+  end
+
 end

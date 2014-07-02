@@ -1,4 +1,6 @@
 class ConditionsController < ApplicationController
+  include ConditionHelper
+
   # GET /conditions
   # GET /conditions.json
   def index
@@ -40,8 +42,14 @@ class ConditionsController < ApplicationController
   # POST /conditions
   # POST /conditions.json
   def create
+      #to handle the collection_select to object array
+      @prologue=params[:condition][:prologue_pages]
+      @body=params[:condition][:body_pages]
+      @epilogue=params[:condition][:epilogue_pages]
+      params[:condition][:prologue_pages] = array_for(@prologue) unless @prologue == nil
+      params[:condition][:body_pages] = array_for(@body) unless  @body == nil
+      params[:condition][:epilogue_pages] = array_for(@epilogue) unless @epilogue == nil 
     @condition = Condition.new(params[:condition])
-
     respond_to do |format|
       if @condition.save
         format.html { redirect_to @condition, notice: 'Condition was successfully created.' }
@@ -59,6 +67,15 @@ class ConditionsController < ApplicationController
     @condition = Condition.find(params[:id])
 
     respond_to do |format|
+
+      #to handle the collection_select to object array
+      @prologue=params[:condition][:prologue_pages]
+      @body=params[:condition][:body_pages]
+      @epilogue=params[:condition][:epilogue_pages]
+      params[:condition][:prologue_pages] = array_for(@prologue) unless @prologue == nil
+      params[:condition][:body_pages] = array_for(@body) unless  @body == nil
+      params[:condition][:epilogue_pages] = array_for(@epilogue) unless @epilogue == nil 
+      
       if @condition.update_attributes(params[:condition])
         format.html { redirect_to @condition, notice: 'Condition was successfully updated.' }
         format.json { head :no_content }

@@ -19,9 +19,24 @@
       <tr>
         <td><%= link_to condition.id, condition_path(condition) %></td>
         <td><%= condition.name %></td>
-        <td><%= condition.prologue_pages %></td>
-        <td><%= condition.body_pages %></td>
-        <td><%= condition.epilogue_pages %></td>
+        <td><% if condition.prologue_pages.any? %>
+              <% condition.prologue_pages.each do |elm| %>
+                <%= link_to elm.name, template_path(elm) %>
+              <%end%>
+            <%end%>
+        </td>
+        <td><% if condition.body_pages.any? %>
+              <% condition.body_pages.each do |elm| %>
+                <%= link_to elm.name, template_path(elm) %>
+              <%end%>
+            <%end%>
+        </td>
+        <td><% if condition.epilogue_pages.any? %>
+              <% condition.epilogue_pages.each do |elm| %>
+                <%= link_to elm.name, template_path(elm) %>
+              <%end%>
+            <%end%>
+        </td>
         <td><%=l condition.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
