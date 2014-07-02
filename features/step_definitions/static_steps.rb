@@ -1,5 +1,5 @@
 Given(/^I start on the Static Page$/) do 
-	visit root_path
+	visit static_path
 end
 
 Then(/^I should see a JS dialog saying "(.*?)"$/) do |statement|

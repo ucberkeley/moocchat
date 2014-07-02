@@ -1,7 +1,7 @@
 <h1>Welcome to MOOCchat</h1>
 
 <h3> Greetings, <%= @task.learner.name %>!</h3>
-<%= form_tag task_join_group_path(@task) do |f| %>
+<%= form_tag task_join_group_path(@task) do %>
   <p> 
     Your activity <strong>"<%= @task.activity_schema.name %>"</strong>
     will start automatically in
