@@ -1,0 +1,15 @@
+
+FILES = $(shell find app config features lib spec db/migrate -type f)
+
+TAGS: $(FILES)
+	@etags $(FILES) >/dev/null
+
+.PHONY: check
+check:
+	/bin/rm $(shell rails r -e development "puts Rails.configuration.database_configuration['development']['database']")
+	rake db:migrate
+	rake db:seed
+	rake db:test:prepare
+	rake spec
+	rake cucumber
+

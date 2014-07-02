@@ -20,3 +20,6 @@
 
 #Ignore the coverage
 /coverage
+
+# emacs tags table
+/TAGS
