@@ -8,9 +8,9 @@ Scenario: Step through task
 
   Given a task with a 2-page condition repeated 1 time
   When I visit the first page of that task
-  Then I should see "Page 1" within "div.counter"
+  Then I should see "Page 1" within "span.counter"
   When I press "Continue"
-  Then I should see "Page 2" within "div.counter"
+  Then I should see "Page 2" within "span.counter"
   When I press "Continue"
   Then I should be on the home page
 

@@ -43,9 +43,18 @@ FactoryGirl.define do
   end
 
   factory :template do
+    #
+    #  DO NOT REMOVE any of the stuff inside div.debugging, as it is used
+    #  by various Cucumber scenarios!  It's fine to add stuff there for your
+    #  own tests.
+    #
     url nil
     html '<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
-<div class="debugging counter">  <%= "Page #{@counter} of task #{@task_id}" %></div>
+<div class="debugging">
+  <span class="counter">Page <%= @counter %></span>
+  <span class="task_id">Task <%= @task_id %></span>
+  <span class="chat_group">Group <%= @chat_group %></span>
+</div>
 <%= form_tag task_next_page_path(@task) do %>
   <%= submit_tag "Continue" %>
 <% end %>

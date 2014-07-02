@@ -66,10 +66,12 @@ describe TasksController do
 
   it 'sets up template variables' do
     @task = create :task, :user_state => {'foo' => '1'}
+    @task.assign_to_chat_group 'some_group'
     get :page, :id => @task
     assigns(:task_id).to_i.should == @task.id
     assigns(:question).should be_a_kind_of Question
     assigns(:counter).should be > 0
+    assigns(:chat_group).should == 'some_group'
     assigns(:u).should be_a Hash
     assigns(:submit_to).should == task_next_page_path(@task)
   end
