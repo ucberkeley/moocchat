@@ -5,7 +5,7 @@
 # files.
 
 require 'cucumber/rails'
-
+require 'cucumber/rspec/doubles' # to selectively mock/stub in step defs
 require 'cucumber/timecop'      # to freeze time in scenarios
 
 # Capybara defaults to CSS3 selectors rather than XPath.

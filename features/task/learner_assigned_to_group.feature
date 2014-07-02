@@ -16,13 +16,12 @@ Background:
 
 Scenario: learner assigned to a chat group
 
-  And the timer expires
-  When the server assigns me to chat group "1,2,3"
-  Then I should see "Page 1 of task"
+  When the timer expires and the server assigns me to chat group "1,2,3"
+  Then I should see "Page 1" within "span.counter"
+  And I should see "Group 1,2,3" within "span.chat_group"
 
 Scenario: learner not assigned to any chat group
 
-  And the timer expires
-  When the server does not assign me to any chat group
+  When the timer expires and the server assigns me to no chat group
   Then I should not see "Page 1"
   But I should see "Please try this activity again later"
