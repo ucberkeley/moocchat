@@ -14,8 +14,8 @@ group :development, :test do
   gem 'sqlite3'
   gem 'debugger'
   gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
-  gem 'jasmine-rails'
   gem 'rspec-rails', '2.14.0'
+  gem 'jasmine-rails', '0.9.1'
   gem 'metric_fu'
 end
 
