@@ -1,14 +1,5 @@
 module ConditionHelper
-	def array_for(obj)
-		arr = Array.new
-		if obj != nil
-			obj.each do |val|
-		        if val.empty?
-		        else
-		          arr.push(Template.find_by_id(val))
-		        end
-	      	end
-	     end
-      	return arr
+	def array_for(things)
+		things.to_a.map { |id| Template.find_by_id(id) }.compact
 	end
 end
