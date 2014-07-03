@@ -26,7 +26,6 @@ Scenario: edit page, invalid conditions-starts time not align with boundary, Adm
 
   Given I start on the Edit Page for activity_schema
   When I fill in "15" for "activity_schema_starts_every"
-  And I select "06" from "activity_schema_start_time_5i"
-  And I select "27" from "activity_schema_end_time_5i"
+  And I select "06:27" as the "activity_schema_start_time" time
   And I press "Update Activity schema"
   Then I should see "Start time must align with an activity boundary (:00, :15, :30, etc.)"
