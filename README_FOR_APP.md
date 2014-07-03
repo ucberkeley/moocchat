@@ -24,12 +24,11 @@ database, populate its schema, and insert any initial data
 
 0. Before you do any merging:  go back to master and do a git pull to make sure you have latest master
 0. Then switch back into your branch and rebase against master, fixing any conflicts, and making sure all your tests are passing.
-0. Running `make check` will delete your development database (works
-correctly even if you are on a branch other than master) and will then run:
+0. Running `make check` will run the following, which "clean-tests" your branch:
 
 ```bash
 rm -rf tmp/      # deletes any cached assets
-rake db:migrate  # reconstructs DB "clean" from schema
+rake db:schema:load  # recreates fresh set of empty tables in DB
 rake db:seed     # loads fixed data
 rake db:test:prepare  # loads DB schema into test database
 rake cucumber    # runs all scenarios
