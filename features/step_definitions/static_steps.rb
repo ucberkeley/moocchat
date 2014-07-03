@@ -3,9 +3,16 @@ Given(/^I start on the Static Page$/) do
 end
 
 Then(/^I should see a JS dialog saying "(.*?)"$/) do |statement|
-   var = page.driver.browser.switch_to.alert.text
-   var == statement 
-   page.driver.browser.switch_to.alert.accept
-end
+   #selenium solution
+   #var = page.driver.browser.switch_to.alert.text 
+   #var == statement 
+   #page.driver.browser.switch_to.alert.accept
 
+   #phantom solution
+   page.execute_script("var page = this;" +
+             "page.onConfirm = function(msg) {" +
+                    "console.log('CONFIRM: ' + msg);"+
+                    "return msg==statement;" +
+             "};");
+end
 
