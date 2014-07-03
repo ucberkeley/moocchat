@@ -29,6 +29,7 @@ group :test do
   gem 'timecop'
   gem 'cucumber-timecop', :require => false   # for testing code that relies on time of day
   gem 'selenium-webdriver' #for the javascript in static page(and any other javascript check)
+  gem 'poltergeist'#used for headless-browser and js
 end
 
 group :production do
@@ -45,4 +46,3 @@ group :assets do
   gem 'twitter-bootstrap-rails' #added the static bootstrap css
   gem 'uglifier', '>= 1.0.3'
 end
-

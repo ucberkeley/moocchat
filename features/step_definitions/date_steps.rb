@@ -51,10 +51,16 @@ def id_prefix_for(options = {})
 end
 
 
-When /^(?:|I )select "([^\"]*)" as the "([^\"]*)" (date|time)$/ do |date, date_label, _|
-  select_date(date, :from => date_label)
+When /^(?:|I )select "([^\"]*)" as the "([^\"]*)" date$/ do |date, date_label|
+  select_date(date, :from => date_label)  
 end
 
+When /^(?:|I )select "([^\"]*)" as the "([^\"]*)" time$/ do |time, time_label|
+  hour = time[0,2]
+  minute = time[3,5]
+  select(hour, :from => time_label+"_4i")
+  select(minute, :from => time_label+"_5i")
+end
 
 # Variant for dates
 Then /^"(.*)" should be selected as the "(.*)" date$/ do |date,menu|
