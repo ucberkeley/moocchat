@@ -18,12 +18,12 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe ActivitySchemasController do
+describe ActivitySchemasController, :pending => true do
 
   # This should return the minimal set of attributes required to create a valid
   # ActivitySchema. As you add validations to ActivitySchema, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {:name => "Steven", :start_time => 1.day.from_now.midnight, :end_time => 3.days.from_now, :starts_every => 30  } }
+  let(:valid_attributes) { attributes_for(:activity_schema) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in

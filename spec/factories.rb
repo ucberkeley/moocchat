@@ -1,10 +1,11 @@
 FactoryGirl.define do
 
   factory :activity_schema do
-    cohort { build :cohort }
+    cohort { create :cohort }
     enabled true
     randomized false
     num_questions 1
+    questions { Array.new(num_questions) { create(:question) } }
     tag ''
     name 'activity'
     start_time 1.day.from_now.midnight
@@ -29,6 +30,13 @@ FactoryGirl.define do
     sequence(:name) { |n| "Learner#{n}" }
   end
 
+  factory :question do
+    sequence(:text) { |n| "Question #{n}" }
+    answers ["Wrong", "Wrong", "Right"]
+    correct_answer_index 2
+    explanation ""
+  end
+
   factory :task do
     ignore do
       num_questions 2
@@ -39,7 +47,7 @@ FactoryGirl.define do
     completed false
     user_state nil
     activity_schema { build :activity_schema, :num_questions => num_questions }
-    sequence_state { Task::Sequencer.new(self.activity_schema.num_questions) }
+    sequence_state { Task::Sequencer.new(num_questions) }
   end
 
   factory :template do
