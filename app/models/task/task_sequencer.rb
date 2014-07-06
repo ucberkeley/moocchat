@@ -74,6 +74,7 @@ class Task < ActiveRecord::Base
     # Advance to next question, but pin if no more questions.
     def next_question
       @question_counter += 1 unless @question_counter == @total_reps-1
+      @body_reps -= 1 unless @body_reps.zero?
     end
 
     private
