@@ -64,6 +64,17 @@ describe TasksController do
     end
   end
 
+  describe 'next_question field' do
+    before :each do ; @task = create :task ; end
+    it 'advances to next question if nonblank' do
+      expect { post :next_page, :id => @task, :next_question => 'true' }.
+        to change { @task.reload.question_counter }.by(1)
+    end
+    it 'does not change question if blank' do
+      expect { post :next_page, :id => @task }.not_to change { @task.reload.question_counter }
+    end
+  end
+
   it 'sets up template variables' do
     @task = create :task, :user_state => {'foo' => '1'}
     @task.assign_to_chat_group 'some_group'

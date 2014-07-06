@@ -55,6 +55,8 @@ class TasksController < ApplicationController
     # save any user state posted by template; if none provided, don't overwrite
     @task.update_attribute(:user_state, params[:u].stringify_keys) if params[:u]
     @task.next_page!
+    # if 'next_question' field is nonblank, advance question counter
+    @task.next_question! if !params[:next_question].blank?
     if @task.current_page
       redirect_to task_page_path(@task)
     else
