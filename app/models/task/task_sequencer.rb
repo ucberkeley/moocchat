@@ -16,13 +16,20 @@ class Task < ActiveRecord::Base
     # starts from 1
     attr_reader :counter
 
+    # Current index into which question from +ActivitySchema+ will be
+    # served next.  Advanced by {#next_question}.  Pins when it reaches
+    # the last question in +ActivitySchema+.
+    attr_reader :question_counter
+
     # Current position within prologue, body, or epilogue (starts at 0)
     attr_reader :subcounter
 
     def initialize(body_reps=0)     # :nodoc:
+      @total_reps = body_reps
       @body_reps = body_reps
       @counter = 1
       @subcounter = 0
+      @question_counter = 0
       @where = :in_prologue
     end
 
@@ -62,6 +69,11 @@ class Task < ActiveRecord::Base
     def next_page
       @subcounter += 1
       @counter += 1
+    end
+
+    # Advance to next question, but pin if no more questions.
+    def next_question
+      @question_counter += 1 unless @question_counter == @total_reps-1
     end
 
     private

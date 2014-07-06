@@ -32,6 +32,9 @@ describe Task::Sequencer do
       test_result.should == result
     end
   end
+  it 'advances thru body only as long as there are questions' do
+    flunk
+  end
   it 'remains nil when done' do
     condition = mock_model(Condition,
       :prologue_pages => [], :body_pages => %w(a b), :epilogue_pages => [])

@@ -67,6 +67,9 @@ class Task < ActiveRecord::Base
   # counts by 1 as each new page is visited.
   delegate :counter, :to => :sequence_state
 
+  # Which question from the +ActivitySchema+ is to be served next (0-based)
+  delegate :question_counter, :to => :sequence_state
+
   # Where we are in the condition flow (prologue, body, epilogue)
   delegate :where, :to => :sequence_state
 
@@ -91,6 +94,13 @@ class Task < ActiveRecord::Base
     self.reload.current_page
   end
 
+  # Advance to next question
+  def next_question!
+    sequence_state.next_question
+    save!
+    reload
+  end
+
   # Assign this task to a particular chat group.  As a side effect, this removes the task
   # from its waiting room.
   def assign_to_chat_group(group)
@@ -101,7 +111,7 @@ class Task < ActiveRecord::Base
 
   # Returns the next question to be consumed for the task.
   def current_question
-    Question.new
+    activity_schema.questions[question_counter]
   end
 end
 
