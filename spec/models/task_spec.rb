@@ -4,7 +4,7 @@ describe Task do
 
   describe 'creating' do
     it 'delegates :counter attribute' do
-      (create :task).counter.should == 1
+      (create :task).counter.should == 0
     end
     describe '2-page sequence' do
       before :each do
@@ -12,14 +12,14 @@ describe Task do
         @task.condition.body_pages = [create(:template), create(:template)]
         @task.save!
       end
-      it 'starts at 1' do ; @task.counter.should == 1 ; end
+      it 'starts at 0' do ; @task.counter.should == 0 ; end
       it 'yields non-nil page' do ; @task.current_page.should be_a Template ; end
       describe 'when advanced & reloaded' do
         before :each do
           @task.next_page!
           @task.reload
         end
-        it 'counts to 2' do ; @task.counter.should == 2 ; end
+        it 'counts' do ; @task.counter.should == 1 ; end
       end
       describe 'when advanced twice' do
         before :each do

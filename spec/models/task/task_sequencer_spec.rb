@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Task::Sequencer do
   describe 'initializing' do
     subject { Task::Sequencer.new(:body_repeat_count => 3, :num_questions => 3) }
-    its(:counter) { should == 1 }
+    its(:counter) { should == 0 }
     its(:where)   { should == :in_prologue }
     its(:subcounter) { should == 0 }
   end

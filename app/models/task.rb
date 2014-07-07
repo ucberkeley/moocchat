@@ -62,7 +62,7 @@ class Task < ActiveRecord::Base
       )
   end
 
-  # The counter starts at 1 on the first page of the task and
+  # The counter starts at 0 on the first page of the task and
   # counts by 1 as each new page is visited.
   delegate :counter, :to => :sequence_state
 

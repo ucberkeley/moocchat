@@ -13,7 +13,7 @@ class Task < ActiveRecord::Base
     attr_reader :where
 
     # Current value of monotonically increasing sequence counter, which
-    # starts from 1
+    # starts from 0
     attr_reader :counter
 
     # Current index into which question from +ActivitySchema+ will be
@@ -27,7 +27,7 @@ class Task < ActiveRecord::Base
     def initialize(args={})     # :nodoc:
       @body_reps = args[:body_repeat_count] || 1
       @num_questions = args[:num_questions] || 1
-      @counter = 1
+      @counter = 0
       @subcounter = 0
       @question_counter = 0
       @where = :in_prologue
