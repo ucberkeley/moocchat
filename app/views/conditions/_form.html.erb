@@ -26,7 +26,9 @@
   </div>
   <div class="control-group">
     <%= f.label :body_repeat_count, :class => 'control-label' %>
-    <%= f.text_field :body_repeat_count, :class => 'text_field' %>
+    <div class="controls">
+      <%= f.number_field :body_repeat_count, :class => 'number_field' %>
+    </div>
   </div>
   <div class="control-group">
     <%= f.label :body_pages, :class => 'control-label' %>

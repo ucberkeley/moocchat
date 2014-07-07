@@ -1,4 +1,3 @@
-@wip
 Feature: Create Condition as Administrator
 
   As an Administrator
@@ -46,5 +45,6 @@ Scenario: Create a condition, duplicate name,Administrator
 
 Scenario: Create a condition, invalid number of pages,Administrator
   When I fill in "Robert" for "condition_name"
+  And I fill in "1" for "condition_body_repeat_count"
   And I press "Create Condition"
-  Then I should see "Condition must at least contain a prologue_page,a body_page, or an epilogue_page"
+  Then I should see "Body pages must contain at least 1 page"
