@@ -22,16 +22,31 @@ User Roles:
 
 Objects:
 
-* A Question is an opportunity for a learner to respond to something,
-  via multiple choice, open ended text, or whatever.
-* An Activity Schema is a list of Questions that may feature some peer
-  instruction, for example, a quiz review session.
-* A Condition describes how a learner or group of learners interacts
-  with an Activity Schema (set of questions).  The Condition consists of a
-  set of page views based on Templates.  Specifically, a condition
-  consists of a sequence of zero or more prologue pages, a sequence of one
-  or more body pages that is repeated for each question in the Activity
-  Schema, and a sequence of zero or more epilogue pages.
+A Question is an opportunity for a learner to respond to something,
+via multiple choice, open ended text, or whatever.
+
+An Activity Schema is a list of Questions that may feature some peer
+instruction, for example, a quiz review session.
+
+A Condition describes how a learner or group of learners interacts
+with an Activity Schema (set of questions).  The Condition consists of a
+set of page views based on Templates.  Specifically, a condition
+consists of:
+
+* a sequence of zero or more prologue pages (e.g., instructions to the
+learner) 
+* a sequence of one or more body pages
+* a repeat count for the number of times the body sequence is to be repeated
+* a sequence of zero or more epilogue pages.
+
+Each template in the body can specify whether to advance the question
+counter or not, to consume successive questions from the Activity
+Schema.  It is the experimenter's responsibility to ensure there are
+enough questions.  For example, suppose the body contains two pages, 
+each page consumes a question, and the body is to be repeated five
+times.  Then the Activity Schema should contain at least ten questions
+to avoid repetition.  (The question counter will wrap around to the
+beginning of the question list if it runs out of questions.)
 
 = Creating Templates
 
@@ -42,7 +57,7 @@ cut-and-paste the HTML.
 You can incorporate inline CSS styles in the template, or use a <tt><link></tt>
 element to point to an external stylesheet.
 
-HOWEVER, IT IS VERY IMPORTANT that every template include the following
+**HOWEVER, IT IS VERY IMPORTANT** that every template include the following
 inside the <tt>head</tt> element:
 
     <%= javascript_include_tag "application" %>

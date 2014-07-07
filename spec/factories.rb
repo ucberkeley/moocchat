@@ -72,7 +72,13 @@ FactoryGirl.define do
     url nil
     name 'test'
     html { %Q{
-<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
+<!DOCTYPE html>
+<html>
+<head>
+  <%= javascript_include_tag 'application' %>
+  <title>Page <%= @counter %></title>
+</head>
+<body>
 <div class="debugging">
   <span class="task_id">Task <%= @task_id %></span>
   <span class="counter">Page <%= @counter %></span>
