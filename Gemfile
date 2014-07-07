@@ -13,6 +13,7 @@ gem 'foreman'
 group :development, :test do
   gem 'sqlite3'
   gem 'debugger'
+  gem 'factory_girl_rails'
   gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
   gem 'rspec-rails', '2.14.0'
   gem 'jasmine-rails', '0.9.1'
@@ -24,7 +25,6 @@ group :test do
   gem 'cucumber-rails-training-wheels'          # basic web steps like "I should see..."
   gem 'database_cleaner' # required by Cucumber
   gem 'autotest-rails'
-  gem 'factory_girl_rails'
   gem 'simplecov', :require => false
   gem 'timecop'
   gem 'cucumber-timecop', :require => false   # for testing code that relies on time of day
