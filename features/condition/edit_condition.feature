@@ -1,4 +1,3 @@
-@wip
 Feature: Update Condition as Administrator
 
   As an Administrator
@@ -13,7 +12,7 @@ Scenario: edit page, valid conditions, Administrator
 
   Given I start on the Edit Page for condition
   And I fill in "Steven" for "condition_name"
-  And I select "Default" from "prologue_Pages0"
+  And I select "Default" from "body_Pages0"
   And I press "Update Condition"
   Then I should redirect to the show page for condition
-  And I should see "Steven" 
+  And I should see "Condition was successfully updated." 

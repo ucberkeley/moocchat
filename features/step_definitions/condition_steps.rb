@@ -1,5 +1,5 @@
 Given /^a condition "(.*?)"$/ do |name|
-  @condition = create(:condition, :name => name, :prologue_pages => [create(:template)])
+  @condition = create(:condition, :name => name, :body_repeat_count => 1,:prologue_pages => [create(:template)])
 end
 
 Given(/^I start on the Edit Page for condition$/) do 
