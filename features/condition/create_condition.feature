@@ -12,6 +12,7 @@ Background:
 
 Scenario: Create a condition, valid conditions,Administrator
   When I fill in "Robert" for "condition_name"
+  And I fill in "1" for "Body repeat count"
   And I select "Default" from "prologue_Pages0"
   And I select "Default" from "body_Pages1"
   And I select "Default" from "epilogue_Pages4"

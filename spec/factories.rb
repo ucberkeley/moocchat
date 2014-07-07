@@ -1,3 +1,11 @@
+# To test out factories in console, start with
+#   rails console --sandbox
+# and in console say
+#   include FactoryGirl::Syntax::Methods
+# You can then say stuff like
+#  task = create(:task)
+# Note that you have to restart console if you modify this file.
+
 FactoryGirl.define do
 
   factory :activity_schema do
@@ -24,6 +32,7 @@ FactoryGirl.define do
     prologue_pages []
     body_pages { [create(:template)] }
     epilogue_pages []
+    body_repeat_count 1
   end
 
   factory :learner do
@@ -40,34 +49,42 @@ FactoryGirl.define do
   factory :task do
     ignore do
       num_questions 2
+      body_repeat_count 1
     end
-    learner { build :learner }
-    condition { build(:condition) }
+    learner { create :learner }
+    condition { create :condition, :body_repeat_count => body_repeat_count }
+    activity_schema { build :activity_schema, :num_questions => num_questions }
+    sequence_state { Task::Sequencer.new(:body_repeat_count => body_repeat_count, :num_questions => num_questions) }
     chat_group nil
     completed false
     user_state nil
-    activity_schema { build :activity_schema, :num_questions => num_questions }
-    sequence_state { Task::Sequencer.new(num_questions) }
   end
 
   factory :template do
+    ignore do
+      next_question ''
+    end
     #
     #  DO NOT REMOVE any of the stuff inside div.debugging, as it is used
     #  by various Cucumber scenarios!  It's fine to add stuff there for your
     #  own tests.
     #
     url nil
-    html '<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
+    name 'test'
+    html { %Q{
+<!DOCTYPE html><html><head><title>Page <%= @counter %></title></head><body>
 <div class="debugging">
-  <span class="counter">Page <%= @counter %></span>
   <span class="task_id">Task <%= @task_id %></span>
-  <span class="chat_group">Group <%= @chat_group %></span>
+  <span class="counter">Page <%= @counter %></span>
+  <span class="subcounter">Subcounter <%= @subcounter %></span>
+  <span class="question">Question <%= @question_counter %></span>
+  <span class="chat_group">Chat group <%= @chat_group %></span>
 </div>
 <%= form_tag task_next_page_path(@task) do %>
+  <input type="hidden" name="next_question" value="#{next_question}">
   <%= submit_tag "Continue" %>
 <% end %>
-</body></html>'
-    name 'test'
+</body></html>} }
   end
 
   factory :waiting_room do

@@ -80,10 +80,12 @@ describe TasksController do
     @task.assign_to_chat_group 'some_group'
     get :page, :id => @task
     assigns(:task_id).to_i.should == @task.id
-    assigns(:question).should be_a_kind_of Question
-    assigns(:counter).should be > 0
+    assigns(:question).should be_a Question
+    assigns(:counter).should be_an_integer
+    assigns(:subcounter).should be_an_integer
+    assigns(:question_counter).should be_an_integer
     assigns(:chat_group).should == 'some_group'
-    assigns(:u).should be_a Hash
+    assigns(:u).should == {'foo' => '1'}
     assigns(:submit_to).should == task_next_page_path(@task)
   end
 end

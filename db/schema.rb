@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140619200002) do
+ActiveRecord::Schema.define(:version => 20140706234812) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20140619200002) do
     t.text     "epilogue_pages"
     t.integer  "preferred_group_size"
     t.integer  "minimum_group_size"
+    t.integer  "body_repeat_count"
   end
 
   create_table "event_logs", :force => true do |t|

@@ -10,26 +10,22 @@ class Condition < ActiveRecord::Base
   MAX_ALLOWABLE_GROUP_SIZE = 20
 
   # Human-friendly name for the condition or experiment; must be unique
-  attr_accessible :name, :prologue_pages, :body_pages, :epilogue_pages,:preferred_group_size, :minimum_group_size
+  attr_accessible :name, :prologue_pages, :body_pages, :epilogue_pages,:preferred_group_size, :minimum_group_size, :body_repeat_count
   validates_presence_of :name
   validates_uniqueness_of :name
-  validates_numericality_of :preferred_group_size,
-  :greater_than_or_equal_to => 1,
-  :less_than_or_equal_to => MAX_ALLOWABLE_GROUP_SIZE
-  validates_numericality_of :minimum_group_size,
-  :greater_than_or_equal_to => 1,
-  :less_than_or_equal_to => ->(condition) { condition.preferred_group_size },
-  :message => 'must be between 1 and preferred group size'
+  validates_numericality_of(:preferred_group_size,
+    :greater_than_or_equal_to => 1,
+    :less_than_or_equal_to => MAX_ALLOWABLE_GROUP_SIZE)
+  validates_numericality_of(:minimum_group_size,
+    :greater_than_or_equal_to => 1,
+    :less_than_or_equal_to => ->(condition) { condition.preferred_group_size },
+    :message => 'must be between 1 and preferred group size')
+  validates_numericality_of :body_repeat_count, :greater_than_or_equal_to => 1
   
-  validate :at_least_one_page?
+  validate :at_least_one_body_page?
 
-  def at_least_one_page?
-    a1=self.prologue_pages.size
-    a2=self.body_pages.size
-    a3=self.epilogue_pages.size
-    if !(a1 + a2 + a3 >0)
-      errors.add(:condition,'must at least contain a prologue_page,a body_page, or an epilogue_page') 
-    end
+  def at_least_one_body_page?
+    errors.add(:body_pages, 'must contain at least 1 page') if body_pages.empty?
   end
 
 end

@@ -52,14 +52,13 @@ class Task < ActiveRecord::Base
 
     raise ActivityNotOpenError unless activity_schema.enabled?
     
-
     @t = Task.create!(
       :condition => condition,
       :learner => learner,
       :completed => false,
       :chat_group => nil,
       :activity_schema => activity_schema,
-      :sequence_state => Sequencer.new(activity_schema.num_questions)
+      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count, :num_questions => activity_schema.num_questions)
       )
   end
 

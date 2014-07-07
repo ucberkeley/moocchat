@@ -24,9 +24,9 @@ class Task < ActiveRecord::Base
     # Current position within prologue, body, or epilogue (starts at 0)
     attr_reader :subcounter
 
-    def initialize(body_reps=0)     # :nodoc:
-      @total_reps = body_reps
-      @body_reps = body_reps
+    def initialize(args={})     # :nodoc:
+      @body_reps = args[:body_repeat_count] || 1
+      @num_questions = args[:num_questions] || 1
       @counter = 1
       @subcounter = 0
       @question_counter = 0
@@ -73,8 +73,7 @@ class Task < ActiveRecord::Base
 
     # Advance to next question, but pin if no more questions.
     def next_question
-      @question_counter += 1 unless @question_counter == @total_reps-1
-      @body_reps -= 1 unless @body_reps.zero?
+      @question_counter = (@question_counter + 1) % @num_questions
     end
 
     private
