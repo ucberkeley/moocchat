@@ -1,6 +1,7 @@
 class ActivitySchema < ActiveRecord::Base
   include HasManyInline
   has_many :tasks
+  has_many :event_logs
   belongs_to :cohort
 
   # Minimum interval between experiment starts, in minutes

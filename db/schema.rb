@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140706234812) do
+ActiveRecord::Schema.define(:version => 20140707200744) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -57,11 +57,25 @@ ActiveRecord::Schema.define(:version => 20140706234812) do
   end
 
   create_table "event_logs", :force => true do |t|
-    t.integer  "tasks_id"
     t.text     "value"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",         :null => false
+    t.string   "name"
+    t.integer  "counter"
+    t.integer  "subcounter"
+    t.integer  "question_counter"
+    t.string   "chat_group"
+    t.integer  "question_id"
+    t.integer  "task_id"
+    t.integer  "learner_id"
+    t.integer  "activity_schema_id"
+    t.integer  "condition_id"
   end
+
+  add_index "event_logs", ["activity_schema_id"], :name => "index_event_logs_on_activity_schema_id"
+  add_index "event_logs", ["condition_id"], :name => "index_event_logs_on_condition_id"
+  add_index "event_logs", ["learner_id"], :name => "index_event_logs_on_learner_id"
+  add_index "event_logs", ["question_id"], :name => "index_event_logs_on_question_id"
+  add_index "event_logs", ["task_id"], :name => "index_event_logs_on_task_id"
 
   create_table "questions", :force => true do |t|
     t.datetime "created_at",           :null => false
