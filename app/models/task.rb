@@ -112,6 +112,25 @@ class Task < ActiveRecord::Base
   def current_question
     activity_schema.questions[question_counter]
   end
+
+  # Log an interesting event related to this task. Denormalize the various
+  # foreign key fields - see README.rdoc for details.  Some event names
+  # require a value; enforcing that is left to the +EventLog+ validations.
+  def log(name, value='')
+    EventLog.create!(
+      :name => name.to_sym,
+      :value => value,
+      :task => self,
+      :learner => self.learner,
+      :activity_schema => self.activity_schema,
+      :condition => self.condition,
+      :counter => self.counter,
+      :subcounter => self.subcounter,
+      :question_counter => self.question_counter,
+      :question => self.current_question,
+      :chat_group => self.chat_group)
+  end
+
 end
 
 

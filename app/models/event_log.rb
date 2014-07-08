@@ -12,6 +12,9 @@ class EventLog < ActiveRecord::Base
   # Events MAY be associated with a question, but aren't always.
   belongs_to :question
   attr_accessible :question
+
+  # other event attributes
+  attr_accessible :counter, :subcounter, :question_counter, :chat_group
   
   # Only certain event names are valid.
   EVENTS_WITH_VALUES = [:continue, :proceed, :user_data, :chat]

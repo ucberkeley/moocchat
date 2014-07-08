@@ -96,4 +96,14 @@ describe Task do
   describe 'user state' do
     
   end
+
+  describe 'logging' do
+    it 'valid events' do
+      (create :task).log('start')
+    end
+    it 'invalid event type raises RecordInvalid' do
+      expect { (create :task).log('blah') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
+
 end
