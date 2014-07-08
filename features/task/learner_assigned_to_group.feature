@@ -18,9 +18,19 @@ Scenario: learner assigned to a chat group
   When the timer expires and the server assigns me to chat group "1,2,3"
   Then I should see "Page 0" within "span.counter"
   And I should see "Chat group 1,2,3" within "span.chat_group"
+  And the following log entries should exist for that task in this order:
+  | name       | chat_group | counter |
+  | start      |            |         |
+  | form_group | 1,2,3      |         |
+  | view_page  | 1,2,3      |       0 |
 
 Scenario: learner not assigned to any chat group
 
   When the timer expires and the server assigns me to no chat group
   Then I should not see "Page 0"
   But I should see "Please try this activity again later"
+  And the following log entries should exist for that task in this order:
+  | name   |
+  | start  |
+  | reject |
+

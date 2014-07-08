@@ -9,10 +9,10 @@ class DummyDatabase < ActiveRecord::Base
 end
 
 def setup_db
-  # ActiveRecord::Schema.define(:version => 1) do
-  #   create_table :test_owners, :force => true do |t| ; t.text :things ; end
-  #   create_table :things, :force => true do |t| ; t.string :name ; end
-  # end
+  ActiveRecord::Schema.define(:version => 1) do
+    create_table :test_owners, :force => true do |t| ; t.text :things ; end
+    create_table :things, :force => true do |t| ; end
+  end
 end
 
 describe HasManyInline, :pending => true do
@@ -20,10 +20,8 @@ describe HasManyInline, :pending => true do
   before :all do ; setup_db ; end
 
   class Thing < DummyDatabase
-    establish_connection DUMMY_DB
   end
   class TestOwner < DummyDatabase
-    establish_connection DUMMY_DB
     include HasManyInline
     has_many_inline :things
   end
@@ -49,6 +47,9 @@ describe HasManyInline, :pending => true do
       it { should be_a_kind_of Array }
       it { should be_empty }
     end
-    it 'setter' 
+    describe 'setter' do
+      subject { TestOwner.new }
+      it { should respond_to('things=') }
+    end
   end
 end

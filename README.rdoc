@@ -314,19 +314,19 @@ Each row of the table has the following attributes:
   channel name.
 
 <tt>name, value</tt>::
-  +event_name+ is a lower_snake_case string indicating what event
-  happened.  A few events also have a string +event_value+, indicated here in
-  parentheses; for events with no value, the +event_value+ column is blank:
+  +name+ is a lower_snake_case string indicating what event
+  happened.  A few events also have a string +value+, as indicated below; 
+  for events with no value, the +value+ column is blank:
 
 0. +start+ start new activity
 0. +reject+ learner must quit since not enough other learners to chat),
 0. +abandon+ voluntarily abandonment of task (closed browser, etc.) - assuming we can reliably detect
 0. +broken_pipe+ involuntary abandonment of task, eg network failure - assuming we can reliably detect
-0. +finish+  complete activity
-0. +form_chat_group+  get placed in a chat group
-0. <tt>continue(counter)</tt> learner clicks "Continue"; counter is which page in task (starting from 1 for first prologue page) she was viewing
-0. <tt>proceed(counter)</tt> after clicking Continue and waiting for peers, learner moves on to next page.  Typically a +continue(n)+ event would be followed shortly after by <tt>proceed(n+1)</tt>.
-0. <tt>user_data(key,new_data)</tt> Learner modifies user data in any way, even while still on page.  Since user data is a set of key-value pairs per user, if the learner modifies multiple data items, an event will be logged for **each** modified item.  
-0. <tt>chat(utterance)</tt> say something during chat
+0. +form_group+  get placed in a chat group
+0. +continue+ learner clicks "Continue"; value of +counter+ field is which page in task (starting from 0 for first prologue page) she was continuing **from**
+0. +view_page+ after clicking Continue and waiting for peers, learner is served the next page.  Typically a +continue+ event with +counter+ value n would be followed shortly after by a +proceed+ event with counter value n+1.
+0. +finish+  complete activity by exiting from its final page
+0. +user_data+ Sets +value+ to "key,new_data": learner modifies user data in any way, even while still on page.  Since user data is a set of key-value pairs per user, if the learner modifies multiple data items, an event will be logged for **each** modified item.  The key is guaranteed not to contain commas, so splitting this string on the first comma will always reconstruct the original +key+ and +new_data+.
+0. +chat+: sets +value+ to what this user just typed in chat box
 0. +quit_chat+ vote to stop chatting
 0. +rejoin_chat+ undo (cancel) a previous vote to stop chatting

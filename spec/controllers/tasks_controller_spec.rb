@@ -23,6 +23,11 @@ describe TasksController do
         post :create, @dummy_params
         assigns(:timer).should == 53
       end
+      it 'logs the creation of the task' do
+        WaitingRoom.stub(:add)
+        expect(@t).to receive(:log).with(:start)
+        post :create, @dummy_params
+      end
     end
     it 'when activity is not enabled shows an error' do
       Task.stub(:create_from_params).and_raise Task::ActivityNotOpenError

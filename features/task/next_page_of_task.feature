@@ -13,4 +13,9 @@ Scenario: Step through task
   Then I should see "Page 1" within "span.counter"
   When I press "Continue"
   Then I should be on the home page
-
+  And the following log entries should exist for that task in this order:
+   | name      | counter |
+   | start     |         |
+   | view_page |       0 |
+   | view_page |       1 |
+   | finish    |         |

@@ -17,9 +17,9 @@ class EventLog < ActiveRecord::Base
   attr_accessible :counter, :subcounter, :question_counter, :chat_group
   
   # Only certain event names are valid.
-  EVENTS_WITH_VALUES = [:continue, :proceed, :user_data, :chat]
+  EVENTS_WITH_VALUES = [:user_data, :chat]
   EVENTS = [:start, :reject, :abandon, :broken_pipe, :finish,
-    :form_chat_group, :quit_chat, :rejoin_chat]
+    :continue, :view_page, :form_group, :quit_chat, :rejoin_chat]
 
   attr_accessible :name
   validates_inclusion_of :name, :in => EVENTS + EVENTS_WITH_VALUES

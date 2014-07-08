@@ -8,6 +8,7 @@ class TasksController < ApplicationController
     begin
       @task = Task.create_from_params(params)
       @timer = WaitingRoom.add @task
+      @task.log(:start)
       redirect_to task_welcome_path(@task)
     rescue ActiveRecord::RecordNotFound => error
       Rails.logger.error error
@@ -26,8 +27,9 @@ class TasksController < ApplicationController
     WaitingRoom.process_all!
     if @task.chat_group == WaitingRoom::CHAT_GROUP_NONE
       render :action => 'sorry'
-      @task.destroy
+      @task.log :reject
     else
+      @task.log :form_group
       redirect_to task_page_path(@task)
     end
   end
@@ -49,6 +51,7 @@ class TasksController < ApplicationController
     @u = @task.user_state || {}
     # HTML text that will be injected into generic uber-template
     @html = @template.html
+    @task.log :view_page
     render :inline => @html, :layout => false
   end
 
@@ -62,6 +65,7 @@ class TasksController < ApplicationController
     if @task.current_page
       redirect_to task_page_path(@task)
     else
+      @task.log :finish
       redirect_to '/'
     end
   end
