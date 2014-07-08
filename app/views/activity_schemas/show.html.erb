@@ -22,6 +22,17 @@
   <dd><%= @activity_schema.end_time %></dd>
   <dt><strong><%= model_class.human_attribute_name(:starts_every) %>:</strong></dt>
   <dd><%= @activity_schema.starts_every %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:questions) %> selected:</strong>
+  <dd><% if @activity_schema.questions.any? %>
+          <% index =1 %>
+          <% @activity_schema.questions.each do |elm| %>
+            <%="Q "+ index.to_s+":" %>
+            <%= link_to elm.text, question_path(elm) %>
+            <br>
+            <% index = index +1 %>
+          <%end%>
+      <%end%>
+  </dd>
 
 </dl>
 
