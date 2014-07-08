@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   def create
     begin
       @task = Task.create_from_params(params)
-      @timer = WaitingRoom.add @task
+      @timer = session[:timer] = WaitingRoom.add @task
       @task.log(:start)
       redirect_to task_welcome_path(@task)
     rescue ActiveRecord::RecordNotFound => error
@@ -19,6 +19,9 @@ class TasksController < ApplicationController
   end
 
   def welcome
+    unless (@timer = session[:timer])
+      redirect_to :action => 'sorry', :notice => 'Timer value was not found.'
+    end
     @task = Task.find params[:id]
   end
 

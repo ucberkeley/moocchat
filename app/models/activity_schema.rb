@@ -5,7 +5,7 @@ class ActivitySchema < ActiveRecord::Base
   belongs_to :cohort
 
   # Minimum interval between experiment starts, in minutes
-  MINIMUM_INTERVAL_BETWEEN_EXPERIMENTS = 5
+  MINIMUM_INTERVAL_BETWEEN_EXPERIMENTS = 2
 
   # Human friendly name for the activity schema.
   attr_accessible :name

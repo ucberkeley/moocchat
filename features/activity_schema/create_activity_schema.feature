@@ -33,7 +33,7 @@ Scenario: Create a activity schema, starts every less than 5, Administrator
   And I select "05:00" as the "activity_schema_end_time" time
   And I fill in "1" for "activity_schema_starts_every" 
   And I press "Create Activity schema"
-  Then I should see "Starts every must be greater than or equal to 5"
+  Then I should see "Starts every must be greater than or equal to 2"
 
 Scenario: Create a activity schema, missing name, Administrator
   When I fill in "1" for "activity_schema_cohort_id"
