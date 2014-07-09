@@ -96,36 +96,30 @@ describe Task do
   describe 'chat group name' do
     # create tasks with id's 200, 300, 800 to use in this test
     before :each do
-      TASK_IDS = [200,300,800]
-      @tasks = Array.new(3) do |i|
-        t = create(:task)
-        Task.connection.execute(
-          "UPDATE tasks SET id=#{TASK_IDS[i]} WHERE id=#{t.id}")
-        t
-      end
-    end
-    # list of tasks, chat channel, indices
-    [
-      [300,200,800], '200,300,800', [1,0,2],
-      [200,300,800] , '200,300,800', [0,1,2],
-      [300], '300', [0]
-    ].each_slice(3) do |test_case|
-      task_ids, group, indices = test_case
-      it "is formed by sorting #{task_ids}" do
-        list = Task.find task_ids
-        Task.chat_group_name_from_tasks(list).should == group
-      end
-    end
-    it "retrieves learner index" do
       @tasks = Array.new(3) { create :task }
       @group = Task.chat_group_name_from_tasks(@tasks)
-      @tasks.each_with_index do |task,i|
-        task.learner_index(@group).should == i
+      @tasks.each { |t| t.assign_to_chat_group @group }
+    end
+    it 'forms group from sorted and unsorted task IDs' do
+      Task.chat_group_name_from_tasks(@tasks.reverse).should == @group
+    end
+    it 'forms group from a single task' do
+      Task.chat_group_name_from_tasks([@tasks.first]).should_not be_blank
+    end
+    it "retrieves learner index" do
+      @tasks.sort_by(&:id).each_with_index do |task,i|
+        task.learner_index.should == i
       end
     end
-    it 'raises error if learner index not found' do
-      expect { @tasks[0].learner_index("99999,88888") }.
-        to raise_error Task::LearnerNotInGroupError
+    describe 'raises error on learner index' do
+      specify 'if not found' do
+        @tasks[0].chat_group = "99999,88888"
+        expect { @tasks[0].learner_index }.to raise_error Task::LearnerNotInGroupError
+      end
+      specify 'if nil' do
+        @tasks[0].chat_group = nil
+        expect { @tasks[0].learner_index }.to raise_error Task::LearnerNotInGroupError
+      end
     end
   end
 

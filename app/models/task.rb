@@ -87,11 +87,32 @@ class Task < ActiveRecord::Base
 
   # Given a chat group channel name (string), return numeric index (0, 1, ...)
   # of which learner is represented by THIS task.
-  def learner_index(chat_group_name)
-    chat_group_name.to_s.split(',').map(&:to_i).index(self.id.to_i) ||
+  def learner_index
+    group_tasks.index(self.id.to_i) ||
       raise(LearnerNotInGroupError,
-      "Chat group #{chat_group_name} does not include task id #{self.id}")
+      "Chat group #{chat_group} does not include task id #{self.id}")
   end
+
+  # Retrieve user state for all tasks in my chat group, including my state
+  def self.user_state_for_all
+    begin
+      group_tasks.map { |task_id| Task.find(task_id).user_state }
+    rescue ActiveRecord::RecordNotFound => e
+      raise LearnerNotInGroupError, "Can't find user state for task: #{e.message}"
+    end
+  end
+
+  def group_tasks # :nodoc:
+    case chat_group
+    when blank?
+      raise LearnerNotInGroupError, "Learner was never assigned to a group"
+    when WaitingRoom::CHAT_GROUP_NONE
+      raise LearnerNotInGroupError, "Learner was kicked out of Waiting Room"
+    else
+      chat_group.to_s.split(',').map(&:to_i)
+    end
+  end
+  private :group_tasks
 
   # Returns the +Template+ object that should be rendered for the
   # current page in the task sequence.
