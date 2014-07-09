@@ -7,7 +7,7 @@ class TasksController < ApplicationController
   def create
     begin
       @task = Task.create_from_params(params)
-      @timer = session[:timer] = WaitingRoom.add @task
+      @timer = session[:timer] = WaitingRoom.add(@task)
       @task.log(:start)
       redirect_to task_welcome_path(@task)
     rescue ActiveRecord::RecordNotFound => error
@@ -28,11 +28,18 @@ class TasksController < ApplicationController
   def join_group
     @task = Task.find params[:id]
     WaitingRoom.process_all!
-    if @task.chat_group == WaitingRoom::CHAT_GROUP_NONE
-      render :action => 'sorry'
+    case @task.chat_group
+    when WaitingRoom::CHAT_GROUP_NONE
       @task.log :reject
+      render :action => 'sorry'
+    when nil
+      # WaitingRoom didn't get emptied.  Wait a few seconds and try again.
+      # :BUG: this should be logged
+      session[:timer] = 5
+      render :action => 'welcome'
     else
       @task.log :form_group
+      @task.save!
       redirect_to task_page_path(@task)
     end
   end

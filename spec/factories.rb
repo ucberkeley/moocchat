@@ -50,9 +50,10 @@ FactoryGirl.define do
     ignore do
       num_questions 2
       body_repeat_count 1
+      group_size 2
     end
     learner { create :learner }
-    condition { create :condition, :body_repeat_count => body_repeat_count }
+    condition { create :condition, :body_repeat_count => body_repeat_count, :preferred_group_size => group_size }
     activity_schema { build :activity_schema, :num_questions => num_questions }
     sequence_state { Task::Sequencer.new(:body_repeat_count => body_repeat_count, :num_questions => num_questions) }
     chat_group nil

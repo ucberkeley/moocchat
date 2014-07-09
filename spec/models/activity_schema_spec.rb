@@ -21,7 +21,7 @@ describe ActivitySchema do
         ActivitySchema.new(@args.merge :starts_every => 6).should be_valid
       end
       it 'is greater than minimum interval between experiments' do
-        ActivitySchema.new(@args.merge :starts_every => 1).should have(1).error_on(:starts_every)
+        ActivitySchema.new(@args.merge :starts_every => ActivitySchema::MINIMUM_INTERVAL_BETWEEN_EXPERIMENTS - 1).should have(1).error_on(:starts_every)
       end
     end
   end

@@ -68,8 +68,12 @@ describe WaitingRoom do
       @not_expiring.each { |wr| WaitingRoom.find(wr.id).should be_a WaitingRoom }
     end
   end
-
   describe 'processing' do
+    before :each do
+      @t = create(:task, :group_size => 2)
+    end
+  end
+  describe 'creating groups' do
     # how to test transactional integrity, since we have to atomically
     # empty the waiting room and assign tasks to groups?
     before :each do
@@ -79,6 +83,8 @@ describe WaitingRoom do
     # test cases:
     # q length, pref'd grp size, min grp size, expected #grps, expected #small grps, expected # rejects
     @tests = [
+      [2, 1, 1, 2, 0, 0],
+      [4, 1, 1, 4, 0, 0],
       [6, 2, 1, 3, 0, 0],
       [7, 2, 1, 3, 1, 0],
       [5, 4, 2, 1, 0, 1],
@@ -100,7 +106,9 @@ describe WaitingRoom do
           @groups.having("COUNT(*)=#{size}").length.should == num_groups
         end
         it "should create #{num_small} small groups" do
-          @groups.having("COUNT(*)=#{min_size}").length.should == num_small
+          # special case: if pref'd group size is 1, there will never be any small groups,
+          # and the below test will produce a false negative
+          size == 1 ? true : (@groups.having("COUNT(*)=#{min_size}").length.should == num_small)
         end
         it "should have #{num_rejects} rejects" do
           Task.where('chat_group = "NONE"').count.should == num_rejects

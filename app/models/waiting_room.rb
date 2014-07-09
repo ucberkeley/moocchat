@@ -7,8 +7,8 @@ class WaitingRoom < ActiveRecord::Base
 
   # There is at most one waiting room for each
   # <ActivitySchema,Condition> pair.
-  belongs_to :condition, :dependent => :destroy
-  belongs_to :activity_schema, :dependent => :destroy
+  belongs_to :condition
+  belongs_to :activity_schema
   validates :condition_id, :uniqueness => {:scope => :activity_schema_id}
   validates_associated :condition
   validates_associated :activity_schema
@@ -53,14 +53,6 @@ class WaitingRoom < ActiveRecord::Base
     return wr.expires_at - Time.zone.now
   end
 
-  # Wake up and check all waiting rooms.  For any waiting rooms whose +expired_at+ now
-  # matches or exceeds the current time, process it, then destroy it.
-  def self.process_all!
-    WaitingRoom.where(['expires_at <= ?', Time.zone.now]).each do |wr|
-      wr.process
-    end
-  end
-
   # Add a task to *this* waiting room.  Called by +WaitingRoom.add+.
 
   def add task
@@ -71,21 +63,29 @@ class WaitingRoom < ActiveRecord::Base
     end
   end
 
+  # Wake up and check all waiting rooms.  For any waiting rooms whose +expired_at+ now
+  # matches or exceeds the current time, process it, then destroy it.
+  def self.process_all!
+    transaction do
+      WaitingRoom.where(['expires_at <= ?', Time.zone.now]).each do |wr|
+        wr.process
+      end
+    end
+  end
+
   # Process a waiting room.  Forms as many groups as possible of size
   #  +Condition#preferred_group_size+, then as many as possible of size
   #  +Condition#minimum_group_size+; the rest stay in the waiting room.  Kicking
   # someone out is done by placing the sentinel value +CHAT_GROUP_NONE+ as the
   # chat group ID for those learners' tasks.
   def process
-    transaction do
-      # create as many groups of the preferred size as we can...
-      leftovers = create_groups_of(condition.preferred_group_size, tasks)
-      # if there are leftover people, create groups of the minimum size (which could be singletons)...
-      rejects = leftovers.empty? ? [ ] : create_groups_of(condition.minimum_group_size, leftovers)
-      # if there are any singletons now, they're rejects
-      rejects.each { |t| t.assign_to_chat_group CHAT_GROUP_NONE }
-      self.destroy
-    end
+    # create as many groups of the preferred size as we can...
+    leftovers = create_groups_of(condition.preferred_group_size, tasks)
+    # if there are leftover people, create groups of the minimum size (which could be singletons)...
+    rejects = leftovers.empty? ? [ ] : create_groups_of(condition.minimum_group_size, leftovers)
+    # if there are any singletons now, they're rejects
+    rejects.each { |t| t.assign_to_chat_group CHAT_GROUP_NONE }
+    self.destroy
   end
 
   private
@@ -113,7 +113,7 @@ class WaitingRoom < ActiveRecord::Base
   # if the repeat is every 6 minutes and it's currently 16 after the hour, round up to 18.
   def compute_expiration_time
     repeat = activity_schema.starts_every
-    minutes_to_add = repeat - (Time.now.min % repeat)
+    minutes_to_add = repeat - (Time.zone.now.min % repeat)
     (Time.zone.now + minutes_to_add.minutes).change(:sec => 0)
   end
 
