@@ -26,8 +26,13 @@ class Task < ActiveRecord::Base
 
   attr_accessible :condition, :learner, :activity_schema, :completed, :chat_group, :sequence_state
 
+  # Exception raised when learner tries to create task for an activity that
+  # isn't open yet
   class ActivityNotOpenError < RuntimeError ; end
-
+  # Exception raised when +learner_index+ is called but this task's learner
+  # isn't in the specified chat group channel
+  class LearnerNotInGroupError < RuntimeError ; end
+  
   serialize :user_state, Hash
 
   # Create a new task from a hash that includes a +condition_id+,
@@ -75,6 +80,19 @@ class Task < ActiveRecord::Base
   # Subcounter of where we are within the prologue/body/etc.
   delegate :subcounter, :to => :sequence_state
   
+  # Form chat group ("channel") name from tasks associated with this group
+  def self.chat_group_name_from_tasks(tasks)
+    tasks.map(&:id).sort.map(&:to_s).join(',')
+  end
+
+  # Given a chat group channel name (string), return numeric index (0, 1, ...)
+  # of which learner is represented by THIS task.
+  def learner_index(chat_group_name)
+    chat_group_name.to_s.split(',').map(&:to_i).index(self.id.to_i) ||
+      raise(LearnerNotInGroupError,
+      "Chat group #{chat_group_name} does not include task id #{self.id}")
+  end
+
   # Returns the +Template+ object that should be rendered for the
   # current page in the task sequence.
   def current_page
