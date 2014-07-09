@@ -2,6 +2,7 @@ class ActivitySchema < ActiveRecord::Base
   include HasManyInline
   has_many :tasks
   has_many :event_logs
+
   belongs_to :cohort
 
   # Minimum interval between experiment starts, in minutes
@@ -11,10 +12,15 @@ class ActivitySchema < ActiveRecord::Base
   attr_accessible :name
   validates_presence_of :name
 
-  attr_accessible :cohort,:randomized,:num_questions,:tag, :cohort_id
+  attr_accessible :cohort,:randomized,:tag, :cohort_id
 
   attr_accessible :questions
-  has_many_inline :questions
+  has_many_inline :questions, :class_name => :question
+  validates_presence_of :questions
+
+  attr_accessible :num_questions
+  validates_numericality_of :num_questions, :greater_than => 0
+  validate :num_questions, :size_must_equal_question
 
   # Boolean attribute: whether this activity is enabled (open for business)
   # TBD: Is this obsoleted by having the start and end times?
@@ -53,6 +59,10 @@ class ActivitySchema < ActiveRecord::Base
     return if starts_every.to_i.zero? || start_time.nil? # other validations will catch these
     errors.add(:start_time,
       "must align with an activity boundary (:00, :#{'%02d' % starts_every}, :#{'%02d' % (2*starts_every)}, etc.)") unless start_time.min % starts_every.to_i == 0
+  end
+
+  def size_must_equal_question
+    errors.add(:num_questions, "must match with the number of questions you selected") unless questions.size == num_questions
   end
 
   public

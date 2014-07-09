@@ -1,7 +1,8 @@
+<%= javascript_include_tag "application" %>
 <div class = "notice">
   <%if @activity_schema.errors.any? %>
    <% @activity_schema.errors.full_messages.each do |message| %>
-      <%= message %>
+      <%= message +","%>
     <% end%>
   <% end%>
 </div>
@@ -27,7 +28,7 @@
   <div class="control-group">
     <%= f.label :num_questions, :class => 'control-label' %>
     <div class="controls">
-      <%= f.number_field :num_questions, :class => 'number_field' %>
+      <%= f.number_field :num_questions, :class => 'number_field', :value => 35 %>
     </div>
   </div>
   <div class="control-group">
@@ -54,13 +55,38 @@
     <%= datetime_select :activity_schema, :end_time, :seconds => false %>
     </div>
   </div>
-    <div class="control-group">
+  <div class="control-group">
     <%= f.label :starts_every, :class => 'control-label'   %>
     <div class="controls">
     <%= f.text_field :starts_every %> minutes 
     </div>
   </div>
-  
+  <br>
+  <div class="control-group">
+    <%= f.label :questions, :class => 'control-label' %>
+    <% index = 0 %>
+      <% 35.times do %>
+        <div class="controls">
+              <%= collection_select( :questions, :id, Question.all, :id, :text,
+                {prompt: 'None'}, 
+                {class: "form-control", id: "questions#{index}", name: "activity_schema[questions][]"}  ) %> 
+        </div>
+        <% index+=1 %>
+      <%end %>
+  </div>
+  <%= javascript_tag do %>
+    jQuery('#activity_schema_num_questions').change(function(){    
+        var count = jQuery(this).val();
+        for(var i=0; i<35;i++){
+          if(!jQuery('#questions'+i).is(':visible')){ 
+            jQuery('#questions'+i).show();
+          }
+        }
+        for(var i=count; i < 35; i++){
+          jQuery('#questions'+i).hide();
+        }
+      });
+  <% end %>
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

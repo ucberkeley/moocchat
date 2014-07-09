@@ -10,6 +10,7 @@
       <th><%= model_class.human_attribute_name(:enabled) %></th>
       <th><%= model_class.human_attribute_name(:randomized) %></th>
       <th><%= model_class.human_attribute_name(:num_questions) %></th>
+      <th><%= model_class.human_attribute_name(:questions) %></th>
       <th><%= model_class.human_attribute_name(:tag) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
@@ -24,6 +25,16 @@
         <td><%= activity_schema.enabled %></td>
         <td><%= activity_schema.randomized %></td>
         <td><%= activity_schema.num_questions %></td>
+        <td><% if activity_schema.questions.any? %>
+            <% index =1 %>
+              <% activity_schema.questions.each do |elm| %>
+                <%="Q "+ index.to_s+":" %>
+                <%= link_to elm.text, question_path(elm) %>
+                <br>
+                <% index = index +1 %>
+              <%end%>
+             <%end%>
+        </td>
         <td><%= activity_schema.tag %></td>
         <td><%= activity_schema.name %></td>
         <td><%=l activity_schema.created_at %></td>

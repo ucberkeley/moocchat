@@ -1,4 +1,5 @@
 class ActivitySchemasController < ApplicationController
+  include QuestionHelper
   # GET /activity_schemas
   # GET /activity_schemas.json
   def index
@@ -40,6 +41,8 @@ class ActivitySchemasController < ApplicationController
   # POST /activity_schemas
   # POST /activity_schemas.json
   def create
+    @question=params[:activity_schema][:questions]
+    params[:activity_schema][:questions] = array_for(@question) unless @question == nil
     @activity_schema = ActivitySchema.new(params[:activity_schema])
 
     respond_to do |format|
@@ -59,6 +62,8 @@ class ActivitySchemasController < ApplicationController
     @activity_schema = ActivitySchema.find(params[:id])
 
     respond_to do |format|
+      @question=params[:activity_schema][:questions]
+      params[:activity_schema][:questions] = array_for(@question) unless @question == nil
       if @activity_schema.update_attributes(params[:activity_schema])
         format.html { redirect_to @activity_schema, notice: 'Activity schema was successfully updated.' }
         format.json { head :no_content }
