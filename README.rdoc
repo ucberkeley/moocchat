@@ -207,7 +207,11 @@ TBD::
 
 The relevant controller actions in <tt>TasksController</tt> are:
 
-+create+::
++static+ (GET)::
+  Serve a static page that lets learner choose activity and condition
+  from menus.  Used primarily for testing.
+
++create+ (POST)::
   Create a new +Task+ from a learner name, +Condition+
   (experimental setup specifying page flow, group sizes, time spent on
   each page, and so on) and
@@ -216,13 +220,13 @@ The relevant controller actions in <tt>TasksController</tt> are:
   same condition and activity.  The +ActivitySchema+ specifies how often the
   waiting room is "emptied". 
 
-+welcome+:: 
++welcome+ (GET):: 
   A successful +POST+ to +create+ results in a redirect to the
   welcome action, which shows a timer that counts down to when this 
   waiting room is to be emptied.  On expiration, a POST to
   +first_page+ occurs.
 
-+first_page+::
++join_group+ (POST)::
   processes the waiting room, so that every +Task+ in the
   waiting room gets assigned to a +chat_group+. 
   If the value of +chat_group+ is the same as the value of the constant
@@ -242,7 +246,9 @@ The relevant controller actions in <tt>TasksController</tt> are:
   As described above, the presence of the <tt>next_question</tt> hidden form
   element determines whether the next usage of <tt>@question</tt> (and its
   corresponding <tt>@answers</tt>) will use the same question or a new one.  The
-  body portion of the condition will be repeated while questions remain.
+  body portion of the condition will be repeated while questions
+  remain.  This action is idempotent: reloading a page while in this
+  state has no effect.
 
 +sorry+::
   A dead-end page that asks the learner to come back later, since they
@@ -283,13 +289,19 @@ These will be less frequently used but are listed here for completeness.
 
 <tt>@chat_group</tt>:: 
   a string that identifies the chat group this
-  learner is in; think of it as a channel.  If empty, it means the learner
-  has not yet been assigned to a group.
+  learner is in; think of it as a channel.  After the Welcome page of
+  the task, this is guaranteed to be nonblank (the learner could be in a
+  chat group of size 1, but she will definitely be in some group).
 
 = Logging
 
 Every interesting "event" is logged in a table from which log
-information can be easily extracted as JSON or CSV.
+information can be easily extracted as JSON or CSV.  Some events are
+logged at the server side; for events detected at the client side, 
+<tt>TasksController#log_event</tt> can receive a POST (from whose URL
+the ID of the task can be determined) and will look for
+fields +name+ (required) and +value+ (optional since not all events use
+it) to create and log the event, and return a 200 OK if all goes well.
 
 Each row of the table has the following attributes:
 

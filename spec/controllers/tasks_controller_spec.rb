@@ -99,6 +99,15 @@ describe TasksController do
       @t[1].user_state.should == {'val' => 1}
     end
   end
+  
+  describe 'logging' do
+    before :each do ; @task = create :task,  ; end
+    context 'via AJAX POST' do
+      it 'has 200 response' do
+        xhr :post, :log
+      end
+    end
+  end
 
   describe 'next_question field' do
     before :each do ; @task = create :task ; end

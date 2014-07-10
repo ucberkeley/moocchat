@@ -35,5 +35,8 @@ describe TasksController do
     it 'routes the error page' do
       expect(:get => '/tasks/error').to route_to :controller => 'tasks', :action => 'error'
     end
+    it 'receives loggable events via AJAX' do
+      expect(:post => '/tasks/3/log').to route_to :controller => 'tasks', :action => 'log', :id => '3'
+    end
   end
 end

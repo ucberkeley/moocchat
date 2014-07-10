@@ -36,6 +36,9 @@ Moocchat::Application.routes.draw do
   # advance to next page of task
   post '/tasks/:id/next_page', :to => 'tasks#next_page', :as => 'task_next_page'
 
+  # AJAX endpoint to log an event recorded at client
+  post '/tasks/:id/log', :to => 'tasks#log'
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

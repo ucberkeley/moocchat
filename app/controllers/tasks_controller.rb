@@ -82,6 +82,10 @@ class TasksController < ApplicationController
     end
   end
 
+  def log
+    
+  end
+
   def error
     
   end
