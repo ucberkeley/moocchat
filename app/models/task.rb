@@ -94,7 +94,7 @@ class Task < ActiveRecord::Base
   end
 
   # Retrieve user state for all tasks in my chat group, including my state
-  def self.user_state_for_all
+  def user_state_for_all
     begin
       group_tasks.map { |task_id| Task.find(task_id).user_state }
     rescue ActiveRecord::RecordNotFound => e

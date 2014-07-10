@@ -63,9 +63,40 @@ describe TasksController do
     end
     it 'serves user state when next page is displayed' do
       Task.any_instance.stub(:current_page).and_return(Template.first)
-      @task.update_attribute :user_state, @user_state
+      @task.update_attribute(:user_state, @user_state)
+      @task.assign_to_chat_group Task.chat_group_name_from_tasks([@task])
       get :page, :id => @task
       assigns(:u).should == @user_state
+    end
+  end
+
+  describe "other users' state" do
+    before :each do
+      @t = Array.new(3)  { |n| create(:task, :user_state => {'val' => n}) }
+      chat_group = Task.chat_group_name_from_tasks(@t)
+      @t.each { |task| task.assign_to_chat_group chat_group }
+    end
+    it "sets @me" do
+      @t.each_with_index do |task,n|
+        get :page, :id => task
+        assigns(:me).should == n
+      end
+    end
+    it 'assigns @u' do
+      @t.each_with_index do |task,n|
+        get :page, :id => task
+        assigns(:u).should == task.user_state
+      end
+    end
+    it 'assigns other learners data' do
+      u = @t.first.user_state_for_all
+      @t.each_with_index do |task,n|
+        assigns(:data) == task.user_state
+      end
+    end
+    it 'only modifies my own data' do
+      post :next_page, :id => @t[1], :params=>{:data=>[{'answer'=>'1'}]}
+      @t[1].user_state.should == {'val' => 1}
     end
   end
 
@@ -82,15 +113,17 @@ describe TasksController do
 
   it 'sets up template variables' do
     @task = create :task, :user_state => {'foo' => '1'}
-    @task.assign_to_chat_group 'some_group'
+    @task.assign_to_chat_group(group = Task.chat_group_name_from_tasks([@task]))
     get :page, :id => @task
     assigns(:task_id).to_i.should == @task.id
     assigns(:question).should be_a Question
     assigns(:counter).should be_an_integer
     assigns(:subcounter).should be_an_integer
     assigns(:question_counter).should be_an_integer
-    assigns(:chat_group).should == 'some_group'
+    assigns(:chat_group).should == group
     assigns(:u).should == {'foo' => '1'}
+    assigns(:data).should be_an Array
+    assigns(:me).should == 0
     assigns(:submit_to).should == task_next_page_path(@task)
   end
 end

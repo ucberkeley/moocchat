@@ -58,7 +58,9 @@ class TasksController < ApplicationController
     @subcounter = @task.subcounter
     @chat_group = @task.chat_group
     @submit_to = task_next_page_path @task
-    @u = @task.user_state || {}
+    @me = @task.learner_index
+    @data = @task.user_state_for_all
+    @u = @data[@me] || {}
     # HTML text that will be injected into generic uber-template
     @html = @template.html
     @task.log :view_page

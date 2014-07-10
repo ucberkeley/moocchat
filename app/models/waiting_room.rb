@@ -102,7 +102,7 @@ class WaitingRoom < ActiveRecord::Base
 
   # Create a chat group from a list of tasks
   def create_group_from task_list # :nodoc:
-    group_name = task_list.map(&:id).sort.map(&:to_s).join(',')
+    group_name = Task.chat_group_name_from_tasks(task_list)
     task_list.each { |t| t.assign_to_chat_group group_name }
   end
 

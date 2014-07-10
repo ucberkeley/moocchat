@@ -21,6 +21,7 @@ Given /^a task with a (\d+)-page condition repeated (\d+)\s+times?/ do |num_step
   condition = create :condition, :name => 'c1', :body_pages => templates
   activity = create :activity_schema, :name => 'a1', :num_questions => repeat.to_i
   steps %Q{When I post to the URL for learner: "armando", activity schema: "a1", condition: "c1"}
+  @task.update_attribute :chat_group, Task.chat_group_name_from_tasks([@task])
 end
 
 When /^I visit the (first|next) page of that task$/ do |_|

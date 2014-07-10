@@ -18,9 +18,11 @@ end
 #  work by temporarily stubbing WaitingRoom.process_all!, which processes
 #  the waiting room to perform these assignments.
 
-When /^the timer expires and the server assigns me to (no )?chat group( "(.+)")?$/ do |none,_,group|
+When /^the timer expires and the server assigns me to (a|no) chat group$/ do |none|
   WaitingRoom.stub(:process_all!)
-  @task.assign_to_chat_group(none ? WaitingRoom::CHAT_GROUP_NONE : group)
+  @task.assign_to_chat_group(none =~ /no/ ?
+    WaitingRoom::CHAT_GROUP_NONE :
+    Task.chat_group_name_from_tasks([@task]))
   expire_timer_and_continue
 end
 
