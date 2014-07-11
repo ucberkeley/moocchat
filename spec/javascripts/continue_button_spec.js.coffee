@@ -1,6 +1,6 @@
 describe 'clicking Continue button', ->
   beforeEach ->
-    setFixtures('<div id="interstitial">Foo</div><form id="form"><input id="submit" type="submit" value="Continue"></form>')
+    setFixtures('<div id="interstitial">Foo</div><form id="form" data-log-url="/tasks/3/log"><input id="submit" type="submit" value="Continue"></form>')
   describe 'on a template page', ->
     beforeEach ->
       ContinueButton.setup()
@@ -9,10 +9,11 @@ describe 'clicking Continue button', ->
     it 'shows the interstitial on form submit', ->
       $('#form').trigger('submit')
       expect($('#interstitial')).toBeVisible()
-    it 'posts an event to be logged', ->
-      spyOn($, 'ajax').andReturn(true)
+    it 'logs the event via AJAX', ->
+      spyOn($, 'ajax').and.callFake(ContinueButton.serverNotified)
       $('#form').trigger('submit')
-      expect($.ajax).toHaveBeenCalled()
+      expect($.ajax.mostRecentCall.args[0]['url']).toEqual('/tasks/3/log')
+      
   describe 'on a non-template page', ->
     beforeEach ->
       $('body').addClass('admin')

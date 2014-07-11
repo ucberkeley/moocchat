@@ -61,7 +61,7 @@ FactoryGirl.define do
     user_state nil
   end
 
-  trait :with_nonblank_chat_group do
+  trait :with_chat_group do
     after :create do |task, evaluator|
       task.update_attribute :chat_group, Task.chat_group_name_from_tasks([task])
     end

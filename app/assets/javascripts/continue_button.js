@@ -4,6 +4,20 @@ var ContinueButton =  {
   //  An admin page view is identified by the css class 'admin' on <body>.
   ajaxSubmit: function() {
     $('#interstitial').show();
+    var submit_url = $(this).data('log-url');
+    $.ajax({
+      type: 'POST',
+      url: submit_url,
+      data: 'name=continue',
+      error: ContinueButton.loggingError,
+      success: ContinueButton.serverNotified
+    });
+  },
+  serverNotified: function() {
+    $('body').addClass('serverNotified');
+  },
+  loggingError: function(xhrObject, textStatus, errorThrown) {
+    alert(textStatus + " error on " + submit_url + ": " + errorThrown);
   },
   setup: function() {
     if ($('body').hasClass('admin')) {

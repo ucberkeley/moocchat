@@ -95,13 +95,11 @@ whatever.
 Below is a line-numbered example of the <tt><body></tt> of a template keyed to
 the following explanation.  Line numbers are in parentheses.
 
-(1) <tt>@submit_to</tt>:: 
- The URL for form submission that will cause
- the next page 
- in the sequence to be displayed.  See the next subsection on Learner
- Navigation.  Example: <tt><form action="<%= @submit_to %>"></tt> will
- generate something like <tt><form action="/tasks/32/next_page"></tt>.  Do not
- try to construct the submit URL manually.
+(1) <tt>@start_form_tag</tt>:: 
+  A complete <form> tag to start the form
+  whose submission will cause the learner to move on to the next part of
+  the task.  See the next subsection on Learner Navigation.  Do not try to
+  construct the <form> tag manually.
 
 (3) <tt>@question</tt>:: 
   The text of the current question.  In practice you'd probably put this
@@ -127,7 +125,7 @@ the following explanation.  Line numbers are in parentheses.
     form-submit button on the page's single form to be "clicked".  Both of
     these default behaviors can be overridden; see the TemplateHelper#timer documentation.
 
-  1 <form action="<%= @submit_to %>">
+  1 <%= @start_form_tag %>
   2   <p>Here is a question:</p>
   3       <%= @question %>
   4   <p>Select the best answer:</p>
@@ -170,7 +168,7 @@ TBD::
   require modifying the +page+  method to check that all learners in the
   task are on the same page.
 
-  1 <form action="<%= @submit_to %>">
+  1 <%= @start_form_tag %>
   2   <p>Here are the answers your peers gave:</p>
   3   <% @data.each_with_index do |other, index| %>
   4     <% next if index == @me %>
@@ -196,7 +194,7 @@ TBD::
     through the activity involves answering more than one question, for
     example, a basic question followed by a transfer question.
 
-  1 <form action="<%= @submit_to %>">
+  1 <%= @start_form_tag %>
   2   <p>The correct answer was:</p>
   3   <%= @answers[@correct_answer_index] %>
   4   <!-- make next page in flow advance to the next question -->

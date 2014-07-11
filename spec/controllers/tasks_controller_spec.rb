@@ -101,11 +101,17 @@ describe TasksController do
   end
   
   describe 'logging' do
-    before :each do ; @task = create :task,  ; end
+    before :each do ; @task = create :task, :with_chat_group  ; end
+    it 'via regular POST gives a Forbidden error' do
+      post :log, :id => @task
+      response.code.should == '403'
+    end
     context 'via AJAX POST' do
       it 'has 200 response' do
-        xhr :post, :log
+        xhr :post, :log, :id => @task
+        response.code.should == '200'
       end
+      it 'logs valid event'
     end
   end
 
