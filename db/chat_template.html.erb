@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+
+  <div id="footer" class="debugging">
+      Page <%= @counter %> (<%= @task.where %>:<%= @task.subcounter %>) of task <%= @task_id %>
+      and chatgroup is <%= @chat_group %>
+
+    </div>
+    <%= chat %>
+ </body>
+</html>
