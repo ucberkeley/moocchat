@@ -14,6 +14,13 @@ module ChatHelper
     else
       __chat = true
     end
-    render :partial => 'chat/chat'
+    attribs = {'id' => 'chat-box',
+      'class' => 'container',
+      'data-chatgroup' => @chat_group ||= 'default',
+      'data-taskid' => @task_id,
+      'data-production' => Rails.env}
+    content_tag('div', attribs) do
+      render :partial => "chat/chat"
+    end
   end
 end
