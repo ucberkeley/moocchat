@@ -1,7 +1,7 @@
 # Helper that creates a JS timer and, when it's counted down, causes
 # submission of the one and only form on this page
 
-module TemplateHelper
+module TimerHelper
   # Produce a JavaScript timer that counts down from +seconds+ and submits the first (only)
   # form on the page when it expires.
   # The helper emits a +<span>+ with +id="_timer_"+;
@@ -12,8 +12,7 @@ module TemplateHelper
   # ==== Options
   # * +:seconds+ - number of seconds to count down from.  If not given uses value of +@timer+ variable
   # * +:submit+ - a URL that will be fetched via GET (replacing the current page) when the timer expires.  If absent, the one and only form on the page will be submitted via POST.
-  def timer(opts = {})
-    seconds = opts[:seconds] || @timer
+  def timer(seconds, opts = {})
     if defined? __timer
       raise "Can only have a single timer per template"
     else

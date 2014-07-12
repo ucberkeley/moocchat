@@ -6,8 +6,8 @@
     Your activity <strong>"<%= @task.activity_schema.name %>"</strong>
     will start automatically in
     <span class="timer">
-      <%= timer :seconds => @timer %>
+      <%= timer(@timer) %>
     </span> minutes.
   </p>
-  <input type="submit" id="_submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;">
+  <input type="submit" id="_submit" class="offscreen">
 <% end %>

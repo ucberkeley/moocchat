@@ -18,8 +18,15 @@
    height: 500px;
  }
  
-.notice{
-	color: red;
-	font-weight: bold;
-	font-style: italic;
+.notice {
+   color: red;
+   font-weight: bold;
+   font-style: italic;
+ }
+
+.offscreen {
+   position: absolute;
+   left: -9999px;
+   width: 1px;
+   height: 1px;
 }
