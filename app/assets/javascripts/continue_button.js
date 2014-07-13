@@ -8,7 +8,7 @@ var ContinueButton =  {
     $.ajax({
       type: 'POST',
       url: submit_url,
-      data: 'name=continue',
+      data: { name: 'continue' },
       error: ContinueButton.loggingError,
       success: ContinueButton.serverNotified
     });

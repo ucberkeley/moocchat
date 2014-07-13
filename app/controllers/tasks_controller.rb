@@ -86,6 +86,9 @@ class TasksController < ApplicationController
 
   def log
     render(:nothing => true, :status => 403) and return unless request.xhr?
+    # Log the event
+    task = Task.find params[:id]
+    task.log params[:name], params[:value]
     render :nothing => true
   end
 

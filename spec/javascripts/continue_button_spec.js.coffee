@@ -9,11 +9,12 @@ describe 'clicking Continue button', ->
     it 'shows the interstitial on form submit', ->
       $('#form').trigger('submit')
       expect($('#interstitial')).toBeVisible()
-    it 'logs the event via AJAX', ->
-      spyOn($, 'ajax').and.callFake(ContinueButton.serverNotified)
+    it 'posts the event via AJAX', ->
+      spyOn($, 'ajax')
       $('#form').trigger('submit')
-      pending()
-      
+      expect($.ajax).toHaveBeenCalled
+      ajax_props = $.ajax.calls.argsFor(0)[0]
+      expect(ajax_props.url).toEqual '/tasks/3/log'
   describe 'on a non-template page', ->
     beforeEach ->
       $('body').addClass('admin')

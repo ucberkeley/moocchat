@@ -107,11 +107,16 @@ describe TasksController do
       response.code.should == '403'
     end
     context 'via AJAX POST' do
-      it 'has 200 response' do
-        xhr :post, :log, :id => @task
-        response.code.should == '200'
+      it 'logs valid event' do
+        expect { xhr :post, :log, :id => @task, :name => 'continue'}.
+          to change { EventLog.count }.by(1)
       end
-      it 'logs valid event'
+      it 'extracts name from params' do
+        t = mock_model Task
+        Task.should_receive(:find).with(@task.id.to_s).and_return(t)
+        t.should_receive(:log).with('continue', anything())
+        xhr :post, :log, :id => @task, :name => 'continue'
+      end
     end
   end
 
