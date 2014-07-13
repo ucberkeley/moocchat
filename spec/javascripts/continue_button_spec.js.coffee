@@ -1,17 +1,22 @@
 describe 'clicking Continue button', ->
   beforeEach ->
-    setFixtures('<div id="interstitial">Foo</div><form id="form" data-log-url="/tasks/3/log"><input id="submit" type="submit" value="Continue"></form>')
+    setFixtures('<div id="interstitial">Foo</div><form id="form" data-log-url="/tasks/3/log" action="/tasks/3/next_page"><input id="submit" type="submit" value="Continue"></form>')
   describe 'on a template page', ->
     beforeEach ->
+      @theForm = $('#form')
       ContinueButton.setup()
     it 'hides the interstitial initially', ->
       expect($('#interstitial')).toBeHidden()
     it 'shows the interstitial on form submit', ->
-      $('#form').trigger('submit')
+      @theForm.trigger 'submit'
       expect($('#interstitial')).toBeVisible()
+    it 'inhibits form submission', ->
+      spyOnEvent(@theForm, 'submit')
+      @theForm.trigger('submit')
+      expect('submit').toHaveBeenPreventedOn(@theForm)
     it 'posts the event via AJAX', ->
       spyOn($, 'ajax')
-      $('#form').trigger('submit')
+      @theForm.trigger('submit')
       expect($.ajax).toHaveBeenCalled
       ajax_props = $.ajax.calls.argsFor(0)[0]
       expect(ajax_props.url).toEqual '/tasks/3/log'
