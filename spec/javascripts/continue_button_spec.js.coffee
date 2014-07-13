@@ -20,6 +20,11 @@ describe 'clicking Continue button', ->
       expect($.ajax).toHaveBeenCalled
       ajax_props = $.ajax.calls.argsFor(0)[0]
       expect(ajax_props.url).toEqual '/tasks/3/log'
+    it 'disables itself as the handler', ->
+      spyOn($, 'ajax')
+      @theForm.trigger('submit')
+      @theForm.trigger('submit')
+      expect($.ajax.calls.count()).toEqual(1)
   describe 'on a non-template page', ->
     beforeEach ->
       $('body').addClass('admin')

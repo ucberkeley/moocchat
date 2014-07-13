@@ -81,12 +81,12 @@ out.
 
 Therefore, when a template is first displayed to the learner, the
 element with the HTML5 element id <tt>interstitial</tt> (if one exists)
-is immediately hidden; if the learner advances to the next page _before_
-the timer runs out, this element is revealed, so it should display a
-message to the effect that "You'll proceed to the next step as soon as
-all learners in your group are ready."  You can use CSS to 
-float the element in a lightbox, overlay it on top of the main HTML, or
-whatever. 
+is immediately hidden; if the learner tries to advance to the next page
+_before_ the timer runs out, this element is revealed, so it should
+display a message to the effect that "You'll proceed to the next step as
+soon as all learners in your group are ready."  You can use CSS to float
+the element in a lightbox, overlay it on top of the main HTML, or
+whatever.
 
 
 == Displaying a question and answer choices

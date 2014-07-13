@@ -12,6 +12,7 @@ var ContinueButton =  {
       error: ContinueButton.loggingError,
       success: ContinueButton.serverNotified
     });
+    $('body').off('submit', 'form');
     event.preventDefault();
   },
   serverNotified: function() {
