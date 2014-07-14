@@ -259,7 +259,7 @@ GEM
     ruby_parser (3.6.1)
       sexp_processor (~> 4.1)
     rubyzip (1.1.4)
-    sass (3.3.8)
+    sass (3.2.13)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -331,6 +331,7 @@ DEPENDENCIES
   rails (= 3.2.18)
   rails_12factor
   rspec-rails (= 2.14.0)
+  sass (= 3.2.13)
   sass-rails (~> 3.2.3)
   selenium-webdriver
   simplecov
