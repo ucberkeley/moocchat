@@ -32,7 +32,7 @@ cohort = Cohort.create!(name: "Cohort 1")
 ActivitySchema.delete_all
 ActivitySchema.create!(name: "Quiz Review", cohort: cohort, enabled: true, randomized: false,
   num_questions: 1, tag: "Quiz Review", questions: [Question.first],
-  start_time: Time.zone.now.midnight, end_time: Time.zone.now + 2.days, starts_every: 2)
+  start_time: Time.zone.now.midnight, end_time: Time.zone.now + 2.days, starts_every: 1)
 
 # delete any WaitingRooms, since they have foreign keys to activity schemas and conditions
 WaitingRoom.delete_all
