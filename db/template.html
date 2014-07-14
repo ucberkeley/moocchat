@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>MOOCchat Default Template</title>
-    <%= stylesheet_link_tag    "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
-  </head>
-  <body>
-    <div id="main">
-      <h1>Default Template</h1>
-      <p>This is a MOOCchat default page template.</p>
-    </div>
-    <div id="footer" class="debugging">
-      Page <%= @counter %> (<%= @task.where %>:<%= @task.subcounter %>) of task <%= @task_id %>
-    </div>
-  </body>
-</html>
+<head>
+  <%= javascript_include_tag 'application' %>
+  <title>Page <%= @counter %></title>
+</head>
+<body>
+<div class="debugging">
+  <span class="task_id">Task <%= @task_id %></span>
+  <span class="counter">Page <%= @counter %></span>
+  <span class="subcounter">Subcounter <%= @subcounter %></span>
+  <span class="question">Question <%= @question_counter %></span>
+  <span class="chat_group">Chat group <%= @chat_group %></span>
+</div>
+<%= form_tag task_next_page_path(@task) do %>
+  <input type="hidden" name="next_question" value="#{next_question}">
+  <%= submit_tag "Continue" %>
+<% end %>
+</body></html>

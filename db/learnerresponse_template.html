@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <%= javascript_include_tag 'application' %>
+      <%= stylesheet_link_tag    "application", :media => "all" %>
+      <title>Page <%= @counter %></title>
+    </head>
+    <body>
+    <%= @start_form_tag %>
+
+<div id="main-task-page" class="moocchat-page">
+        <div class="container">
+                <!-- left side -->
+                <div class="col-md-6 moocchat-left-panel">
+                    <div class="row">
+                        <div class="col-sm-11 moocchat-left-panel-direction h3">For the essay below, select among the five choices of A, B, C, D, or E.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-11 moocchat-reading well"><%= @question.text %></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-11 moocchat-post-reading-direction">Which of the following makes the most reasonable assuption?</div>
+                    </div>
+                    <div class="row">
+                        <p>Select the best answer:</p>
+                         <!-- capture learner's answer as choice number, 0..n-1  -->
+                         <% @answers.each_with_index do |answer, index| %>
+                           
+                            <div class="col-sm-11 moocchat-choice-area moocchat-conditional">
+                                <div class="list-group moocchat-probing-question-choice">
+                                    <div id="moocchat-choice-<%= index %>" class="list-group-item moocchat-choice moocchat-choice-<%= index %>">
+                                        <div id="moocchat-choice-<%= index %>-box" class="moocchat-choice-box moocchat-choice-box-<%= index %>">"<%= index %>"</div>
+                                            <h4 class="list-group-item-heading moocchat-choice-statement">
+                                                <div class="row">    
+                                                    <input type="radio" value="<%= index %>" name="u[response]"> <%= answer %>
+                                                </div>
+                                            </h4>
+                                        </div>
+                                </div>
+                            </div>
+                         <% end %>
+                    </div>
+                </div>
+                <!--right side -->
+                <div class="col-md-6 moocchat-right-panel">
+                    <div class="row">
+                        <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
+                            <button type="button" class="col-sm-6 btn btn-lg btn-default main-task-timer disabled">Timer <span id="main-task-timer-time"> <%= timer(180) %></span></button>
+                            <br>
+                            <input type="submit" class="col-sm-6 col-sm-offset-1 btn btn-lg btn-info" value="Ready to Continue">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">Submit your answer and justification before the timer runs out.</div>
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>
+    </div>
+    </form>
+
+    </body>
+</html>

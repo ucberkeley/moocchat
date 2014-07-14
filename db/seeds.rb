@@ -13,17 +13,28 @@ YAML.load_file('db/questions.yml').each do |question|
   Question.create!(
     :text => question['text'],
     :answers => question['answers'],
-    :correct_answer_index => question['correct_answer_index'])
+    :correct_answer_index => question['correct_answer_index'],
+    :explanation => "To be determined")
 end
 
 # Default template page
 
+#template_arr = []
 Template.delete_all
-template1 = Template.create! :name => 'Default', :html => IO.read('db/template.html')
+# Template.delete_all
+# template_files = File.join(Rails.root, 'db', '*.html')   # makes it easy to put templates somewhere else in future
+# templates = Dir.glob(template_files).map do |filename|
+#   html = IO.read(filename)
+#   name = if html.match( /<title>([^>]+)<\/title>/i ) then  $1 else 'Default' end
+#   template_arr.push(Template.create! :name => name, :html => html)
+# end
+template1 = Template.create! :name => 'learnerq', :html => IO.read('db/learnerresponse_template.html')
+template2 = Template.create! :name => 'chatr', :html => IO.read('db/chatresponse_template.html')
+
 
 Condition.delete_all
 Condition.create!(name: "Chat Sequence 1",
-  prologue_pages: [],body_pages: [template1], epilogue_pages: [],preferred_group_size: 2,
+  prologue_pages: [],body_pages: [template1,template2], epilogue_pages: [],preferred_group_size: 2,
   minimum_group_size:1, body_repeat_count: 1)
 
 Cohort.delete_all
