@@ -58,7 +58,7 @@ class TasksController < ApplicationController
     @counter = @task.counter
     @subcounter = @task.subcounter
     @chat_group = @task.chat_group
-    @start_form_tag = view_context.content_tag :form, 'action' => task_next_page_path(@task), 'data-log-url' => task_log_event_path(@task)
+    @start_form_tag = view_context.form_tag(task_next_page_path(@task), 'data-log-url' => task_log_event_path(@task))
     @submit_to = task_next_page_path @task
     @me = @task.learner_index
     @data = @task.user_state_for_all
@@ -86,6 +86,9 @@ class TasksController < ApplicationController
 
   def log
     render(:nothing => true, :status => 403) and return unless request.xhr?
+    # Log the event
+    task = Task.find params[:id]
+    task.log params[:name], params[:value]
     render :nothing => true
   end
 

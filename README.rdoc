@@ -57,13 +57,19 @@ cut-and-paste the HTML.
 You can incorporate inline CSS styles in the template, or use a <tt><link></tt>
 element to point to an external stylesheet.
 
-**HOWEVER, IT IS VERY IMPORTANT** that every template include the following
-inside the <tt>head</tt> element:
+There are two rules you **must** follow when creating a template:
+
+0.  Inside the <tt>head</tt> element, you **must** include the following
+line, to ensure the page loads the JavaScript functions that allow the
+timer and other interactions to work:
 
     <%= javascript_include_tag "application" %>
 
-This will ensure the page loads the JavaScript functions that allow the
-timer and other interactions to work.
+0. The +body+ element **must not** have the CSS class "admin".  The
+presence of this class indicates that the rendered page is **not** a
+template that's part of a flow, and therefore inhibits some JavaScript
+behaviors from loading (so they won't affect the administrative
+interface). 
 
 Templates are processed through <tt>erb</tt>, which allows the values of
 Ruby variables and expressions to be interpolated into the HTML.  The
@@ -81,12 +87,12 @@ out.
 
 Therefore, when a template is first displayed to the learner, the
 element with the HTML5 element id <tt>interstitial</tt> (if one exists)
-is immediately hidden; if the learner advances to the next page _before_
-the timer runs out, this element is revealed, so it should display a
-message to the effect that "You'll proceed to the next step as soon as
-all learners in your group are ready."  You can use CSS to 
-float the element in a lightbox, overlay it on top of the main HTML, or
-whatever. 
+is immediately hidden; if the learner tries to advance to the next page
+_before_ the timer runs out, this element is revealed, so it should
+display a message to the effect that "You'll proceed to the next step as
+soon as all learners in your group are ready."  You can use CSS to float
+the element in a lightbox, overlay it on top of the main HTML, or
+whatever.
 
 
 == Displaying a question and answer choices
