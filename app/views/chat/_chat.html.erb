@@ -1,3 +1,5 @@
+ <div id="chat-box" class="container" data-chatgroup="<%= @chat_group ||= 'default' %>" data-taskid = "<%=@task_id%>" data-production = <%=Rails.env%>>
+
   <form id="chat-input-form" class="form-inline">
     <div class="form-group">
       <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
@@ -11,3 +13,4 @@
    </div>
    <div id="chat-text">
    </div>
+</div>
