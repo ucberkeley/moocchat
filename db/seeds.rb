@@ -19,7 +19,7 @@ end
 # Default template page
 
 Template.delete_all
-template1 = Template.create! :name => 'Default', :html => IO.read('db/chat_template.html.erb')
+template1 = Template.create! :name => 'Default', :html => IO.read('db/template.html')
 
 Condition.delete_all
 Condition.create!(name: "Chat Sequence 1",
