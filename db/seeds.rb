@@ -30,11 +30,12 @@ Template.delete_all
 # end
 template1 = Template.create! :name => 'learnerq', :html => IO.read('db/learnerresponse_template.html')
 template2 = Template.create! :name => 'chatr', :html => IO.read('db/chatresponse_template.html')
+template3 = Template.create! :name => 'assumption', :html => IO.read('db/identify_assumption_template.html')
 
 
 Condition.delete_all
 Condition.create!(name: "Chat Sequence 1",
-  prologue_pages: [],body_pages: [template1,template2], epilogue_pages: [],preferred_group_size: 2,
+  prologue_pages: [],body_pages: [template3,template1,template2], epilogue_pages: [],preferred_group_size: 2,
   minimum_group_size:1, body_repeat_count: 1)
 
 Cohort.delete_all
