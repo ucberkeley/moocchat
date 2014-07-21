@@ -13,69 +13,87 @@
    <!-- START learning-page -->
     <div id="main-task-page" class="moocchat-page">
         <div class="container">
-        <div>
-          
-          this is just a try
-          again
-        </div>
 
-
-            <div class="col-md-5 col-md-offset-1 moocchat-left-panel">
+          <!-- left side -->
+            <div class="col-md-6 moocchat-left-panel">
                 <div class="row">
-                    <p class="col-sm-11 h3">In this task, you'll learn a critical reasoning skill commonly called <em>identifying hidden assumptions</em>. Read the following carefully.
-                    </p>
+                    <div class="col-sm-11 moocchat-left-panel-direction h3">In this task, you'll learn a critical reasoning skill commonly called <em>identifying hidden assumptions.</em> Read the following carefully.
+                    </div>
+
+                    <div class="col-sm-11 moocchat-plain-text">
+                    <br>
+                       You see arguments every day in statements by politicians, businesses, and advertisements. These arguments are a way of trying to convince you that something is true. Here is an example:
+                       <br>
+                    </div>
+                    <div class="col-sm-11 lead">
+                    <br>
+                        Many mobile phone companies protect their technology with patents, and mobile phones continue to become more technically advanced every year. Therefore, patents lead to strong competition in the marketplace.
+                    </div>
                     <p class="col-sm-11 moocchat-plain-text">
-                        You see arguments everyday in advertisements. Advertisements are a company’s way of trying to convince you to purchase their product. Here’s an example:<br />
-                    </p>
-                    <p class="col-sm-11 lead">
-                        Hybrid automobiles improve your gas mileage. You can save money by buying a hybrid car.
-                    </p>
-                    <p class="col-sm-11 moocchat-plain-text">
-                        This advertisement contains the most basic components of an argument: a <span class="text-warning">premise</span> and a <span class="text-success">conclusion</span> (also called an inference). Once you’re able to identify which is which, you will be able to analyze the strength of the argument by looking for gaps in logic between the premises and the <span class="text-success">conclusion</span>. These gaps in logic, called <span class="text-info">assumptions</span>, are the backbone of many Critical Reasoning questions.<br />
+
+                        This statement contains the key components of an argument: <span class="text-warning">premise</span> and a <span class="text-success">conclusion</span>. But often there are gaps in logic between the <span class="text-warning">premise</span> and the <span class="text-success">conclusion</span>. These gaps can include <span class="text-info">assumptions</span>, and identifying the unstated <span class="text-info">assumptions</span> helps you spot the logical flaw in the reasoning:<br>
                     </p>
                     <p class="col-sm-11 moocchat-reading well">
                         Premise(s) + Assumption(s) = Conclusion(s)
                     </p>
                     <p class="col-sm-11 moocchat-plain-text">
-                        There are several <span class="text-info">assumptions</span> in the above example:
-                        <ol class="col-sm-11 moocchat-plain-text">
-                            <li class="moocchat-plain-text">
-                                The cost of the hybrid functionality may exceed the savings in fuel.
-                            </li>
-                            <li class="moocchat-plain-text">
-                                The improved gas mileage might encourage drivers to drive more than they otherwise would, so the reduced cost of driving might not save costs in the end.
-                            </li>
-                        </ol>
+
+                        If the <span class="text-info">assumptions</span> are incorrect, then the conclusion might not follow. There are several unstated or hidden <span class="text-info">assumptions</span> in the example above which may be not actually be true:
+                        
+                         <ul class="col-sm-10 col-sm-offset-1 moocchat-plain-text">
+                        <li class="moocchat-plain-text">
+                            <span class="text-info">Assumption</span>: we have plenty of innovation in the presence of patents.
+                            <ul class="moocchat-plain-text">
+                                <li class="moocchat-plain-text">
+                                    Perhaps defending against patents takes away resources from making even more innovative inventions.
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="moocchat-plain-text">
+                            <span class="text-info">Assumption</span>: strong competition is the biggest reason for the advanced technology in the mobile phone business.
+                            <ul class="moocchat-plain-text">
+                                <li class="moocchat-plain-text">
+                                     However, patents award a monopoly (exclusive rights) to the patent holder, thus reducing competition.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
                     </p>
                 </div>
             </div>
 
 
 
-            <div class="col-md-5 moocchat-right-panel">
+            <div class="col-md-6 moocchat-right-panel">
                 <div class="row">
-                    <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
-                        <button type="button" class="col-sm-5 btn btn-lg btn-default main-task-timer disabled" style="visibility:hidden;">Timer&emsp;&emsp;</button>
-                        <button type="button" id="learning-button" class="col-sm-6 col-sm-offset-1 btn btn-lg btn-info disabled">Next</button>
+                     <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
+                        <button type="submit" id="learning-button" class="col-sm-6 col-md-offset-6 btn btn-lg btn-info moocchat-next-button ">Next</button>
+                    </div>
+
+                    <br>
+                </div>
+
+                <div class="row">
+                    <br>
+                    <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-learning-right-panel-direction h4">
+                    After reading carefully, fill in the blank below and click <em>Next</em> to proceed. You may refer to the learning material on the left.
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-learning-right-panel-direction h4">After reading carefully, fill in the blank below and click <em>Next</em> to proceed. You may refer to the learning material on the left.
-                    </div>
-                </div>
+
                 <p class="col-sm-11 col-sm-offset-1 h4">
                     Read the short essay below.
                 </p>
-                <p class="col-sm-11 col-sm-offset-1 moocchat-learning-reading well">
-                </p>
+                <br>
+                <div class="col-sm-11 col-sm-offset-1 moocchat-learning-right-panel-direction moocchat-reading well">
+                <%= @question.text %>
+                </div>
                 <p class="col-sm-11 col-sm-offset-1 h4">
                     Identify an important unstated assumption in the essay.<br />This response will be shared with other students on the next screen while you have discussion on the essay.
                 </p>
-                <p class="col-sm-11 col-sm-offset-1 h5">
-                    <textarea class="form-control" rows="3" id="promptResp"></textarea>
-                </p>
+                <br>
+                    <textarea id= "assumption" class="col-sm-11 col-sm-offset-1"></textarea>
             </div>
-
 
         </div>
     </div>

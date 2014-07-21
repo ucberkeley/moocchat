@@ -9,12 +9,22 @@
 
   #main-task-page > .container {
     overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0px 0px 0px 0px;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
-  .moocchat-left-panel, .moocchat-right-panel{
+  .moocchat-left-panel{
     height: 99%;
     border-right: 1px solid #dddddd;
-    border-bottom: 1px solid #dddddd;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .moocchat-right-panel{
+    height: 99%;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -98,4 +108,16 @@
     /*z-index: 999;*/
     text-align: right;
   }
+
+  .moocchat-plain-text{
+  font-size: 17px;
+  }
+
+  textarea#assumption {
+  width: 90%;
+  height: 200px;
+  padding: 5px;
+  font-family: Tahoma, sans-serif;
+}
+
 }

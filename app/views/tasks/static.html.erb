@@ -1,82 +1,26 @@
-<!DOCTYPE html>
-
-<html>
-
-  <head>
-    <%= javascript_include_tag 'application' %>
-    <%= stylesheet_link_tag "application", :media=>"all" %>
-    <title>Page <%= @counter %></title>
-  </head>
-  <body>
-  <%= @start_form_tag %>
-
-   <!-- START learning-page -->
-    <div id="main-task-page" class="moocchat-page">
-        <div class="container">
-
-          <!-- left side -->
-            <div class="col-md-6 moocchat-left-panel">
-                <div class="row">
-                    <div class="col-sm-11 moocchat-left-panel-direction h3">In this task, you'll learn a critical reasoning skill commonly called <em>identifying hidden assumptions</em>. Read the following carefully.
-                    </div>
-                    <br>
-                    <div class="col-sm-11 moocchat-plain-text">
-                        You see arguments everyday in advertisements. Advertisements are a company’s way of trying to convince you to purchase their product. Here’s an example:<br />
-                    </div>
-                    <div class="col-sm-11 lead">
-                        Hybrid automobiles improve your gas mileage. You can save money by buying a hybrid car.
-                    </div>
-                    <p class="col-sm-11 moocchat-plain-text">
-                        This advertisement contains the most basic components of an argument: a <span class="text-warning">premise</span> and a <span class="text-success">conclusion</span> (also called an inference). Once you’re able to identify which is which, you will be able to analyze the strength of the argument by looking for gaps in logic between the premises and the <span class="text-success">conclusion</span>. These gaps in logic, called <span class="text-info">assumptions</span>, are the backbone of many Critical Reasoning questions.<br />
-                    </p>
-                    <p class="col-sm-11 moocchat-reading well">
-                        Premise(s) + Assumption(s) = Conclusion(s)
-                    </p>
-                    <p class="col-sm-11 moocchat-plain-text">
-                        There are several <span class="text-info">assumptions</span> in the above example:
-                        <ol class="col-sm-11 moocchat-plain-text">
-                            <li class="moocchat-plain-text">
-                                The cost of the hybrid functionality may exceed the savings in fuel.
-                            </li>
-                            <li class="moocchat-plain-text">
-                                The improved gas mileage might encourage drivers to drive more than they otherwise would, so the reduced cost of driving might not save costs in the end.
-                            </li>
-                        </ol>
-                    </p>
-                </div>
-            </div>
-
-
-
-            <div class="col-md-5 moocchat-right-panel">
-                <div class="row">
-                    <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
-                        <button type="button" class="col-sm-5 btn btn-lg btn-default main-task-timer disabled" style="visibility:hidden;">Timer&emsp;&emsp;</button>
-                        <button type="button" id="learning-button" class="col-sm-6 col-sm-offset-1 btn btn-lg btn-info disabled">Next</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-learning-right-panel-direction h4">After reading carefully, fill in the blank below and click <em>Next</em> to proceed. You may refer to the learning material on the left.
-                    </div>
-                </div>
-                <p class="col-sm-11 col-sm-offset-1 h4">
-                    Read the short essay below.
-                </p>
-                <p class="col-sm-11 col-sm-offset-1 moocchat-learning-reading well">
-                </p>
-                <p class="col-sm-11 col-sm-offset-1 h4">
-                    Identify an important unstated assumption in the essay.<br />This response will be shared with other students on the next screen while you have discussion on the essay.
-                </p>
-                <p class="col-sm-11 col-sm-offset-1 h5">
-                    <textarea class="form-control" rows="3" id="promptResp"></textarea>
-                </p>
-            </div>
-
-
-        </div>
-    </div>
-    <!-- END learning-page -->
-
-  </body>
-
-</html>
+<div class= "container">
+  <center><h1 class="title"><strong>MoocChat Configuration Page</strong></h1></center>
+  <br><br>
+  <i><h4>Please fill out the following</h4></i>
+  <%= form_tag tasks_path , :class => 'form-warning' do  %>
+  <div class="field">
+    <label for="learner_name"><b>Learner name</b></label><br/>
+    <%= text_field_tag :learner_name,nil, :placeholder=> "Put Your Name Here" %>
+  </div>
+  <div class="field">
+    <label for="condition_id"><b>Condition</b></label><br/>
+    <%= collection_select( :condition, :id, Condition.all, :id, :name,
+        {prompt: 'Please Select from the following choices'}, 
+        {class: "form-control", name: "condition_id"}  ) %>
+  </div>
+  <div class="field">
+    <label for="activity_schema_id"><b>Activity</b></label><br/>
+    <%= collection_select( :activity_schema, :id, ActivitySchema.all, :id, :name,
+        {prompt: 'Please Select from the following choices'}, 
+        {class: "form-control", name: "activity_schema_id" }) %>
+  </div>
+  <br><br>
+  <div class="actions">
+    <%= submit_tag "SUBMIT" , :class => "btn btn-primary"%>
+  </div>
+<% end %>
