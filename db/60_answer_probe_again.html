@@ -13,7 +13,7 @@
                 <!-- left side -->
                 <div class="col-md-6 moocchat-left-panel">
                     <div class="row">
-                        <div class="col-sm-11 moocchat-left-panel-direction h3">For the essay below, select among the five choices of A, B, C, D, or E.</div>
+                        <div class="col-sm-11 moocchat-left-panel-direction h3">Based on your reflection on the previous page, select your final response. <span class ='bonus-text'>You will receive a $1 bonus if you answer correctly.</span></div>
                     </div>
                     <div class="row">
                         <div class="col-sm-11 moocchat-reading well"><%= @question.text %></div>
@@ -25,16 +25,27 @@
                         <p>Select the best answer:</p>
                          <!-- capture learner's answer as choice number, 0..n-1  -->
                          <% @answers.each_with_index do |answer, index| %>
+                         <% if index==0 %>
+                                <% str= "A" %>
+                            <% elsif index==1 %>
+                                <% str= "B" %>
+                            <% elsif index==2 %>
+                                <% str= "C" %>
+                            <% elsif index==3 %>
+                                <% str= "D" %>
+                            <% else %>
+                                <% str="E" %>
+                            <% end %>
                            
                             <div class="col-sm-11 moocchat-choice-area moocchat-conditional">
                                 <div class="llist-group-item active moocchat-probing-question-choice">
                                     <div id="moocchat-choice-<%= index %>" class="list-group-item moocchat-choice moocchat-choice-<%= index %>">
-                                        <div id="moocchat-choice-<%= index %>-box" class="moocchat-choice-box moocchat-choice-box-<%= index %>"><%= index %></div>
-                                            <h4 class="list-group-item-heading moocchat-choice-statement">
-                                                <div class="row">    
-                                                    <input type="radio" value="<%= index %>" name="u[response]"> <%= answer %>
-                                                </div>
-                                            </h4>
+
+
+
+                                        <div id="moocchat-choice-<%= index %>-box" class="moocchat-choice-box moocchat-choice-box-<%= index %>"><%= str %></div>
+                                        
+                                        <h4 class="list-group-item-heading moocchat-choice-statement"> <%= answer %> </h4>
                                         </div>
                                 </div>
                             </div>
@@ -51,7 +62,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">Submit your answer and justification before the timer runs out.</div>
+                        <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">Submit your final answer and optionally revise your justification before the timer runs out.</div>
+                    </div>
+
+                    <div class="h3">Justify your answer.
+                    <br>
+                    <br>
+                    </div>  
+                    <textarea id= "justication_probe_again" class="col-sm-11 col-sm-offset-1 justify"></textarea>
+
                     </div>
                 </div>
             <!-- </div> -->

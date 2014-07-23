@@ -17,6 +17,8 @@ YAML.load_file('db/questions.yml').each do |question|
     :explanation => "To be determined")
 end
 
+
+
 # Default template page
 
 #template_arr = []
@@ -28,15 +30,16 @@ Template.delete_all
 #   name = if html.match( /<title>([^>]+)<\/title>/i ) then  $1 else 'Default' end
 #   template_arr.push(Template.create! :name => name, :html => html)
 # end
-template1 = Template.create! :name => 'learnerq', :html => IO.read('db/learnerresponse_template.html')
-template2 = Template.create! :name => 'chatr', :html => IO.read('db/chatresponse_template.html')
-template3 = Template.create! :name => 'assumption', :html => IO.read('db/identify_assumption_template.html')
-template4 = Template.create! :name => 'answer', :html => IO.read('db/show_answer_template.html')
+template20 = Template.create! :name => 'assumption', :html => IO.read('db/20_identify_assumption_template.html')
+template40 = Template.create! :name => 'learnerq', :html => IO.read('db/40_learnerresponse_template.html')
+template50 = Template.create! :name => 'chatr', :html => IO.read('db/50_chatresponse_template.html')
+template60 = Template.create! :name => 'answer', :html => IO.read('db/60_answer_probe_again.html')
+template65 = Template.create! :name => 'answer', :html => IO.read('db/65_show_answer_template.html')
 
 
 Condition.delete_all
 Condition.create!(name: "Chat Sequence 1",
-  prologue_pages: [],body_pages: [template3,template1,template2,template4], epilogue_pages: [],preferred_group_size: 2,
+  prologue_pages: [],body_pages: [template20,template40,template50,template60,template65], epilogue_pages: [],preferred_group_size: 2,
   minimum_group_size:1, body_repeat_count: 1)
 
 Cohort.delete_all

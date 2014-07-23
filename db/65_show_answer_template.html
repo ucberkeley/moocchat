@@ -24,16 +24,26 @@
                         <p>Select the best answer:</p>
                          <!-- capture learner's answer as choice number, 0..n-1  -->
                          <% @answers.each_with_index do |answer, index| %>
+                            <% if index==0 %>
+                                <% str= "A" %>
+                            <% elsif index==1 %>
+                                <% str= "B" %>
+                            <% elsif index==2 %>
+                                <% str= "C" %>
+                            <% elsif index==3 %>
+                                <% str= "D" %>
+                            <% else %>
+                                <% str="E" %>
+                            <% end %>
+                           
                            
                             <div class="col-sm-11 moocchat-choice-area moocchat-conditional">
                                 <div class="list-group moocchat-probing-question-choice">
                                     <div id="moocchat-choice-<%= index %>" class="list-group-item moocchat-choice ">
-                                        <div id="moocchat-choice-<%= index %>-box" class="moocchat-choice-box moocchat-choice-box-<%= index %>"><%= index %></div>
-                                            <h4 class="moocchat-choice-statement">
-                                                <div class="row">    
-                                                    <input type="radio" value="<%= index %>" name="u[response]"> <%= answer %>
-                                                </div>
-                                            </h4>
+                                        
+                                        <div id="moocchat-choice-<%= index %>-box" class="moocchat-choice-box moocchat-choice-box-<%= index %>"><%= str %></div>
+
+                                        <h4 class="list-group-item-heading moocchat-choice-statement"> <%= answer %> </h4>
                                         </div>
                                 </div>
                             </div>
@@ -53,10 +63,23 @@
                         <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">The correct answer and the explanation are shown below</div>
                     </div>
 
+                    <% correct = @question.correct_answer_index %>
+                        <% if correct==0 %>
+                                <% str= "A" %>
+                            <% elsif correct==1 %>
+                                <% str= "B" %>
+                            <% elsif correct==2 %>
+                                <% str= "C" %>
+                            <% elsif correct==3 %>
+                                <% str= "D" %>
+                            <% else %>
+                                <% str="E" %>
+                            <% end %>
 
                     <div class="row">
                         <div class="col-sm-11 col-sm-offset-1 moocchat-right-panel-direction">The answer is 
-                        <%=@question.correct_answer_index %> </div>
+
+                       <span id="moocchat-choice-<%= correct %>-box" class="moocchat-choice-box moocchat-choice-box-<%= correct %>"><%= str %></span> </div>
                     </div>
                         <div class="col-sm-9 col-sm-offset-1 moocchat-right-panel-direction">
                         Explanations: <br>

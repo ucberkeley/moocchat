@@ -113,7 +113,7 @@
   font-size: 17px;
   }
 
-  textarea#assumption {
+textarea.justify {
   width: 90%;
   height: 200px;
   padding: 5px;
@@ -153,6 +153,10 @@ background-color: #d9831f;
 .list-group-item-heading {
 margin-top: 0;
 margin-bottom: 5px;
+}
+
+.bonus-text {
+color: #ff0000;
 }
 
 }
