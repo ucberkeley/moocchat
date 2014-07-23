@@ -9,7 +9,7 @@
     <%= @start_form_tag %>
 
 
-
+<div id="main-task-page" class="moocchat-page">
 <div class="container">
             <div class="row">
                 <div id="consent-checking-panel" class="col-md-10 col-md-offset-1 hidden">
@@ -73,12 +73,16 @@
                     <p>You can use the “Save” feature in your web browser to save a copy of this consent form. </p>
                     <p> I consent to participate in this study. Take me to the experimental chat system now. </p>
 
-                    <button type="submit" id="consent-button" class="col-sm-12 col-md-offset-1 btn btn-lg btn-info">Agree</button>
-                        <button>Disagree</button>
-                    <p>If you do not wish to visit either of these pages, you may simply close this window.</p>
+                    <button type="submit" id="agree-button" class="col-sm-1 col-md-offset-1 btn agree-button">Agree</button>
+                    
+                    <a href= "/"><button type="submit" id="disagree-button" class="col-sm-1 col-md-offset-2 btn disagree-button">Disagree</button></a>
+
+                    <br>
+                    <p><br>If you do not wish to visit either of these pages, you may simply close this window.</p>
                 </div>
             </div>
             <!-- <a href="#portfolio" class="btn btn-lg btn-default page">Click Me!</a>
             <a href="#services" class="btn btn-lg btn-default page">Click Me!</a> -->
+        </div>
         </div>
 </body>
