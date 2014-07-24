@@ -32,15 +32,18 @@ Template.delete_all
 # end
 template10 = Template.create! :name => 'assumption', :html => IO.read('db/10_background.html')
 template20 = Template.create! :name => 'assumption', :html => IO.read('db/20_identify_assumption_template.html')
+template30 = Template.create! :name => 'assumption', :html => IO.read('db/30_assumption_discussion.html')
 template40 = Template.create! :name => 'learnerq', :html => IO.read('db/40_learnerresponse_template.html')
 template50 = Template.create! :name => 'chatr', :html => IO.read('db/50_chatresponse_template.html')
 template60 = Template.create! :name => 'answer', :html => IO.read('db/60_answer_probe_again.html')
 template65 = Template.create! :name => 'answer', :html => IO.read('db/65_show_answer_template.html')
 
+template31 = Template.create! :name => 'answer', :html => IO.read('db/31.html')
+template32 = Template.create! :name => 'answer', :html => IO.read('db/32.html')
 
 Condition.delete_all
 Condition.create!(name: "Chat Sequence 1",
-  prologue_pages: [],body_pages: [template10,template20,template40,template50,template60,template65], epilogue_pages: [],preferred_group_size: 2,
+  prologue_pages: [],body_pages: [template10,template20,template30,template40,template50,template60,template65], epilogue_pages: [],preferred_group_size: 2,
   minimum_group_size:1, body_repeat_count: 1)
 
 Cohort.delete_all

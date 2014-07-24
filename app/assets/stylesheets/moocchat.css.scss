@@ -118,7 +118,15 @@
   font-size: 17px;
   }
 
-textarea.justify {
+
+#justication_quesiton{
+  width: 90%;
+  height: 200px;
+  padding: 5px;
+  font-family: Tahoma, sans-serif;
+}
+
+#assumption {
   width: 90%;
   height: 200px;
   padding: 5px;
@@ -165,11 +173,18 @@ color: #ff0000;
 }
 
 .agree-button {
-  color: green;
+  color: #006633 ;
+  font-weight:bold;
+  background-color: #F8F8F8 ;
 }
 
 .disagree-button {
-  color: red;
+  width: 34px;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
 }
 
 }
