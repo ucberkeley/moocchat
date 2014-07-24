@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag "application", :media=>"all" %>
+    <title>Page <%= @counter %></title>
+  </head>
+  <body>
+    <%= @start_form_tag %>
+    <div id="main-task-page" class="moocchat-page">
+      <div class="container">  
+        <div class="col-md-6 moocchat-left-panel">
+          <div class="row">
+            <div class="col-sm-11 moocchat-left-panel-direction h3">Other students' responses are shown below. Discuss these assumptions in order to prepare for a question shown on the next screen.</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-11 moocchat-reading well"><%= @question.text %></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-11 moocchat-post-reading-direction h3"></div>
+          </div>
+          <div class="row">
+            <div class="col-sm-11">
+              <div class="list-group">
+                <div class="list-group-item">
+                  <h4 class="list-group-item-heading"><span class="student-1">Student 1</span> responded 'iu'</h4>
+                </div>
+                <div class="list-group-item">
+                  <h4 class="list-group-item-heading"><span class="student-2">Student 2</span> responded 'sdg'</h4>
+                </div>
+                <div class="list-group-item">
+                  <h4 class="list-group-item-heading"><span class="student-3">Student 3</span> responded 'asf'</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 moocchat-right-panel">
+          <div class="row">
+            <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
+              <button type="button" class="col-sm-5 btn btn-lg btn-info main-task-timer">Timer <span id="main-task-timer-time"><%= timer(520) %></span></button>
+              <button type="submit" class="col-sm-6 col-sm-offset-1 btn btn-lg moocchat-next-button btn-danger">Ready to Continue</button>
+            </div>
+            <div class="row">
+              <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">You may request to end the chat to proceed before the timer runs out.</div>
+            </div>
+            <div class="row">
+              <div class="col-sm-11 col-sm-offset-1 moocchat-chat-area moocchat-discussion-low moocchat-discussion-high moocchat-main-task-stage-1 moocchat-main-task-stage-6 moocchat-conditional">
+                <%= chat %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>z
+  </form>
+</body>
+</html>
