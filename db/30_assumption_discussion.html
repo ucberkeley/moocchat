@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag "application", :media=>"all" %>
+    <title>Page <%= @counter %></title>
+  </head>
+  <body>
+<%= @start_form_tag %>
+  <p>Here are the answers your peers gave:</p>
+    <% @data.each_with_index do |other, index| %>
+      <% next if index == @me %>
+      <p>Student <%= index %> selected choice 1 because:</p>
+      <p> <%= other['assumption'] %></p>
+    <% end %>
+    <!-- chat room -->
+    <p>Discuss with others until time runs out or you're ready to go on :</p>
+   <input type="submit" value="Request to end chat">  
+ </form>
+
+</body>
