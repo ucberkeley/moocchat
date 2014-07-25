@@ -69,10 +69,31 @@ class TasksController < ApplicationController
     render :inline => @html, :layout => false
   end
 
-  def next_page
+  # user submit = submit via AJAX (including form params) to submit_answer,
+  # which records and timestamps answer WITHOUT advancing task counters
+
+  def collect_response
+    render(:nothing => true, :status => 403) and return unless request.xhr?
     @task = Task.find params[:id]
     # save any user state posted by template; if none provided, don't overwrite
-    @task.update_attribute(:user_state, params[:u].stringify_keys) if params[:u]
+    if params[:u]
+      user_state = params[:u].stringify_keys
+      @task.update_attribute(:user_state, user_state)
+      user_state.each_pair do |key,val|
+        @task.log(:user_state, "#{key}=#{val}")
+      end
+    end
+    # log the event of user 'continuing'
+    @task.log(:continue)
+    render :nothing => true
+  end
+
+  # submit via timeout = directly post the form to next_page, which ONLY
+  # advances the counters
+
+  
+  def next_page
+    @task = Task.find params[:id]
     @task.next_page!
     # if 'next_question' field is nonblank, advance question counter
     @task.next_question! if !params[:next_question].blank?

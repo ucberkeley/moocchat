@@ -33,6 +33,9 @@ Moocchat::Application.routes.draw do
   # render current page of task
   get '/tasks/:id/page', :to => 'tasks#page', :as => 'task_page'
 
+  # record user's response (AJAX XHR)
+  post '/tasks/:id/collect_response', :to => 'tasks#collect_response', :as => 'task_collect_response'
+
   # advance to next page of task
   post '/tasks/:id/next_page', :to => 'tasks#next_page', :as => 'task_next_page'
 

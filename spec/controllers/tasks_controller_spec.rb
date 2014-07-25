@@ -47,18 +47,29 @@ describe TasksController do
     end
   end
 
-  describe 'user state' do
+  describe 'recording answer' do
     before :each do
       @task = create :task
       @user_state = {'foo' => '1', 'bar' => "bar", 'baz' => '["x","y"]'}
     end
+    it 'gives an error if not AJAX (XHR) post' do
+      post :collect_response, :id => @task, :u => @user_state
+      response.code.should == '403'
+    end
+    it 'logs the event' do
+      xhr :post, :collect_response, :id => @task, :u => @user_state
+      EventLog.find_all_by_task_id_and_name(@task, :user_state).each do |e|
+        key,val = e.value.split '='
+        @user_state[key].should == val
+      end
+    end
     it 'saves user state encoded as params[:u]' do
-      post :next_page, :id => @task, :u => @user_state
+      xhr :post, :collect_response, :id => @task, :u => @user_state
       @task.reload.user_state.should == @user_state
     end
     it 'does not overwrite user state if params[:u] absent' do
       @task.update_attribute :user_state, {'x' => '1'}
-      post :next_page, :id => @task
+      xhr :post, :collect_response, :id => @task
       @task.reload.user_state.should == {'x' => '1'}
     end
     it 'serves user state when next page is displayed' do

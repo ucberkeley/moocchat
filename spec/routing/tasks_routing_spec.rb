@@ -29,6 +29,9 @@ describe TasksController do
     it 'routes to join-group page' do
       expect(:post => '/tasks/9/join_group').to route_to :controller => 'tasks', :action => 'join_group', :id => '9'
     end
+    it 'routes recording the user response' do
+      expect(:post => '/tasks/9/collect_response').to route_to :controller => 'tasks', :action => 'collect_response', :id => '9'
+    end
     it 'routes next-page action' do
       expect(:post => '/tasks/9/next_page').to route_to :controller => 'tasks', :action => 'next_page', :id => '9'
     end

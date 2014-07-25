@@ -342,7 +342,7 @@ Each row of the table has the following attributes:
 0. +continue+ learner clicks "Continue"; value of +counter+ field is which page in task (starting from 0 for first prologue page) she was continuing **from**
 0. +view_page+ after clicking Continue and waiting for peers, learner is served the next page.  Typically a +continue+ event with +counter+ value n would be followed shortly after by a +proceed+ event with counter value n+1.
 0. +finish+  complete activity by exiting from its final page
-0. +user_data+ Sets +value+ to "key,new_data": learner modifies user data in any way, even while still on page.  Since user data is a set of key-value pairs per user, if the learner modifies multiple data items, an event will be logged for **each** modified item.  The key is guaranteed not to contain commas, so splitting this string on the first comma will always reconstruct the original +key+ and +new_data+.
+0. +user_state+ Sets +value+ to "key=new_data": learner modifies user data in any way, even while still on page.  Since user data is a set of key-value pairs per user, if the learner modifies multiple data items, an event will be logged for **each** modified item.  The key is guaranteed not to contain an equal sign, so splitting this string on the first '=' will always reconstruct the original +key+ and +new_data+.
 0. +chat+: sets +value+ to what this user just typed in chat box
 0. +quit_chat+ vote to stop chatting
 0. +rejoin_chat+ undo (cancel) a previous vote to stop chatting
