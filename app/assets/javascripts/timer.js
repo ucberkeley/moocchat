@@ -6,6 +6,8 @@ var Timer = {
   updateDisplay: function() {
     var min = Math.floor(this.seconds/60).toString();
     var sec = (this.seconds % 60).toString();
+    if (min < 0) { min = 0; }
+    if (sec < 0) { sec = 0; }
     var displayTime = (min<10 ? '0': '') + min + ':' + (sec<10 ? '0' : '') + sec;
     $(this.selectorToUpdate).text(displayTime);
   },
