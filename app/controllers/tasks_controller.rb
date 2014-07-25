@@ -53,7 +53,6 @@ class TasksController < ApplicationController
     end
     # set up variables for template to consume
     @question = @task.current_question
-    @answers = @question.answers
     @question_counter = @task.question_counter
     @counter = @task.counter
     @subcounter = @task.subcounter

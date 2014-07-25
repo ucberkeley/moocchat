@@ -105,16 +105,17 @@ the following explanation.  Line numbers are in parentheses.
   A complete <form> tag to start the form
   whose submission will cause the learner to move on to the next part of
   the task.  See the next subsection on Learner Navigation.  Do not try to
-  construct the <form> tag manually.
+  construct the <form> tag manually.  The macro gives this form an +id+
+  of +_main+, which various JavaScript helpers rely on.
 
-(3) <tt>@question</tt>:: 
+(3) <tt>@question.text</tt>:: 
   The text of the current question.  In practice you'd probably put this
   in a properly-styled +div+.
 
-(6) <tt>@answers</tt>:: 
+(6) <tt>@question.answers</tt>:: 
   An array of strings representing the possible
   answers; you can iterate over it with <tt>each</tt> or <tt>each_with_index</tt>.
-  <tt>@correct_answer_index</tt> 
+  <tt>@question.correct_answer_index</tt> 
   is the zero-based index of which answer is the correct one.
 
 (7, 11)  <tt>@u</tt>:: 
