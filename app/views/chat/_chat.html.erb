@@ -1,15 +1,6 @@
- <div id="chat-box" class="container" data-chatgroup="<%= @chat_group ||= 'default' %>" data-taskid="<%= @task_id %>" data-production="<%= Rails.env %>">
-  <form id="chat-input-form" class="form-inline">
-    <div class="form-group">
-      <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
-    </div>
-    <button id="send" class="btn btn-primary" type="submit">Send</button>
-  </form>
-  <div class="page-header">
-    <h1>Chat</h1>
-   </div>
-   <div id="chat-system">
-   </div>
-   <div id="chat-text">
-   </div>
+<div id="chat-box" class="moocchat-chat" data-chatgroup="<%= @chat_group ||= 'default' %>" data-taskid = "<%=@task_id%>" data-production = <%=Rails.env%>>
+  <div id="chat-system" class="moocchat-chat">
+  </div>
 </div>
+<input id="input-text" class="form-control" type="text" class="form-control" placeholder="Enter chat text here!">
+<button id ="send-chat-message" class="btn btn-warning" type="button">Send</button>
