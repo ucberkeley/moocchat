@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 ruby '1.9.3'
 gem 'rails', '3.2.18'
-gem 'capybara'
 gem 'puma'
 gem 'faye-websocket'
 gem 'omniauth'
@@ -22,6 +21,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'capybara-puma'
   gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'          # basic web steps like "I should see..."
   gem 'database_cleaner' # required by Cucumber
