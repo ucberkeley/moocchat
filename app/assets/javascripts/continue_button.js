@@ -29,7 +29,7 @@ var ContinueButton =  {
       return;
     }
     $('#interstitial').hide();
-    $('body').on('click', ':submit', ContinueButton.sendForm);
+    $('body').on('click', ':submit:not(#send)', ContinueButton.sendForm);
   }
 };
 
