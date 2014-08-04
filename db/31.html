@@ -10,7 +10,7 @@
   <body>
 <%= @start_form_tag %>
     <p>Here is a question:</p>
-        <%= @question %>
+        <%= @question.text %>
     <p>Select the best answer:</p>
       <!-- capture learner's answer as choice number, 0..n-1  -->
       <% @answers.each_with_index do |answer, index| %>
@@ -20,7 +20,7 @@
    <p>Please explain your answer (will be seen by instructor)</p>
    <input type="textarea" name="u[explanation]"> <br>
    <!-- timer - by default, countdown specified by Condition -->
-   <%= timer(180) %>
+   <%= timer(10) %>
    <!-- submit button - automatically "clicked" if timer expires first -->
    <input type="submit" value="Ready to Continue">
  </form>

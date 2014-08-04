@@ -43,7 +43,7 @@ template32 = Template.create! :name => 'answer', :html => IO.read('db/32.html')
 
 Condition.delete_all
 Condition.create!(name: "Chat Sequence 1",
-  prologue_pages: [],body_pages: [template10,template20,template40,template50,template60,template65], epilogue_pages: [],preferred_group_size: 2,
+  prologue_pages: [],body_pages: [template31,template32], epilogue_pages: [],preferred_group_size: 2,
   minimum_group_size:1, body_repeat_count: 1)
 
 Cohort.delete_all
