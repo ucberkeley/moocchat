@@ -15,7 +15,14 @@ When /^I have advanced to a chat page$/ do
   visit task_page_path(@task)
 end
 
-When ^I send "(.*)" as my chat text$/ do |string|
-  fill_in 'chat-box', :with => string
-  
+When /^I send "(.*)" as my chat text$/ do |string|
+  fill_in 'input-text', :with => string
+  click_button 'send'
+end
+
+Then /^the chat box should contain \/([^\/]*)\/$/ do |re|
+  regexp = Regexp.new re
+  within '#chat-system' do
+    page.should have_xpath('//*', :text => regexp)
+  end
 end
