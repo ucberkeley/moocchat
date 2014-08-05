@@ -1,0 +1,190 @@
+#main-task-page {
+  .moocchat-page {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0px 0px 0px 0px;
+    overflow: hidden;
+  }
+
+  #main-task-page > .container {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0px 0px 0px 0px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .moocchat-left-panel{
+    height: 99%;
+    border-right: 1px solid #dddddd;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .moocchat-right-panel{
+    height: 99%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .moocchat-right-panel-direction, .moocchat-left-panel-direction {
+    margin-top: 15px;
+  }
+
+  .moocchat-reading.well,
+  .moocchat-learning-reading.well {
+    font-size: 17px;
+  }
+
+  .list-group-item-heading.moocchat-choice-statement {
+    display: inline-block;
+  }
+
+  .moocchat-message.system {
+    border-left: 5px solid #D9230F;
+    color: #D9230F;
+  }
+
+  .moocchat-message.student-1 {
+    border-left: 5px solid #3a87ad;
+    color: #3a87ad;
+  }
+  .student-1 {color: #3a87ad;}
+
+  .moocchat-message.student-2 {
+    border-left: 5px solid #468847;
+    color: #468847;
+  }
+  .student-2 {color: #468847;}
+
+  .moocchat-message.student-3 {
+    border-left: 5px solid #c09853;
+    color: #c09853;
+  }
+
+  .student-3 {color: #c09853;}
+
+  .list-group-item:hover {
+    background-color: #f5f5f5;
+  }
+
+  .moocchat-control-panel {
+    /*position: fixed;
+    bottom: 0px;*/
+    margin-top: 15px;
+    /*z-index: 999;*/
+    text-align: right;
+  }
+
+  .moocchat-chat {
+    height: 350px;
+    border: 1px solid #dddddd;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: left;
+  }
+
+  #moocchat-chat-input {
+    margin-top: 10px;
+    max-width: 75%;
+    display: inline;
+  }
+
+  #moocchat-chat-send {
+    margin-top: -5px;
+    margin-left: 15px;
+    max-width: 20%;
+    display: inline;
+  }
+
+  .container{
+    min-height: 100%; 
+    height:100%; 
+    width: 100%;
+    min-width:100%;
+  }
+
+  .moocchat-control-panel {
+    /*position: fixed;
+    bottom: 0px;*/
+    margin-top: 15px;
+    /*z-index: 999;*/
+    text-align: right;
+  }
+
+  .moocchat-plain-text{
+  font-size: 17px;
+  }
+
+
+#justication_quesiton{
+  width: 90%;
+  height: 200px;
+  padding: 5px;
+  font-family: Tahoma, sans-serif;
+}
+
+#assumption {
+  width: 90%;
+  height: 200px;
+  padding: 5px;
+  font-family: Tahoma, sans-serif;
+}
+
+.moocchat-choice-box-0 {
+  background-color: #d9230f;
+}
+  .moocchat-choice-box-1 {
+  background-color: #469408;
+}
+
+.moocchat-choice-box-2 {
+background-color: #029acf;
+}
+
+.moocchat-choice-box-3 {
+background-color: #9b479f;
+}
+
+.moocchat-choice-box-4 {
+background-color: #d9831f;
+}
+
+  .moocchat-choice-box {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  text-align: center;
+  color: #fafafa;
+  font-weight: bold;
+  opacity: 0.9;
+  display: inline-block;
+}
+
+.list-group-item-heading {
+margin-top: 0;
+margin-bottom: 5px;
+}
+
+.bonus-text {
+color: #ff0000;
+}
+
+.agree-button {
+  color: #006633 ;
+  font-weight:bold;
+  background-color: #F8F8F8 ;
+}
+
+.disagree-button {
+  width: 34px;
+  padding: 2px 6px 2px 6px;
+  border-top: 1px solid #CCCCCC;
+  border-right: 1px solid #333333;
+  border-bottom: 1px solid #333333;
+  border-left: 1px solid #CCCCCC;
+}
+
+}
