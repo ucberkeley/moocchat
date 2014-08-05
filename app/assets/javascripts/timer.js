@@ -4,8 +4,8 @@ var Timer = {
   submitUrl: '',                // only if no form on this page
   nextTimeout: null,
   updateDisplay: function() {
-    var min = Math.min(0, Math.floor(this.seconds/60));
-    var sec = Math.min(0, this.seconds % 60);
+    var min = Math.max(0, Math.floor(this.seconds/60));
+    var sec = Math.max(0, this.seconds % 60);
     var minString = (min < 10 ? '0'+min.toString() : min.toString());
     var secString = (sec < 10 ? '0'+sec.toString() : sec.toString());
     $(this.selectorToUpdate).text(minString + ':' + secString);
