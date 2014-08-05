@@ -1,10 +1,11 @@
 var Chat = {
+  group: null,
   ws: null,
-  inputForm: null,
+  sendChatMessageButton: null,
 
   initialize: function(chatGroup,taskid,rails_mode) {
     this.group = chatGroup;
-    this.inputForm = $('#chat-input-form');
+    this.sendChatMessageButton = $('#send-chat-message');
     // create websocket
     var scheme="";
     if (rails_mode== 'production'){
@@ -26,16 +27,12 @@ var Chat = {
 
     this.ws.onmessage = function(message) {
       var data = JSON.parse(message.data)
-      //if (data.group == this.group){
-      $("#chat-system").append("<div class='panel panel-default'><div class='panel-body'>" + data.text + "</div></div>")
-      //}
+      $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + data.text + "</p></blockquote>")
     }
   },
-
   sendMessages: function() {
     var self = this
-    this.inputForm.on("submit", function(event) {
-    //$("#chat-input-form").on("submit", function(event) {
+    this.sendChatMessageButton.click(function(event) {
       event.preventDefault();
       var text   = $("#input-text")[0].value;
       self.ws.send(JSON.stringify({ text: text }));
