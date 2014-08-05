@@ -24,7 +24,7 @@
                     <div class="row">
                         <p>Select the best answer:</p>
                          <!-- capture learner's answer as choice number, 0..n-1  -->
-                         <% @answers.each_with_index do |answer, index| %>
+                         <% @question.answers.each_with_index do |answer, index| %>
                          <% if index==0 %>
                                 <% str= "A" %>
                             <% elsif index==1 %>
