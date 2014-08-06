@@ -5,22 +5,13 @@ var Chat = {
 
   initialize: function(chatGroup,taskid,rails_mode) {
     this.group = chatGroup;
-    this.sendChatMessageButton = $('#send-chat-message');
     // create websocket
-    var scheme="";
-    if (rails_mode== 'production'){
-      scheme = 'wss://';
-    }
-    else{
-      scheme = 'ws://';
-    }
-
+    var scheme= (rails_mode == 'production' ? 'wss://' : 'ws://');
     var uri = scheme + window.document.location.host + "/"+chatGroup+","+ taskid;
-
+    this.sendChatMessageButton = $('#send-chat-message');
     this.ws = new WebSocket(uri);
     this.sendMessages();
     this.receiveMessages();
-    
   },
 
   receiveMessages: function() {
@@ -31,7 +22,7 @@ var Chat = {
     }
   },
   sendMessages: function() {
-    var self = this
+    var self = this;
     this.sendChatMessageButton.click(function(event) {
       event.preventDefault();
       var text   = $("#input-text")[0].value;

@@ -44,6 +44,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-puma (1.0.1)
+      capybara
+      puma
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
@@ -308,7 +311,7 @@ PLATFORMS
 
 DEPENDENCIES
   autotest-rails
-  capybara
+  capybara-puma
   coffee-rails (~> 3.2.1)
   cucumber-rails
   cucumber-rails-training-wheels

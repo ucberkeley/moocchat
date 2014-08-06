@@ -61,7 +61,7 @@ class TasksController < ApplicationController
     @subcounter = @task.subcounter
     @chat_group = @task.chat_group
     @start_form_tag = view_context.form_tag(task_next_page_path(@task),
-      'id' => '_main', 'data-log-url' => task_log_event_path(@task))
+      'id' => '_main', 'data-log-url' => task_collect_response_path(@task))
     @submit_to = task_next_page_path @task
     @me = @task.learner_index
     @data = @task.user_state_for_all
@@ -72,7 +72,7 @@ class TasksController < ApplicationController
     render :inline => @html, :layout => false
   end
 
-  # user submit = submit via AJAX (including form params) to submit_answer,
+  # user clicks submit => AJAX form submission posts to collect_response,
   # which records and timestamps answer WITHOUT advancing task counters
 
   def collect_response
@@ -91,10 +91,9 @@ class TasksController < ApplicationController
     render :nothing => true
   end
 
-  # submit via timeout = directly post the form to next_page, which ONLY
+  # timeout => directly post the form to next_page, which ONLY
   # advances the counters
 
-  
   def next_page
     @task = Task.find params[:id]
     @task.next_page!

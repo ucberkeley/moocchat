@@ -6,6 +6,26 @@
 #  task = create(:task)
 # Note that you have to restart console if you modify this file.
 
+module FactoryHelpers
+  def self.task_template(next_question)
+    %Q{
+<!DOCTYPE html>
+<html>
+<head>
+  <%= javascript_include_tag 'application' %>
+  <title>Page <%= @counter %></title>
+</head>
+<body>} <<
+      yield <<
+      %Q{<%= form_tag task_next_page_path(@task) do %>
+  <input type="hidden" name="next_question" value="#{next_question}">
+  <%= submit_tag "Continue" %>
+<% end %>
+</body></html>}
+  end
+end
+
+
 FactoryGirl.define do
 
   factory :activity_schema do
@@ -78,26 +98,35 @@ FactoryGirl.define do
     #
     url nil
     name 'test'
-    html { %Q{
-<!DOCTYPE html>
-<html>
-<head>
-  <%= javascript_include_tag 'application' %>
-  <title>Page <%= @counter %></title>
-</head>
-<body>
+    html do
+      FactoryHelpers::task_template(next_question) do
+      %Q{
 <div class="debugging">
   <span class="task_id">Task <%= @task_id %></span>
   <span class="counter">Page <%= @counter %></span>
   <span class="subcounter">Subcounter <%= @subcounter %></span>
   <span class="question">Question <%= @question_counter %></span>
   <span class="chat_group">Chat group <%= @chat_group %></span>
+</div>}
+      end
+    end
+  end
+
+  factory :template_with_chat, :class => Template do
+    ignore do
+      next_question ''
+    end
+    url nil
+    name 'chat_test'
+    html do
+      FactoryHelpers::task_template(next_question) do
+      %Q{
+<div class="chat">
+ <%= chat %>
 </div>
-<%= form_tag task_next_page_path(@task) do %>
-  <input type="hidden" name="next_question" value="#{next_question}">
-  <%= submit_tag "Continue" %>
-<% end %>
-</body></html>} }
+}
+      end
+    end
   end
 
   factory :waiting_room do
