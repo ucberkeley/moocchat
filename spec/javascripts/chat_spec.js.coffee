@@ -24,6 +24,7 @@ describe 'Chat socket', ->
   it 'finds Send Message button', ->
     expect(Chat.sendChatMessageButton).not.toBeNull()
   it 'triggers sendMessages handler when Send clicked', ->
+    pending()
     $('#input-text').val 'Hello World'
     $('#send-chat-message').trigger 'click'
     expect(@sendSpy).toHaveBeenCalled()
