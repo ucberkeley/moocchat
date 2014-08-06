@@ -23,6 +23,9 @@ class TasksController < ApplicationController
       redirect_to :action => 'sorry', :notice => 'Timer value was not found.'
     end
     @task = Task.find params[:id]
+    # never start with a timer of zero. If timer is zero, bump up to
+    # next start time.
+    if @timer.zero? then @timer += @task.activity_schema.starts_every end
   end
 
   def join_group
