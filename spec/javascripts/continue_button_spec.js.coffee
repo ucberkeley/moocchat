@@ -1,7 +1,7 @@
 describe 'main form', ->
   beforeEach ->
     setFixtures('<div id="interstitial"></div>' +
-      '<form id="_main" data-log-url="/tasks/3/log" action="/tasks/3/next_page">' +
+      '<form id="_main" data-log-url="/tasks/3/collect_response" action="/tasks/3/next_page">' +
       '<input type="text" id="test" name="u[my_answer]">' +
       '<input id="submit" type="submit" value="Continue">' +
       '</form>')
@@ -22,7 +22,7 @@ describe 'main form', ->
           expect($.ajax).toHaveBeenCalled
           @ajax_props = $.ajax.calls.argsFor(0)[0]
         it 'to correct URL', ->
-          expect(@ajax_props.url).toEqual '/tasks/3/log'
+          expect(@ajax_props.url).toEqual '/tasks/3/collect_response'
         it 'with correct form data', ->
           expect(@ajax_props.data).toEqual('u%5Bmy_answer%5D=MyAnswer')
       it 'disables the submit button', ->
