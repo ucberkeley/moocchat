@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-sm-11 moocchat-post-reading-direction">Which of the following makes the most reasonable assuption?</div>
                     </div>
-                    <div class="row">
+                    <div class="row answer-box-js">
                         <p>Select the best answer:</p>
                          <!-- capture learner's answer as choice number, 0..n-1  -->
                          <% @question.answers.each_with_index do |answer, index| %>
@@ -37,11 +37,10 @@
                                 <% str="E" %>
                             <% end %>
                            
-                           
-                            <div class="col-sm-11 moocchat-choice-area moocchat-conditional">
-                                <div class="llist-group-item active moocchat-probing-question-choice">
-                                    <div id="moocchat-choice-<%= index %>" class="list-group-item moocchat-choice moocchat-choice-<%= index %>">
-                                        <div id="moocchat-choice-<%= index %>-box" class="moocchat-choice-box moocchat-choice-box-<%= index %>"><%= str %></div>
+                            <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
+                                <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
+                                    <div id="moocchat-choice-<%= index %>" class="list-group-item moocchat-choice moocchat-choice-<%= index %> answer-box">
+                                        <div id="moocchat-choice-<%= index %>-box" class="moocchat-choice-box moocchat-choice-box-<%= index %> letter-box letter-box-<%= index %>"><%= str %></div>
                                             <h4 class="list-group-item-heading moocchat-choice-statement"> <%= answer %> </h4>
                                         </div>
                                 </div>
@@ -53,7 +52,7 @@
                 <div class="col-md-6 moocchat-right-panel">
                     <div class="row">
                         <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
-                            <button type="button" class="col-sm-5 btn btn-lg btn-default main-task-timer disabled">Timer <span id="main-task-timer-time"> <%= timer(180) %></span></button>
+                            <button type="button" class="col-sm-5 btn btn-lg btn-default main-task-timer disabled">Timer <span id="main-task-timer-time"> <%= timer(20) %></span></button>
                             
                             <button type="submit" id="learning-button" class="col-sm-6 col-md-offset-1 btn btn-lg btn-info moocchat-next-button ">Next</button>
                         </div>
