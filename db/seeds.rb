@@ -27,7 +27,7 @@ Template.delete_all
 template_files = File.join(Rails.root, 'db', '*.html')   # makes it easy to put templates somewhere else in future
 templates = Dir.glob(template_files).map do |filename|
   html = IO.read(filename)
-  name = if html.match( /<title>([^>]+)<\/title>/i ) then  $1 else 'Default' end
+  name = if html.match( /<title>([^>]+)<\/title>/i ) then  $1 else File.basename(filename) end
   template_arr.push(Template.create! :name => name, :html => html)
 end
 
