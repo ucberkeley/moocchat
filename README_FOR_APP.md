@@ -4,6 +4,10 @@ If you're not a developer, please go away now.
 
 0. Clone this repo
 0. Change into app's root directory
+0. On Ubuntu, update to latest packages, then do:
+`sudo apt-get install curl libpq-dev phantomjs chromium-chromedriver python-selenium`
+0. Install Ruby with RVM (follow instructions output on console):
+`\curl -sSL https://get.rvm.io | bash`
 0. Run `bundle` to make sure you have all gems/libraries
 0. Install PhantomJS to run JavaScript tests headlessly:
   1. Mac OS with [homebrew](http://brew.sh): `brew install phantomjs`
@@ -14,6 +18,8 @@ that require it:
   1. Mac OS without homebrew, or other platforms:   
   [Download here](https://code.google.com/p/selenium/wiki/ChromeDriver), but in
   general, after download `sudo mv chromedriver /usr/bin/` and `sudo chmod +x /usr/bin/chromedriver`
+  If you installed with apt-get, do: `sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver`
+  And add chromium libs to the library path: `sudo ln -s /usr/lib/chromium-browser/libs/lib*.so /usr/lib/`
 0. First time: run `rake db:migrate db:seed` to create your development
 database, populate its schema, and insert any initial data
 0. run `gem install foreman` to install foreman
