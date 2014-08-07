@@ -28,6 +28,7 @@
         <td><% if condition.body_pages.any? %>
               <% condition.body_pages.each do |elm| %>
                 <%= link_to elm.name, template_path(elm) %>
+                <br>
               <%end%>
             <%end%>
         </td>
