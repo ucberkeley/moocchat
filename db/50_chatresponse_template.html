@@ -7,6 +7,7 @@
     <title>Page <%= @counter %></title>
   </head>
   <body>
+    <%= interstitial %>
     <%= @start_form_tag %>
     <div id="main-task-page" class="moocchat-page">
       <div class="container">  
@@ -39,7 +40,7 @@
         <div class="col-md-6 moocchat-right-panel">
           <div class="row">
             <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
-              <button type="button" class="col-sm-5 btn btn-lg btn-info main-task-timer">Timer <span id="main-task-timer-time"><%= timer(520) %></span></button>
+              <button type="button" class="col-sm-5 btn btn-lg btn-info main-task-timer">Timer <span id="main-task-timer-time"><%= timer(70) %></span></button>
               <button type="submit" class="col-sm-6 col-sm-offset-1 btn btn-lg moocchat-next-button btn-danger">Ready to Continue</button>
             </div>
             <div class="row">
