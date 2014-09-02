@@ -1,7 +1,7 @@
 MOOCchat is a SaaS app for integrating peer learning/peer discussion
 into MOOCs and similar settings.
 
-This [short screencast](https://www.youtube.com/watch?v=FIc36pfeyqA)
+This {short screencast}[https://www.youtube.com/watch?v=FIc36pfeyqA]
 shows the previous version of this software in action.  In this new 
 version, the flow and appearance are basically the same, but the code
 has been completely rewritten: a new back end (Rails instead of Node) 
