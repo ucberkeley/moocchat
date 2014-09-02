@@ -1,8 +1,15 @@
 MOOCchat is a SaaS app for integrating peer learning/peer discussion
 into MOOCs and similar settings.
 
+This [short screencast](https://www.youtube.com/watch?v=FIc36pfeyqA)
+shows the previous version of this software in action.  In this new 
+version, the flow and appearance are basically the same, but the code
+has been completely rewritten: a new back end (Rails instead of Node) 
+and new front end (jQuery and Websockets).
+
 This document gives an overview of how to set up experiments/activities
-with MOOCchat.  Partial URLs are given for all paths, so that if the
+with MOOCchat and an overview of the structure of the backend server.  
+Partial URLs are given for all paths, so that if the
 app is hosted on <tt>http://moocchat.herokuapp.com</tt>, the path
 <tt>/tasks/welcome</tt> refers to <tt>http://moocchat.herokuapp.com/tasks/welcome</tt>.
 
