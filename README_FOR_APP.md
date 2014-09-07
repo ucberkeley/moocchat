@@ -13,6 +13,9 @@ features, bugs, releases, etc.
 are initials of developer, eg "AF") for new features,
 `bug/XX/description-of-bug` for bug fixes,
 `test/XX/description-of-test` for changes that add test coverage, etc.
+0. We are using [CodeClimate to monitor our code
+quality](https://codeclimate.com/github/ucberkeley/moocchat)
+
 
 ## Developers -- getting started
 
@@ -22,7 +25,7 @@ are initials of developer, eg "AF") for new features,
 `sudo apt-get install curl libpq-dev phantomjs chromium-chromedriver python-selenium`
 0. Install Ruby with RVM (follow instructions output on console):
 `\curl -sSL https://get.rvm.io | bash`
-0. Run `bundle` to make sure you have all gems/libraries
+0. Run `bundle install` to make sure you have all gems/libraries
 0. Install PhantomJS to run JavaScript tests headlessly:
   1. Mac OS with [homebrew](http://brew.sh): `brew install phantomjs`
   1. Other cases: [download here](phantomjs.org/download.html)
@@ -31,16 +34,16 @@ that require it:
   1. Mac OS with [homebrew](http://brew.sh): `brew install chromedriver`
   1. Mac OS without homebrew, or other platforms:   
   [Download here](https://code.google.com/p/selenium/wiki/ChromeDriver), but in
-  general, after download `sudo mv chromedriver /usr/bin/` and `sudo chmod +x /usr/bin/chromedriver`
+  general, after download `sudo mv chromedriver /usr/bin/` and `sudo chmod +x /usr/bin/chromedriver`;
   If you installed with apt-get, do: `sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver`
   And add chromium libs to the library path: `sudo ln -s /usr/lib/chromium-browser/libs/lib*.so /usr/lib/`
-0. First time: run `rake db:migrate db:seed` to create your development
-database, populate its schema, and insert any initial data
-0. run `gem install foreman` to install foreman
+0. Run `make check` (that's make, not rake) to create development
+database, populate its schema, insert any initial data, and run
+regression tests to make sure all is well (see below under Deploying)
 0. `foreman run local` to start the app
 0. It should now be live on `http://localhost:3000`
 
-## Deploying to master
+## Pushing to master
 
 0. Before you do any merging:  go back to master and do a git pull to make sure you have latest master
 0. Then switch back into your branch and rebase against master, fixing any conflicts, and making sure all your tests are passing.
@@ -56,9 +59,9 @@ rake spec        # runs all specs, including javascript
 ```
 
 to verify that there is no bug introduced
-0. Then do pull request
+0. Then do pull request on your rebased branch
 
-## To deploy on Heroku for your own staging:
+## To deploy on Heroku for your own testing:
 
 0. First time: `heroku app:create pick-some-app-name`
 0. First time: `heroku labs:enable websockets` to enable websockets for chat app
@@ -69,14 +72,12 @@ to verify that there is no bug introduced
 
 ## Testing your JavaScript
 
-See the JavaScript chapter in the book for how to write JS tests using
-Jasmine.  It's almost exactly like writing RSpec.
-
 0. You can add tests in `spec/javascripts/*.js` or `*.js.coffee`
 0. To run tests with browser GUI: start the app locally (`foreman run
 local` or even just `rails s`), then go to `http://localhost:3000`; each
 time you re-load this page, it re-runs all your JS specs
-0. To run tests from command line: `rake spec:javascript`
+0. To run tests from command line: `rake spec:javascript` (uses
+`phantomjs`) 
 
 ## Other useful tasks
 
