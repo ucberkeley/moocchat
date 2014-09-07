@@ -15,45 +15,107 @@ app is hosted on <tt>http://moocchat.herokuapp.com</tt>, the path
 
 = Data Model and Terminology
 
-User Roles:
+== User Roles
+
+Single-table inheritance is used to distinguish three types
+of Users:
 
 * A Learner is a person in a course who participates in peer instruction
   activities.  
-* A Cohort is a group of learners, e.g., the enrollees in a course.  A
-  learner can belong to multiple cohorts.
 * An Instructor is an instructional staff member or researcher who sets
   up peer instruction activities and can also do anything a Learner can do
   (for example, test-drive an activity).
 * An Administrator administers the use of the system and can also do
   everything that Learners and Instructors can do.
 
-Objects:
+In addition, a Cohort is a group of learners, e.g., the enrollees in a
+course.  A learner can belong to multiple cohorts.
 
-A Question is an opportunity for a learner to respond to something,
-via multiple choice, open ended text, or whatever.
+== Describing an Experiment
 
-An Activity Schema is a list of Questions that may feature some peer
-instruction, for example, a quiz review session.
+As {this video}[https://www.youtube.com/watch?v=FIc36pfeyqA] shows, a
+typical "experiment" involves a cohort of students who as a group go
+through an activity in which they answer a question individually,
+discuss the answer in small groups using text chat, and then possibly
+get to answer again.
+
+An *experimental condition* is a collection of parameters defining such
+an activity, as follows:
+
+A Question consists of some question text accompanied by a set of
+multiple-choice answers and an indicator of which answer is correct.
+
+An ActivitySchema is a list of Questions that may feature some peer
+instruction, for example, a quiz review session.  Besides the list of
+questions, the ActivitySchema has a name, a start and end time, and a
+"starts every" interval -- how often
+the activity starts.  For example, if "starts every" is 10 minutes,
+learners can only do the activity between the 
+start and end times, and when they arrive, they must wait until the next
+10-minute boundary before they begin.
+
+A Template is an HTML page processed through Erb that can contain
+elements such as questions, radiobuttons for learners to select an
+answer, text fields for learners to provide textual explanations,
+a chat box, and so on.  The next section describes how instructors can
+create templates.
 
 A Condition describes how a learner or group of learners interacts
 with an Activity Schema (set of questions).  The Condition consists of a
 set of page views based on Templates.  Specifically, a condition
-consists of:
+specifies:
 
 * a sequence of zero or more prologue pages (e.g., instructions to the
 learner) 
-* a sequence of one or more body pages
+* a sequence of one or more body pages, which can contain questions,
+chat boxes, and so on
 * a repeat count for the number of times the body sequence is to be repeated
-* a sequence of zero or more epilogue pages.
+* a sequence of zero or more epilogue pages, to be shown after the last
+repeat of the body sequence.
 
-Each template in the body can specify whether to advance the question
-counter or not, to consume successive questions from the Activity
-Schema.  It is the experimenter's responsibility to ensure there are
-enough questions.  For example, suppose the body contains two pages, 
+The rationale is that the same ActivitySchema, that is, the same list of
+questions to be used during the same review session, can be instantiated
+under different experimental conditions.  For example, one group of
+learners assigned to Condition A would be given a followup ("transfer")
+question  after the initial question, while those in Condition B would
+not; or the learners in conditions A and B would be allowed differing
+amounts of time to discuss their answers.
+
+
+== The Task model
+
+All of the above data structures (Condition, ActivitySchema, Learner,
+Question, Template) are created to support the run of an experiment.
+
+A Task is a runtime-only data structure that captures a single learner's
+session interacting with an experiment.  Specifically, a Task associates
+the triplet (Learner, Condition, ActivitySchema), and is created only
+when such a triplet is supplied.  The Task#static view presents a form
+that can be submitted to create a task, or an HTTP POST to
+Task#create_from_params can do it (for example, by embedding a form in
+the online course).
+
+At Task creation time, each learner is assigned to a chat group with
+other learners; the preferred and minimum allowed sizes of a chat group
+are determined by the associated Condition.
+
+Thereafter, the Task object is responsible for the "session
+state" that tracks each learner through the activity:
+
+* The Task captures the Learner answers and explanations, and makes them
+available to the Templates shown to other learners in the same chat group.
+
+* Each template can specify whether to advance the question
+counter or not, to consume successive questions from the ActivitySchema.
+For example, suppose the body contains two pages, 
 each page consumes a question, and the body is to be repeated five
 times.  Then the Activity Schema should contain at least ten questions
 to avoid repetition.  (The question counter will wrap around to the
 beginning of the question list if it runs out of questions.)
+
+* The Task is responsible for receiving all interaction from a Learner
+(choosing an answer, voting to continue, etc) and logging an appropriate
+event; see Logging below.
 
 = Creating Templates
 
@@ -88,19 +150,28 @@ names begin with <tt>@</tt>.
 
 == Templates and Timers
 
-Most templates will have a timer element that automatically advances to
-the next page if the learner hasn't manually done so when the timer runs
-out.  
+Because the activities require each chat group to move through the
+activity more or less together, most pages have a "Continue" button, but
+that button just registers (via AJAX) the learner's intent to continue;
+it does not actually do the form-submit that causes the next-page action
+to happen.
 
-Therefore, when a template is first displayed to the learner, the
-element with the HTML5 element id <tt>interstitial</tt> (if one exists)
+Instead, most templates will have a timer element that automatically
+advances to the next page when the timer runs out.  The timer value is
+determined by the Condition.
+
+When a template is first displayed to the learner, the
+HTML5 element with id <tt>interstitial</tt> (if one exists)
 is immediately hidden; if the learner tries to advance to the next page
-_before_ the timer runs out, this element is revealed, so it should
+before the timer runs out, this element is revealed, so it should
 display a message to the effect that "You'll proceed to the next step as
 soon as all learners in your group are ready."  You can use CSS to float
 the element in a lightbox, overlay it on top of the main HTML, or
 whatever.
 
+*Exception:* if *ALL* learners vote to continue before the timer runs
+out, they should be allowed to do so.  This functionality {is
+pending}[https://www.pivotaltracker.com/story/show/74413460]. 
 
 == Displaying a question and answer choices
 
@@ -141,10 +212,10 @@ the following explanation.  Line numbers are in parentheses.
 
   1 <%= @start_form_tag %>
   2   <p>Here is a question:</p>
-  3       <%= @question %>
+  3       <%= @question.text %>
   4   <p>Select the best answer:</p>
   5     <!-- capture learner's answer as choice number, 0..n-1  -->
-  6     <% @answers.each_with_index do |answer, index| %>
+  6     <% @question.answers.each_with_index do |answer, index| %>
   7       <input type="radio" value="<%= index %>" name="u[response]"> <%= answer %>
   8     <% end %>
   9   <!-- optional: collect free-text explanation from learner -->

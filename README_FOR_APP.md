@@ -1,5 +1,19 @@
 If you're not a developer, please go away now.
 
+## Development methodology -- read me first
+
+0. We use branch-per-feature for development, so that master is always
+clean and ready to deploy.  **NEVER PUSH MASTER THAT HAS FAILING TESTS.
+EVER.**  See below for how to run tests.  The main repo is
+`ucberkeley/moocchat` on GitHub. 
+0. We use [Pivotal
+Tracker](https://www.pivotaltracker.com/s/projects/1100148) to track
+features, bugs, releases, etc.
+0. Branch naming convention is `feature/XX/name-of-feature` (where XX
+are initials of developer, eg "AF") for new features,
+`bug/XX/description-of-bug` for bug fixes,
+`test/XX/description-of-test` for changes that add test coverage, etc.
+
 ## Developers -- getting started
 
 0. Clone this repo
