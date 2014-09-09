@@ -16,15 +16,29 @@ are initials of developer, eg "AF") for new features,
 0. We are using [CodeClimate to monitor our code
 quality](https://codeclimate.com/github/ucberkeley/moocchat)
 
+## Developers -- detailed setting up on a fresh Ubuntu 14.04.1 install
 
-## Developers -- getting started
+0. `sudo apt-get update && sudo apt-get upgrade`
+0. `mkdir .ssh`
+0. Install your SSH key for Github in `~/.ssh/id_rsa`
+0. `chmod 600 ~/.ssh/id_rsa`
+0. `sudo apt-get install git curl libpq-dev phantomjs chromium-chromedriver python-selenium nodejs`
+0. `sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver`
+0. `sudo ln -s /usr/lib/chromium-browser/libs/lib*.so /usr/lib/`
+0. `curl -sSL https://get.rvm.io | bash`
+0. `source ~/.rvm/scripts/rvm`
+0. `git clone git@github.com:ucberkeley/moocchat.git`
+0. `cd moocchat`
+0. `rvm install ruby-1.9.3-p547`
+0. `bundle install`
+0. `make check`
+0. `foreman run local`
+0. Access http://localhost:3000 in a web browser to try the app.
+
+## Developers -- getting started on other systems
 
 0. Clone this repo
 0. Change into app's root directory
-0. On Ubuntu, update to latest packages, then do:
-`sudo apt-get install curl libpq-dev phantomjs chromium-chromedriver python-selenium`
-0. Install Ruby with RVM (follow instructions output on console):
-`\curl -sSL https://get.rvm.io | bash`
 0. Run `bundle install` to make sure you have all gems/libraries
 0. Install PhantomJS to run JavaScript tests headlessly:
   1. Mac OS with [homebrew](http://brew.sh): `brew install phantomjs`
@@ -35,8 +49,6 @@ that require it:
   1. Mac OS without homebrew, or other platforms:   
   [Download here](https://code.google.com/p/selenium/wiki/ChromeDriver), but in
   general, after download `sudo mv chromedriver /usr/bin/` and `sudo chmod +x /usr/bin/chromedriver`;
-  If you installed with apt-get, do: `sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver`
-  And add chromium libs to the library path: `sudo ln -s /usr/lib/chromium-browser/libs/lib*.so /usr/lib/`
 0. Run `make check` (that's make, not rake) to create development
 database, populate its schema, insert any initial data, and run
 regression tests to make sure all is well (see below under Deploying)
