@@ -6,9 +6,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "active_resource/railtie"
 require "sprockets/railtie"
-require "./app/middleware/chat_backend.rb"
-# require "rails/test_unit/railtie"
-
+require "./app/middleware/chat_server"
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   Bundler.require(*Rails.groups(:assets => %w(development test)))
@@ -20,7 +18,7 @@ end
 module Moocchat
   class Application < Rails::Application
 
-    config.middleware.use ChatDemo::ChatBackend
+    config.middleware.use ::ChatServer
 
 
 
