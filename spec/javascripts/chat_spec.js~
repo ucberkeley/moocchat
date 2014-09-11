@@ -1,0 +1,29 @@
+describe("chat socket", function() {
+	beforeEach(function() {
+		var fixture = $('<div id="chat-box" class="container" data-chatgroup="1,2,3" data-taskid="2" data-production="test"> ' + 
+			'<div class="form-group">' +
+				'<input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />' +
+				'<button id="send" class="btn btn-primary" type="submit">Send</button>' +
+			'</div>' +
+			'<div class="page-header">' +
+				'<h1>Chat TEST</h1>' +
+			'</div>' +
+				'<div id="chat-system">' +
+			'</div>' +
+			'<div id="chat-text">' +
+			'</div>' +
+		'</div>');
+		print("first");
+		setFixtures(fixt);
+   		var sendSpy = jasmine.createSpy();
+		spyOn(window, 'WebSocket').and.returnValue({send: sendSpy});
+    		Chat.setup();
+	};
+	
+	describe("Initialization", function() {
+		it("initializes websocket", function() {
+			print("Heuehuehuehueuheu");
+			expect(Chat.ws).not.toBeNull();
+		});
+	});
+});
