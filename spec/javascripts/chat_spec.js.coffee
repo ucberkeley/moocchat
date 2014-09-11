@@ -28,13 +28,14 @@ describe 'Chat socket', ->
       expect(Chat.sendChatMessageButton).not.toBeNull()
 
   describe 'Send Message', ->
+    pending()
     beforeEach ->
       @sendSpy = jasmine.createSpy 'for ws.send'
       spyOn(window, 'WebSocket').and.returnValue({send: @sendSpy})
       $('#input-text').val 'Hello World'
       $('#send-chat-message').trigger 'click'
     it 'triggers sendMessages handler when Send clicked', ->
-      expect(@sendSpy).toHaveBeenCalled
+      expect(@sendSpy).toHaveBeenCalled()
     it 'sends the correct message', ->
       @hello = JSON.stringify {text : "Hello World" }
       expect(@sendSpy).toHaveBeenCalledWith @hello
