@@ -1,9 +1,19 @@
 describe("chat socket", function() {
 
+	var chatGroup = "1,2,3";
+	var taskID = "2";
+	var prodcution = "test";
 	var hello = "Hello World";
+	var JsonString = JSON.stringify({ text : hello });
+	var message = {data: JsonString};
+
+	var sendSpy = jasmine.createSpy('for ws.send');
 
 	beforeEach(function() {
-		var fixture = $('<div id="chat-box" class="container" data-chatgroup="1,2,3" data-taskid="2" data-production="test"> ' + 
+		spyOn(window, 'WebSocket').and.returnValue({send: sendSpy, onmessage: null});
+
+		var fixture = $('<div id="chat-box" class="container" data-chatgroup=' + chatGroup + ' data-taskid=' + taskID + 
+			' data-production=' + prodcution + '> ' + 
 			'<div class="form-group">' +
 				'<input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />' +
 				'<button id="send" class="btn btn-primary" type="submit">Send</button>' +
@@ -17,16 +27,17 @@ describe("chat socket", function() {
 			'</div>' +
 		'</div>');
 		setFixtures(fixture);
- 
-    		Chat.setup();
+    	Chat.setup();
+
 	});
 	
 	describe("Initialization", function() {
 		it("initializes websocket", function() {
+			expect(window.WebSocket).toHaveBeenCalled();
 			expect(Chat.ws).not.toBeNull();
 		});
-		it("initializes group", function() {
-			expect(Chat.group).not.toBeNull();
+		it("initializes group correctly", function() {
+			expect(Chat.group).toEqual(chatGroup);
 		});
 		it("finds Send Message button", function() {
 			expect(Chat.sendChatMessageButton).not.toBeNull();
@@ -35,26 +46,21 @@ describe("chat socket", function() {
 
 	describe("Send Message", function() {
 		beforeEach(function() {
-			var sendSpy = jasmine.createSpy('for ws.send');
-			spyOn(window, 'WebSocket').and.returnValue({ send: sendSpy });
 			$('#input-text').val(hello);
 			$('#send-chat-message').trigger('click');
 		});
-
 		it('triggers sendMessages handler when Send clicked', function() {
+			expect(window.WebSocket).toHaveBeenCalled();
 			expect(sendSpy).toHaveBeenCalled();
 		});
-
 		it('sends the correct message', function() {
-			var JsonString = JSON.stringify({ text : hello });
+			//pending();
 			expect(sendSpy).toHaveBeenCalledWith(JsonString);
 		});
 	});
 
 	describe("Receive Message", function() {
 		beforeEach(function() {
-			var JsonString = JSON.stringify({ text : hello }); 
-			var message = {data: JsonString};
 			Chat.ws.onmessage(message);
 		});
 		it('appends message to the chat', function() {
