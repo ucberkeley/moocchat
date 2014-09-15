@@ -8,9 +8,11 @@ describe("chat socket", function() {
 	var message = {data: JsonString};
 
 	var sendSpy = jasmine.createSpy('for ws.send');
+	var onmessageSpy = jasmine.createSpy('for ws.onmessage');
 
 	beforeEach(function() {
-		spyOn(window, 'WebSocket').and.returnValue({send: sendSpy, onmessage: null});
+		spyOn(window, 'WebSocket').and.returnValue({send: sendSpy, onmessage: onmessageSpy});
+		spyOn(Chat, 'sendMessages').and.callThrough();
 
 		var fixture = $('<div id="chat-box" class="container" data-chatgroup=' + chatGroup + ' data-taskid=' + taskID + 
 			' data-production=' + prodcution + '> ' + 
@@ -36,9 +38,11 @@ describe("chat socket", function() {
 			expect(window.WebSocket).toHaveBeenCalled();
 			expect(Chat.ws).not.toBeNull();
 		});
+
 		it("initializes group correctly", function() {
 			expect(Chat.group).toEqual(chatGroup);
 		});
+		
 		it("finds Send Message button", function() {
 			expect(Chat.sendChatMessageButton).not.toBeNull();
 		});
@@ -47,14 +51,17 @@ describe("chat socket", function() {
 	describe("Send Message", function() {
 		beforeEach(function() {
 			$('#input-text').val(hello);
-			$('#send-chat-message').trigger('click');
+			$('#send-chat-message').click();
 		});
+
 		it('triggers sendMessages handler when Send clicked', function() {
 			expect(window.WebSocket).toHaveBeenCalled();
+			expect(Chat.sendMessages).toHaveBeenCalled();
 			expect(sendSpy).toHaveBeenCalled();
 		});
+		
 		it('sends the correct message', function() {
-			//pending();
+			pending();
 			expect(sendSpy).toHaveBeenCalledWith(JsonString);
 		});
 	});
@@ -63,6 +70,7 @@ describe("chat socket", function() {
 		beforeEach(function() {
 			Chat.ws.onmessage(message);
 		});
+		
 		it('appends message to the chat', function() {
 			expect($('#chat-system')).toContainText(hello);
 		});

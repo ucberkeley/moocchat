@@ -1,4 +1,4 @@
-var Chat = {
+  var Chat = {
   group: null,
   ws: null,
   sendChatMessageButton: null,
@@ -12,24 +12,29 @@ var Chat = {
     this.ws = new WebSocket(uri);
     this.sendMessages();
     this.receiveMessages();
+    this.taskid = taskid;
   },
 
   receiveMessages: function() {
 
     this.ws.onmessage = function(message) {
       var data = JSON.parse(message.data)
-      $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + data.text + "</p></blockquote>")
+      if (data.type == "message") {
+        $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + data.text + "</p></blockquote>")
+      }
     }
   },
+  
   sendMessages: function() {
     var self = this;
     this.sendChatMessageButton.click(function(event) {
       event.preventDefault();
       var text   = $("#input-text")[0].value;
-      self.ws.send(JSON.stringify({ text: text }));
+      self.ws.send(JSON.stringify({ text: text, taskid: self.taskid, type: "message" }));
       $("#input-text")[0].value = "";
     });
   },
+  
   setup: function() {
     var chats = $('#chat-box');
     if (chats.length > 0) {

@@ -36,6 +36,7 @@ class ChatServer
   # the person responsible for *this* request is task ID 13.
   # Task IDs are never recycled.
   def channel_and_position_from_url(url)
+  # =>   print(url);
     if url =~ /\b([0-9,]+),([0-9]+)\b/
       channel, my_id = $1, $2
       position = channel.split(/,/).index(my_id)
@@ -62,11 +63,14 @@ class ChatServer
 
   def redistribute_message(websocket_event, channel, my_position)
     message = extract_text(websocket_event)
-    speaker = "Learner #{1+my_position}"
-    json = create_text_message "#{speaker}: #{message}"
-    groups[channel].each_with_index do |websocket, position|
-      next if position == my_position
-      websocket.send json
+    type = extract_type(websocket_event)
+    taskid = extract_taskid(websocket_event)
+    if type == "message"
+      speaker = "Learner #{1+my_position}"
+      json = create_text_message "#{speaker}: #{message}", taskid
+      groups[channel].each_with_index do |websocket, position|
+        websocket.send json
+      end
     end
   end
 
@@ -76,8 +80,16 @@ class ChatServer
     JSON.parse(event.data)['text']
   end
 
-  def create_text_message(text)
-    {:text => text}.to_json
+  def extract_taskid(event)
+    JSON.parse(event.data)['taskid']
+  end
+
+  def extract_type(event)
+    JSON.parse(event.data)['type']
+  end
+
+  def create_text_message(text, taskid)
+    {:text => text, :type => "message", :taskid => taskid }.to_json
   end
 
   def abort_with(message)
