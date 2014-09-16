@@ -68,9 +68,12 @@ class ChatServer
     if type == "message"
       speaker = "Learner #{1+my_position}"
       json = create_text_message "#{speaker}: #{message}", taskid
-      groups[channel].each_with_index do |websocket, position|
+    end
+    if type == "end-vote"
+      json = create_end_vote taskid
+    end
+    groups[channel].each_with_index do |websocket, position|
         websocket.send json
-      end
     end
   end
 
@@ -90,6 +93,10 @@ class ChatServer
 
   def create_text_message(text, taskid)
     {:text => text, :type => "message", :taskid => taskid }.to_json
+  end
+
+  def create_end_vote(taskid)
+    {:text => "", :type => "end-vote", :taskid => taskid }.to_json
   end
 
   def abort_with(message)

@@ -1,24 +1,25 @@
 describe("chat socket", function() {
 
 	var chatGroup = "1,2,3";
-	var taskID = "2";
+	var taskID = 2;
 	var prodcution = "test";
 	var hello = "Hello World";
-	var JsonString = JSON.stringify({ text : hello });
+	var JsonString = JSON.stringify({ text : hello, taskid: taskID, type: "message" });
 	var message = {data: JsonString};
 
-	var sendSpy = jasmine.createSpy('for ws.send');
 	var onmessageSpy = jasmine.createSpy('for ws.onmessage');
 
 	beforeEach(function() {
-		spyOn(window, 'WebSocket').and.returnValue({send: sendSpy, onmessage: onmessageSpy});
+		this.sendSpy = jasmine.createSpy('for ws.send');
+
+		spyOn(window, 'WebSocket').and.returnValue({send: this.sendSpy, onmessage: onmessageSpy});
 		spyOn(Chat, 'sendMessages').and.callThrough();
 
 		var fixture = $('<div id="chat-box" class="container" data-chatgroup=' + chatGroup + ' data-taskid=' + taskID + 
 			' data-production=' + prodcution + '> ' + 
 			'<div class="form-group">' +
 				'<input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />' +
-				'<button id="send" class="btn btn-primary" type="submit">Send</button>' +
+				'<button id="send-chat-message" class="btn btn-primary" type="submit">Send</button>' +
 			'</div>' +
 			'<div class="page-header">' +
 				'<h1>Chat TEST</h1>' +
@@ -57,23 +58,30 @@ describe("chat socket", function() {
 		it('triggers sendMessages handler when Send clicked', function() {
 			expect(window.WebSocket).toHaveBeenCalled();
 			expect(Chat.sendMessages).toHaveBeenCalled();
-			expect(sendSpy).toHaveBeenCalled();
+			expect(this.sendSpy).toHaveBeenCalledWith(JsonString);
 		});
 		
 		it('sends the correct message', function() {
-			pending();
-			expect(sendSpy).toHaveBeenCalledWith(JsonString);
+			expect(this.sendSpy).toHaveBeenCalledWith(JsonString);
 		});
 	});
 
 	describe("Receive Message", function() {
-		beforeEach(function() {
-			Chat.ws.onmessage(message);
+		describe("chat message", function() {
+			beforeEach(function() {
+				Chat.ws.onmessage(message);
+			});
+
+			it('appends message to the chat', function() {
+				expect($('#chat-system')).toContainText("Hello World");
+			});
+		});
+
+		describe("vote to end early", function() {
+			it("marks the user as finished", function() {
+				//FILL IN
+			});
 		});
 		
-		it('appends message to the chat', function() {
-			expect($('#chat-system')).toContainText(hello);
-		});
 	});
-
 });
