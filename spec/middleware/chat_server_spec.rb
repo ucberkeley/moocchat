@@ -21,6 +21,7 @@ describe ChatServer do
   describe 'redistributing a message' do
     before :each do
       @app.stub(:extract_text).and_return "Message"
+      @app.stub(:extract_type).and_return "message"
       @ev = double('websocket_event')
       @ws = Array.new(3) { double('websock').as_null_object }
       @group = '2,4,5'
