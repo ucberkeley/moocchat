@@ -65,13 +65,13 @@ class ChatServer
     message = extract_text(websocket_event)
     type = extract_type(websocket_event)
     taskid = extract_taskid(websocket_event)
-    if type == "message"
+    # if type == "message"
       speaker = "Learner #{1+my_position}"
       json = create_text_message "#{speaker}: #{message}", taskid
-    end
-    if type == "end-vote"
-      json = create_end_vote taskid
-    end
+    # end
+    # if type == "end-vote"
+    #   json = create_end_vote taskid
+    # end
     groups[channel].each_with_index do |websocket, position|
         websocket.send json
     end

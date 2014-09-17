@@ -1,11 +1,19 @@
 describe("chat socket", function() {
 
 	var chatGroup = "1,2,3";
-	var taskID = 2;
+	var groupList = ["1", "2", "3"];
+	var taskID = 2; //current user
+	var otherTaskId1 = 1; // another user
+	var otherTaskId3 = 3;
 	var prodcution = "test";
 	var hello = "Hello World";
-	var JsonString = JSON.stringify({ text : hello, taskid: taskID, type: "message" });
-	var message = {data: JsonString};
+	var chatJSON = JSON.stringify({ text : hello, taskid: taskID, type: "message" });
+	var sendEndVoteJSON = JSON.stringify({ text : "", taskid: taskID, type: "end-vote" });
+	var receiveEndVoteJSON1 = JSON.stringify({ text : "", taskid: otherTaskId1, type: "end-vote" });
+	var receiveEndVoteJSON3 = JSON.stringify({ text : "", taskid: otherTaskId3, type: "end-vote" });
+	var chatMessage = {data: chatJSON};
+	var voteMessage1 = {data: receiveEndVoteJSON1};
+	var voteMessage3 = {data: receiveEndVoteJSON3};
 
 	var onmessageSpy = jasmine.createSpy('for ws.onmessage');
 
@@ -14,12 +22,14 @@ describe("chat socket", function() {
 
 		spyOn(window, 'WebSocket').and.returnValue({send: this.sendSpy, onmessage: onmessageSpy});
 		spyOn(Chat, 'sendMessages').and.callThrough();
+		spyOn(Chat, 'vote').and.callThrough();
 
 		var fixture = $('<div id="chat-box" class="container" data-chatgroup=' + chatGroup + ' data-taskid=' + taskID + 
 			' data-production=' + prodcution + '> ' + 
 			'<div class="form-group">' +
 				'<input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />' +
 				'<button id="send-chat-message" class="btn btn-primary" type="submit">Send</button>' +
+				'<button id="end-vote" class="btn btn-default">Vote to move on</button>' +
 			'</div>' +
 			'<div class="page-header">' +
 				'<h1>Chat TEST</h1>' +
@@ -41,7 +51,7 @@ describe("chat socket", function() {
 		});
 
 		it("initializes group correctly", function() {
-			expect(Chat.group).toEqual(chatGroup);
+			expect(Chat.group).toEqual(groupList);
 		});
 		
 		it("finds Send Message button", function() {
@@ -49,39 +59,76 @@ describe("chat socket", function() {
 		});
 	});
 
-	describe("Send Message", function() {
-		beforeEach(function() {
-			$('#input-text').val(hello);
-			$('#send-chat-message').click();
+	describe("chat messages", function() {
+		describe("Sending chat", function() {
+			beforeEach(function() {
+				$('#input-text').val(hello);
+				$('#send-chat-message').click();
+			});
+
+			it('triggers sendMessages handler when Send clicked', function() {
+				expect(window.WebSocket).toHaveBeenCalled();
+				expect(Chat.sendMessages).toHaveBeenCalled();
+				expect(this.sendSpy).toHaveBeenCalledWith(chatJSON);
+			});
+			
+			it('sends the correct message', function() {
+				expect(this.sendSpy).toHaveBeenCalledWith(chatJSON);
+			});
 		});
 
-		it('triggers sendMessages handler when Send clicked', function() {
-			expect(window.WebSocket).toHaveBeenCalled();
-			expect(Chat.sendMessages).toHaveBeenCalled();
-			expect(this.sendSpy).toHaveBeenCalledWith(JsonString);
-		});
-		
-		it('sends the correct message', function() {
-			expect(this.sendSpy).toHaveBeenCalledWith(JsonString);
+		describe("receiving chat", function() {
+			describe("chat message", function() {
+				beforeEach(function() {
+					Chat.ws.onmessage(chatMessage);
+				});
+
+				it('appends message to the chat', function() {
+					expect($('#chat-system')).toContainText("Hello World");
+				});
+
+				it('does not change any vote statuses', function() {
+					expect(Chat.vote).not.toHaveBeenCalledWith(taskID);
+				})
+			});
 		});
 	});
 
-	describe("Receive Message", function() {
-		describe("chat message", function() {
+	describe("Voting to end chat", function() {
+		describe("sending vote", function() {
 			beforeEach(function() {
-				Chat.ws.onmessage(message);
+				$('#end-vote').click();
 			});
 
-			it('appends message to the chat', function() {
-				expect($('#chat-system')).toContainText("Hello World");
+			it('sends the message to the server', function() {
+				expect(this.sendSpy).toHaveBeenCalledWith(sendEndVoteJSON);
+			});
+
+			it("marks the current user as finished", function() {
+				expect(Chat.vote).toHaveBeenCalledWith(taskID);
 			});
 		});
 
-		describe("vote to end early", function() {
+		describe("receiving vote", function() {
+			beforeEach(function() {
+				Chat.ws.onmessage(voteMessage1);
+			});
+
 			it("marks the user as finished", function() {
-				//FILL IN
+				expect(Chat.vote).toHaveBeenCalledWith(otherTaskId1);
 			});
 		});
 		
+		describe("when all users have voted to quit", function() {
+			beforeEach(function() {
+				$('#end-vote').click();
+				Chat.ws.onmessage(voteMessage1);
+				Chat.ws.onmessage(voteMessage3);
+			});
+
+			it("moves on to the next page", function() {
+
+			});
+		});
 	});
 });

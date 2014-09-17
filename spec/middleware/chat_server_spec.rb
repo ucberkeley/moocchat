@@ -26,21 +26,14 @@ describe ChatServer do
       @group = '2,4,5'
       @app.groups = { @group => @ws, '3' => nil }
     end
+    
     it 'goes to everyone else' do
       result = json_including :text => "Learner 2: Message"
       @ws[0].should_receive(:send).with(result)
+      @ws[1].should_receive(:send).with(result)
       @ws[2].should_receive(:send).with(result)
       @app.redistribute_message(double('event'), '2,4,5', 1)
-    end
-    it 'does not go to me' do
-      @ws[1].should_not_receive(:send)
-      @app.redistribute_message(double('event'), '2,4,5', 1)
-    end
-    specify 'if singleton group does not go to me' do
-      @app.groups = { '3' => @ws[0] }
-      @ws[0].should_not_receive(:send)
-      @app.redistribute_message(double('event'), '3', 0)
-    end
+    end 
   end
 
   describe 'channel and position' do
@@ -69,10 +62,11 @@ describe ChatServer do
       ChatServer.send :public, :extract_text, :create_text_message
     end
     specify 'containing text' do
-      @app.create_text_message('foo bar').should include_json(:text => 'foo bar')
+      @app.create_text_message('foo bar', 2).should include_json(:text => 'foo bar', :type => "message", :taskid => 2)
     end
+    
     specify 'extracting text' do
-      event = double('event', :data => @app.create_text_message('foo bar'))
+      event = double('event', :data => @app.create_text_message('foo bar', 2))
       @app.extract_text(event).should == "foo bar"
     end
   end
