@@ -22,6 +22,7 @@ describe ChatServer do
     before :each do
       @app.stub(:extract_text).and_return "Message"
       @app.stub(:extract_type).and_return "message"
+      @app.stub(:extract_taskid).and_return "4"
       @ev = double('websocket_event')
       @ws = Array.new(3) { double('websock').as_null_object }
       @group = '2,4,5'
@@ -29,7 +30,7 @@ describe ChatServer do
     end
     
     it 'goes to everyone else' do
-      result = json_including :text => "Learner 2: Message"
+      result = {:text => "Learner 2: Message", :type => "message", :taskid => "4"}.to_json
       @ws[0].should_receive(:send).with(result)
       @ws[1].should_receive(:send).with(result)
       @ws[2].should_receive(:send).with(result)
