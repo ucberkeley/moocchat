@@ -1,9 +1,11 @@
-<table id="vote-box">
-  <tr>
+<div id="vote-box" data-chatgroup="<%= @chat_group ||= 'default' %>" data-taskid = "<%=@task_id%>" data-production = <%=Rails.env%>>
+  <table>
+    <tr>
       <td><div id="vote-number-voted">0</div></td>
       <td> of </td>
       <td><div id="vote-number-total">0</div></td>
       <td>  have voted. </td>
       <td><button id="vote-button" class="btn btn-default">Vote to move on</button></td> 
-  </tr>
-</table>
+    </tr>
+  </table>
+</div>

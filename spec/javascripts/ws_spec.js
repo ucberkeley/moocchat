@@ -1,7 +1,7 @@
 describe("chat socket", function() {
 
 	var chatGroup = "1,2,3";
-	var groupList = ["1", "2", "3"];
+	var groupList = [1, 2, 3];
 	var taskID = 2; //current user
 	var otherTaskId1 = 1; // another user
 	var otherTaskId3 = 3;
@@ -21,8 +21,8 @@ describe("chat socket", function() {
 		this.sendSpy = jasmine.createSpy('for ws.send');
 
 		spyOn(window, 'WebSocket').and.returnValue({send: this.sendSpy, onmessage: onmessageSpy});
-		spyOn(Chat, 'sendMessages').and.callThrough();
-		spyOn(Chat, 'vote').and.callThrough();
+		spyOn(web_socket, 'sendMessages').and.callThrough();
+		spyOn(web_socket, 'vote').and.callThrough();
 
 		var fixture = $('<div id="chat-box" class="container" data-chatgroup=' + chatGroup + ' data-taskid=' + taskID + 
 			' data-production=' + prodcution + '> ' + 
@@ -40,22 +40,22 @@ describe("chat socket", function() {
 			'</div>' +
 		'</div>');
 		setFixtures(fixture);
-    	Chat.setup();
+    	web_socket.setup();
 
 	});
 	
 	describe("Initialization", function() {
 		it("initializes websocket", function() {
 			expect(window.WebSocket).toHaveBeenCalled();
-			expect(Chat.ws).not.toBeNull();
+			expect(web_socket.ws).not.toBeNull();
 		});
 
 		it("initializes group correctly", function() {
-			expect(Chat.group).toEqual(groupList);
+			expect(web_socket.group).toEqual(groupList);
 		});
 		
 		it("finds Send Message button", function() {
-			expect(Chat.sendChatMessageButton).not.toBeNull();
+			expect(web_socket.sendChatMessageButton).not.toBeNull();
 		});
 	});
 
@@ -68,7 +68,7 @@ describe("chat socket", function() {
 
 			it('triggers sendMessages handler when Send clicked', function() {
 				expect(window.WebSocket).toHaveBeenCalled();
-				expect(Chat.sendMessages).toHaveBeenCalled();
+				expect(web_socket.sendMessages).toHaveBeenCalled();
 				expect(this.sendSpy).toHaveBeenCalledWith(chatJSON);
 			});
 			
@@ -80,7 +80,7 @@ describe("chat socket", function() {
 		describe("receiving chat", function() {
 			describe("chat message", function() {
 				beforeEach(function() {
-					Chat.ws.onmessage(chatMessage);
+					web_socket.ws.onmessage(chatMessage);
 				});
 
 				it('appends message to the chat', function() {
@@ -88,7 +88,7 @@ describe("chat socket", function() {
 				});
 
 				it('does not change any vote statuses', function() {
-					expect(Chat.vote).not.toHaveBeenCalledWith(taskID);
+					expect(web_socket.vote).not.toHaveBeenCalledWith(taskID);
 				})
 			});
 		});
@@ -105,25 +105,25 @@ describe("chat socket", function() {
 			});
 
 			it("marks the current user as finished", function() {
-				expect(Chat.vote).toHaveBeenCalledWith(taskID);
+				expect(web_socket.vote).toHaveBeenCalledWith(taskID);
 			});
 		});
 
 		describe("receiving vote", function() {
 			beforeEach(function() {
-				Chat.ws.onmessage(voteMessage1);
+				web_socket.ws.onmessage(voteMessage1);
 			});
 
 			it("marks the user as finished", function() {
-				expect(Chat.vote).toHaveBeenCalledWith(otherTaskId1);
+				expect(web_socket.vote).toHaveBeenCalledWith(otherTaskId1);
 			});
 		});
 		
 		describe("when all users have voted to quit", function() {
 			beforeEach(function() {
 				$('#end-vote').click();
-				Chat.ws.onmessage(voteMessage1);
-				Chat.ws.onmessage(voteMessage3);
+				web_socket.ws.onmessage(voteMessage1);
+				web_socket.ws.onmessage(voteMessage3);
 			});
 
 			it("moves on to the next page", function() {
