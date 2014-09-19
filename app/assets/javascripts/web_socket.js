@@ -1,7 +1,7 @@
 var web_socket = {
   group: null,
   ws: null,
-  type: null, //both, chat, vote, none;
+  type: null, //both, vote;
   sendChatMessageButton: null,
   voteButton: null,
 
@@ -12,12 +12,10 @@ var web_socket = {
     var scheme= (rails_mode == 'production' ? 'wss://' : 'ws://');
     var uri = scheme + window.document.location.host + "/"+chatGroup+","+ taskid;
     this.ws = new WebSocket(uri);
-    if(this.isChat()){
+    this.votes = new Array(this.group.length);
+    this.voteButton = $('#vote-button');
+    if(this.isBoth()){
       this.sendChatMessageButton = $('#send-chat-message');
-    }
-    if(this.isVote()){
-      this.votes = new Array(this.group.length);
-      this.voteButton = $('#vote-button');
     }
     this.sendMessages();
     this.receiveMessages();
@@ -38,10 +36,10 @@ var web_socket = {
     var self = this;
     this.ws.onmessage = function(message) {
       var data = JSON.parse(message.data)
-      if (data.type == "message" & self.isChat()) {
+      if (data.type == "message" & self.isBoth()) {
         $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + data.text + "</p></blockquote>")
       }
-      if (data.type == "end-vote" & self.isVote()) {
+      if (data.type == "end-vote") {
         self.vote(data.taskid);
       }
     }
@@ -49,7 +47,7 @@ var web_socket = {
   
   sendMessages: function() {
     var self = this;
-    if(this.isChat()){
+    if(this.isBoth()){
       this.sendChatMessageButton.click(function(event) {
         event.preventDefault();
         var text   = $("#input-text")[0].value;
@@ -57,18 +55,13 @@ var web_socket = {
         $("#input-text")[0].value = "";
       });
     }
-    if(this.isVote()){
-      this.voteButton.click(function(event) {
-        self.ws.send(JSON.stringify({ text: '', taskid: self.taskid, type: "end-vote" }));
-      });
-    }
+    this.voteButton.click(function(event) {
+      self.ws.send(JSON.stringify({ text: '', taskid: self.taskid, type: "end-vote" }));
+    });
   },
   
-  isChat: function(){
-  	return this.type == "chat" | this.type == "both";
-  },
-  isVote: function(){
-  	return this.type == "vote" | this.type == "both";
+  isBoth: function(){
+  	return this.type == "both";
   },
 
   setup: function() {
@@ -76,9 +69,7 @@ var web_socket = {
     var votes = $('#vote-box');
     if (chats.length > 0 && votes.length > 0) {
       web_socket.initialize(chats.data('chatgroup'),chats.data('taskid'),chats.data('production'), "both");
-    } else if(chats.length > 0){
-	  web_socket.initialize(chats.data('chatgroup'),chats.data('taskid'),chats.data('production'), "chat");
-    } else if(votes.length > 0){
+    }else if(votes.length > 0){
       web_socket.initialize(votes.data('chatgroup'),votes.data('taskid'),votes.data('production'), "vote");
     }else {
       return;
