@@ -2,6 +2,7 @@ describe("chat socket", function() {
 
 	var chatGroup = "1,2,3";
 	var groupList = [1, 2, 3];
+	var votes = [false, false, false];
 	var taskID = 2; //current user
 	var otherTaskId1 = 1; // another user
 	var otherTaskId3 = 3;
@@ -29,7 +30,17 @@ describe("chat socket", function() {
 			'<div class="form-group">' +
 				'<input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />' +
 				'<button id="send-chat-message" class="btn btn-primary" type="submit">Send</button>' +
-				'<button id="end-vote" class="btn btn-default">Vote to move on</button>' +
+				'<div id="vote-box" data-chatgroup="<%= @chat_group ||= 'default' %>" data-taskid = "<%=@task_id%>" data-production = <%=Rails.env%>>' +
+  					'<table>' +
+    					'<tr>' +
+      						'<td><div id="vote-number-voted">0</div></td>' +
+      						'<td> of </td>'+
+      						'<td><div id="vote-number-total">0</div></td>' +
+      						'<td>  have voted. </td>' +
+    					'</tr>' +
+  					'</table>' 
+  					'<button id="vote-button" class="btn btn-default">Vote to move on</button>' +
+				'</div>' +
 			'</div>' +
 			'<div class="page-header">' +
 				'<h1>Chat TEST</h1>' +
@@ -97,11 +108,12 @@ describe("chat socket", function() {
 	describe("Voting to end chat", function() {
 		describe("sending vote", function() {
 			beforeEach(function() {
-				$('#end-vote').click();
+				$('#vote-button').click();
 			});
 
 			it('sends the message to the server', function() {
-				expect(this.sendSpy).toHaveBeenCalledWith(sendEndVoteJSON);
+				expect(web_socket.isVote()).toBe(5);
+				// expect(this.sendSpy).toHaveBeenCalledWith(sendEndVoteJSON);
 			});
 
 			it("marks the current user as finished", function() {
@@ -121,7 +133,7 @@ describe("chat socket", function() {
 		
 		describe("when all users have voted to quit", function() {
 			beforeEach(function() {
-				$('#end-vote').click();
+				$('#vote-button').click();
 				web_socket.ws.onmessage(voteMessage1);
 				web_socket.ws.onmessage(voteMessage3);
 			});

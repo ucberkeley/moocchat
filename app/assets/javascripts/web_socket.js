@@ -68,13 +68,15 @@ var web_socket = {
   	return this.type == "chat" | this.type == "both";
   },
   isVote: function(){
-  	return this.type == "vote" | this.type == "both";
+  	if (this.type == "vote") return 1;
+    if (this.type == "chat") return 2;
+    if (this.type == "both") return 3;
   },
 
   setup: function() {
     var chats = $('#chat-box');
     var votes = $('#vote-box');
-    if (chats.length > 0 & votes.length > 0) {
+    if (chats.length > 0 && votes.length > 0) {
       web_socket.initialize(chats.data('chatgroup'),chats.data('taskid'),chats.data('production'), "both");
     } else if(chats.length > 0){
 	  web_socket.initialize(chats.data('chatgroup'),chats.data('taskid'),chats.data('production'), "chat");
