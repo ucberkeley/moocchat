@@ -19,6 +19,9 @@ var ContinueButton =  {
     $('form#_main :submit').prop('disabled', true);
     event.preventDefault();
   },
+  clickVote: function() {
+    $('#vote-button').click();
+  },
   loggingError: function(xhrObject, textStatus, errorThrown) {
     alert(textStatus + " error on " + this.submitUrl + ": " + errorThrown);
   },
@@ -30,6 +33,7 @@ var ContinueButton =  {
       return;
     }
     $('#interstitial').hide();
+    $('#learning-button').on('click', ContinueButton.clickVote);
     $('body').on('click', ':submit:not(#send)', ContinueButton.sendForm);
   }
 };

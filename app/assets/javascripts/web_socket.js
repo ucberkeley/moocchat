@@ -16,10 +16,13 @@ var web_socket = {
     this.voteButton = $('#vote-button');
     if(this.isBoth()){
       this.sendChatMessageButton = $('#send-chat-message');
+    } else{
+      this.voteButton.hide();
     }
     this.sendMessages();
     this.receiveMessages();
     this.taskid = taskid;
+    console.log(this.type + this.taskid);
   },
 
   vote: function(taskid) {
