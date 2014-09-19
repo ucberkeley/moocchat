@@ -68,9 +68,7 @@ var web_socket = {
   	return this.type == "chat" | this.type == "both";
   },
   isVote: function(){
-  	if (this.type == "vote") return 1;
-    if (this.type == "chat") return 2;
-    if (this.type == "both") return 3;
+  	return this.type == "vote" | this.type == "both";
   },
 
   setup: function() {
