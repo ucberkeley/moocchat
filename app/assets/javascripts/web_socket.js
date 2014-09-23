@@ -1,7 +1,7 @@
 var web_socket = {
   group: null,
   ws: null,
-  type: null, //both, vote;
+  type: null, //both, vote, welcome
   sendChatMessageButton: null,
   voteButton: null,
 
@@ -20,7 +20,7 @@ var web_socket = {
     this.voteButton = $('#vote-button');
     if(this.isBoth()){
       this.sendChatMessageButton = $('#send-chat-message');
-    } else{
+    } else if(this.isVote()){
       this.voteButton.hide();
     }
     this.sendMessages();
@@ -71,12 +71,16 @@ var web_socket = {
   	return this.type == "both";
   },
 
+  isVote: function(){
+    return this.type == "vote";
+  },
+
   setup: function() {
     var chats = $('#chat-box');
     var votes = $('#vote-box');
     if (chats.length > 0 && votes.length > 0) {
       web_socket.initialize(chats.data('chatgroup'),chats.data('taskid'),chats.data('production'), "both");
-    }else if(votes.length > 0){
+    }else if(votes.length > 0 & votes.data('pageType') == "votes"){
       web_socket.initialize(votes.data('chatgroup'),votes.data('taskid'),votes.data('production'), "vote");
     }else {
       return;
