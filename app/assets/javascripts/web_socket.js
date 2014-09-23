@@ -7,7 +7,11 @@ var web_socket = {
 
   initialize: function(chatGroup,taskid,rails_mode, type) {
     this.type = type;
-    this.group = makeIntArray(chatGroup.split(','));
+    if(typeof chatGroup == "number"){
+    	this.group = [chatGroup];
+    } else{
+    	this.group = makeIntArray(chatGroup.split(','));
+    }
     // create websocket
     var scheme= (rails_mode == 'production' ? 'wss://' : 'ws://');
     var uri = scheme + window.document.location.host + "/"+chatGroup+","+ taskid;
