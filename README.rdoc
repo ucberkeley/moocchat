@@ -170,8 +170,7 @@ the element in a lightbox, overlay it on top of the main HTML, or
 whatever.
 
 *Exception:* if *ALL* learners vote to continue before the timer runs
-out, they should be allowed to do so.  This functionality {is
-pending}[https://www.pivotaltracker.com/story/show/74413460]. 
+out, they should be allowed to do so.
 
 == Displaying a question and answer choices
 
@@ -247,11 +246,8 @@ the following explanation.  Line numbers are in parentheses.
    A macro that shows a chat window that is "listening"
    to the chat channel <tt>@chat_group</tt>.
   
-TBD::
-   If learners all click Request to End Chat, this should override the
-   timer-based form submission and allow everyone to proceed.  This will
-  require modifying the +page+  method to check that all learners in the
-  task are on the same page.
+If learners all click Request to End Chat, this overrides the
+timer-based form submission and allows everyone to proceed.
 
   1 <%= @start_form_tag %>
   2   <p>Here are the answers your peers gave:</p>
@@ -269,7 +265,7 @@ TBD::
 
 == Revealing the correct answer and going on to next question
 
-(3) <tt>@correct_answer_index</tt>::
+(3) <tt>@question.correct_answer_index</tt>::
   Numerical index into the array of answers.    
 
 (5)  <tt>next_question</tt>:: 
@@ -281,7 +277,7 @@ TBD::
 
   1 <%= @start_form_tag %>
   2   <p>The correct answer was:</p>
-  3   <%= @answers[@correct_answer_index] %>
+  3   <%= @question.answers[@question.correct_answer_index] %>
   4   <!-- make next page in flow advance to the next question -->
   5   <input type="hidden" name="next_question" value="true">
   6 </form>
