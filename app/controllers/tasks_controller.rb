@@ -28,8 +28,11 @@ class TasksController < ApplicationController
     if @timer.zero? then @timer += @task.activity_schema.starts_every end
   end
 
+
+
   def join_group
     @task = Task.find params[:id]
+    #@force = params[:force]
     WaitingRoom.process_all!
     case @task.chat_group
     when WaitingRoom::CHAT_GROUP_NONE

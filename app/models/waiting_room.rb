@@ -65,7 +65,11 @@ class WaitingRoom < ActiveRecord::Base
 
   # Wake up and check all waiting rooms.  For any waiting rooms whose +expired_at+ now
   # matches or exceeds the current time, process it, then destroy it.
-  def self.process_all!
+  def self.process_all! #force
+    #if force
+      #waitingRoom = WaitingRoom.where(['expires_at > ?', Time.zone.now]).take.expires_at = Time.zone.now - 1
+      #waitingRoom.save
+    #end
     transaction do
       WaitingRoom.where(['expires_at <= ?', Time.zone.now]).each do |wr|
         wr.process

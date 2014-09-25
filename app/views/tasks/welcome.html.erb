@@ -1,11 +1,5 @@
-<script>
-  if ($('form#_main').length > 0) {
-    $('form#_main').submit();
-  } 
- </script>
-
 <h1>Welcome to MOOCchat</h1>
-<button id="force_continue" onclick="submitForm()">Force to continue</button>	
+<button id="force_continue" >Force to continue</button>	
 <h3> Greetings, <%= @task.learner.name %>!</h3>
 <%= form_tag task_join_group_path(@task), :id => '_main' do %>
   <p> 
