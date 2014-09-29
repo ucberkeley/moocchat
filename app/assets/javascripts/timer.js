@@ -17,7 +17,14 @@ var Timer = {
     this.countdown();
     var self = this;
     $("#force_continue").click(function(){
-      //alert("clicked");
+      alert("clicked");
+      $.ajax({
+        url: window.location.pathname,
+        type: "GET",
+        success: function(data){
+          alert(data.result);
+        }
+      });
       self.force = true;
       self.submitForm();
     });
