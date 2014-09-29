@@ -29,9 +29,21 @@ class TasksController < ApplicationController
   end
 
   def admin_action
-    WaitingRoom.expire_group!
-    respond_to do |format|
-      format.json { render json => {:result => "ok"}}
+    @task = Task.find params[:id]
+    WaitingRoom.admin_action @task
+    case @task.chat_group
+    when WaitingRoom::CHAT_GROUP_NONE
+      @task.log :reject
+      render :action => 'sorry'
+    when nil
+      # WaitingRoom didn't get emptied.  Wait a few seconds and try again.
+      # :BUG: this should be logged
+      session[:timer] = 5
+      render :action => 'welcome'
+    else
+      @task.log :form_group
+      @task.save!
+      redirect_to task_page_path(@task)
     end
   end
 

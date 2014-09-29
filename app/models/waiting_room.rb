@@ -63,13 +63,20 @@ class WaitingRoom < ActiveRecord::Base
     end
   end
 
-  def expire_group!
-    transaction do
-      wr = WaitingRoom.where(['expires_at >= ?', Time.zone.now]).take
-      wr.expires_at = Time.zone.now - 1
-      wr.save
-    end
+  def self.admin_action task
+    task_list = Array.new
+    task_list << task
+    wr = WaitingRoom.
+      find_or_create_by_activity_schema_id_and_condition_id!(
+      task.activity_schema_id, task.condition_id)
+    wr.process_admin task_list
   end
+
+  def process_admin task_list
+    #create_groups_of(1, task_list)
+    create_group_from task_list
+  end
+
 
   # Wake up and check all waiting rooms.  For any waiting rooms whose +expired_at+ now
   # matches or exceeds the current time, process it, then destroy it.
