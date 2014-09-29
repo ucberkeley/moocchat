@@ -12,6 +12,7 @@ class WaitingRoom < ActiveRecord::Base
   validates :condition_id, :uniqueness => {:scope => :activity_schema_id}
   validates_associated :condition
   validates_associated :activity_schema
+
   #
   # In terms of the app architecture, the waiting room actually collects
   # +Task+s, which include the learner, activity schema, and condition.
@@ -64,8 +65,14 @@ class WaitingRoom < ActiveRecord::Base
   end
 
   def self.admin_action task
+    learnerA = Learner.where(name: "Alex Testing").first
+    learnerB = Learner.where(name: "Ben Testing").first
+    learnerC = Learner.where(name: "Calvin Testing").first
+    taskA = Task.find_by_learner_id(learnerA.id)
+    taskB = Task.find_by_learner_id(learnerB.id)
+    taskC = Task.find_by_learner_id(learnerC.id)
     task_list = Array.new
-    task_list << task
+    task_list << task <<taskA << taskB << taskC
     wr = WaitingRoom.
       find_or_create_by_activity_schema_id_and_condition_id!(
       task.activity_schema_id, task.condition_id)
@@ -73,7 +80,6 @@ class WaitingRoom < ActiveRecord::Base
   end
 
   def process_admin task_list
-    #create_groups_of(1, task_list)
     create_group_from task_list
   end
 

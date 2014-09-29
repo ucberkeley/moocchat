@@ -67,6 +67,11 @@ class Task < ActiveRecord::Base
       )
   end
 
+  #for admin_button:
+  def fill_sequence_state
+    self.sequence_state = Sequencer.new(:body_repeat_count => self.condition.body_repeat_count, :num_questions => self.activity_schema.num_questions)
+  end
+
   # The counter starts at 0 on the first page of the task and
   # counts by 1 as each new page is visited.
   delegate :counter, :to => :sequence_state
