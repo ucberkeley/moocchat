@@ -78,12 +78,14 @@ var web_socket = {
   setup: function() {
     var chats = $('#chat-box');
     var votes = $('#vote-box');
-    if (chats.length > 0 && votes.length > 0) {
+    if (chats.length > 0 && votes.length > 0){
       web_socket.initialize(chats.data('chatgroup'),chats.data('taskid'),chats.data('production'), "both");
-    }else if(votes.length > 0 & votes.data('pageType') == "votes"){
+    }else if(votes.length > 0){
       web_socket.initialize(votes.data('chatgroup'),votes.data('taskid'),votes.data('production'), "vote");
-    }else {
-      return;
+    } else{
+      console.log("websocket is not initialized because unclear type");
+      console.log("chat_length: " + chats.length);
+      console.log("vote_length: " + votes.length);
     }
   },
 };

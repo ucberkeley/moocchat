@@ -8,13 +8,12 @@ module TaskHelper
   # websocket to be created.  See +chatpage.js.erb+ for the chat code.
   # Only one chat per view is allowed.
   #
-  def vote(type)
+  def vote
     if defined? __vote
       raise "Can only have a single vote per page"
     else
       __vote = true
     end
-    @type = type
     render :partial => "tasks/vote"
   end
 
