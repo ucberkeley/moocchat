@@ -1,7 +1,7 @@
 def expire_timer_and_continue
   # If there is a <form>, it gets submitted; if not, the timer's
   # data-submit attribute is used to GET the next page.
-  if (button = page.first(:xpath, "//form/input[@type='submit']"))
+  if (button = page.first(:xpath, "//form/input[@type='submit' and @id='_submit']"))
     click_button button['id']
   else
     visit page.first(:css, '#_timer_')['data-submit']

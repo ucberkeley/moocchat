@@ -7,6 +7,7 @@ class TasksController < ApplicationController
   def create
     begin
       @task = Task.create_from_params(params)
+      #@is_admin = @task.user.kind_of(Instructor) || @task.user.kind_of(Administrator)
       @timer = session[:timer] = WaitingRoom.add(@task)
       @task.log(:start)
       redirect_to task_welcome_path(@task)
@@ -23,6 +24,7 @@ class TasksController < ApplicationController
       redirect_to :action => 'sorry', :notice => 'Timer value was not found.'
     end
     @task = Task.find params[:id]
+    #@is_admin = @task.user.kind_of(Instructor) || @task.user.kind_of(Administrator)
     # never start with a timer of zero. If timer is zero, bump up to
     # next start time.
     if @timer.zero? then @timer += @task.activity_schema.starts_every end
