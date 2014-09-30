@@ -44,7 +44,8 @@ var web_socket = {
     this.ws.onmessage = function(message) {
       var data = JSON.parse(message.data)
       if (data.type == "message" & self.isBoth()) {
-        $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + data.text + "</p></blockquote>")
+        $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + data.text + "</p></blockquote>");
+        $("#chat-system").scrollTop($("#chat-system")[0].scrollHeight); // ensure automatic scroll to bottom of chat window
       }
       if (data.type == "end-vote") {
         self.vote(data.taskid);
