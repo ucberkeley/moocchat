@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '1.9.3'
 gem 'rails', '3.2.18'
-gem 'puma'
+gem 'unicorn'
 gem 'faye-websocket'
 gem 'omniauth'
 gem 'jquery-rails'
