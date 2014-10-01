@@ -1,6 +1,6 @@
 worker_processes (ENV["RACK_ENV"] == "production" ? 4 : 2)
 timeout 15
-preload_app (ENV["RACK_ENV"] == production) # true in production ,false otherwise
+preload_app (ENV["RACK_ENV"] == 'production') # true in production ,false otherwise
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
