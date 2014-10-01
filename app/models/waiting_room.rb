@@ -51,7 +51,7 @@ class WaitingRoom < ActiveRecord::Base
       find_or_create_by_activity_schema_id_and_condition_id!(
       task.activity_schema_id, task.condition_id)
     wr.add task
-    return wr.expires_at - Time.zone.now
+    return wr.timer_until(task)
   end
 
   # Add a task to *this* waiting room.  Called by +WaitingRoom.add+.
@@ -94,6 +94,19 @@ class WaitingRoom < ActiveRecord::Base
     rejects.each { |t| t.assign_to_chat_group CHAT_GROUP_NONE }
     self.destroy
   end
+
+  # Stretch out timer by 1 second for every N groups to be formed
+  # (so the users don't all bang on the server at once to join a group),
+  # but no larger than the time until the next waiting-room-emptying.
+  # Number of users to allow hitting the server "simultaneously" on timer
+  # expiration to form initial groups
+  MAX_USERS = 100
+
+  def timer_until(task)
+    timer_base = self.expires_at - Time.zone.now
+    fuzz = Integer(self.tasks.size / (task.condition.preferred_group_size * MAX_USERS))
+    timer_base + [fuzz, 60 * task.activity_schema.starts_every].min
+  end  
 
   private
 
