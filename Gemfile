@@ -8,6 +8,7 @@ gem 'omniauth'
 gem 'jquery-rails'
 gem 'date_validator'            # datetime validations for ActiveRecord
 gem 'foreman'
+gem 'capybara-puma'
 
 group :development, :test do
   gem 'sqlite3'
@@ -21,7 +22,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara-puma'
   gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'          # basic web steps like "I should see..."
   gem 'database_cleaner' # required by Cucumber
