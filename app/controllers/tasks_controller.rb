@@ -104,8 +104,6 @@ class TasksController < ApplicationController
         @task.log(:user_state, "#{key}=#{val}")
       end
     end
-    # log the event of user 'continuing'
-    @task.log(:continue)
     render :nothing => true
   end
 
@@ -117,6 +115,8 @@ class TasksController < ApplicationController
     # if 'next_question' field is nonblank, advance question counter
     @task.next_question! if !params[:next_question].blank?
     if @task.current_page
+      # log the event of user 'continuing'
+      @task.log(:continue)
       redirect_to task_page_path(@task)
     else
       @task.log :finish

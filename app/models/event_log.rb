@@ -17,9 +17,22 @@ class EventLog < ActiveRecord::Base
   attr_accessible :counter, :subcounter, :question_counter, :chat_group
   
   # Only certain event names are valid.
-  EVENTS_WITH_VALUES = [:user_state, :chat]
-  EVENTS = [:start, :reject, :abandon, :broken_pipe, :finish,
-    :continue, :view_page, :form_group, :quit_chat, :rejoin_chat]
+  EVENTS_WITH_VALUES = [
+    :user_state,        # user fills in or clicks something (changes user state)
+    :chat               # chat utterance
+  ]
+  EVENTS = [
+    :start,     # learner starts an activity
+    :form_group, # learner is placed in a group
+    :finish,    # learner finishes an activity
+    :reject,    # learner cannot be placed in any group, so is kicked out
+    :abandon,   # learner detectably abandons task
+    :broken_pipe, #  browser crash/close
+    :continue,    # learner continues to next page in an activity
+    :view_page,   # learner is served a page (including any reloads)
+    :quit_chat,  # learner votes to quit chat
+    :rejoin_chat # learner reverses vote to quit chat
+  ]   
 
   attr_accessible :name
   validates_inclusion_of :name, :in => EVENTS + EVENTS_WITH_VALUES
