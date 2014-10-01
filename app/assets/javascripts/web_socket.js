@@ -1,4 +1,5 @@
 var web_socket = {
+  
   group: null,
   ws: null,
   type: null, //both, vote, welcome
