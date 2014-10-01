@@ -75,8 +75,7 @@ to verify that there is no bug introduced
 
 ## To deploy on Heroku for your own testing:
 
-0. First time: `heroku app:create pick-some-app-name`
-0. First time: `heroku labs:enable websockets` to enable websockets for chat app
+0. First time: `heroku apps:create pick-some-app-name`
 0. Make sure your changes are committed locally
 0. `git push heroku master`
 0. Your app should now be live at `http://pick-some-app-name.herokuapp.com`
