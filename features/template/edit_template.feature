@@ -13,5 +13,5 @@ Scenario: edit page, valid conditions, Administrator
 	When I fill in "Non Default" for "Name"
 	When I fill in "<h1>hello moocChat</h1>" for "HTML"
 	And I press "Update Template"
-	Then I should be on the Templates index page
+	Then I should be on the templates page
         And I should see "successfully updated"

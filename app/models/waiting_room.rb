@@ -72,7 +72,7 @@ class WaitingRoom < ActiveRecord::Base
     taskB = Task.find_by_learner_id(learnerB.id)
     taskC = Task.find_by_learner_id(learnerC.id)
     task_list = Array.new
-    task_list << task <<taskA << taskB << taskC
+    task_list << task << taskA << taskB << taskC
     wr = WaitingRoom.
       find_or_create_by_activity_schema_id_and_condition_id!(
       task.activity_schema_id, task.condition_id)

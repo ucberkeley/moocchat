@@ -1,0 +1,30 @@
+.page-header
+  %h1 Conditions
+
+%p= link_to 'New', new_condition_path
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Prologue
+      %th Body
+      %th Epilogue
+      %th Last updated
+      %th Actions
+  %tbody
+    - @conditions.each do |condition|
+      %tr
+        %td= link_to condition.id, edit_condition_path(condition)
+        %td= condition.name
+        - %w(prologue_pages body_pages epilogue_pages).each do |pages|
+          %td
+            - condition.send(pages).each do |page|
+              = link_to page.name, edit_template_path(page)
+              %br
+        %td= condition.updated_at.to_formatted_s
+        %td
+          = link_to 'Edit', edit_condition_path(condition), :class => 'btn btn-mini'
+          - if condition.minimum_group_size == 1
+            = button_to 'Test Drive', task_create_path(@test_learners.first.name, @default_activity, condition), :class => 'btn btn-mini'
+          = link_to 'Delete', condition_path(condition), :method => :delete, :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-mini btn-danger'

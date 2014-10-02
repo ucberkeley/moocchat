@@ -11,5 +11,6 @@ Background:
 Scenario: Delete a condition, valid conditions
 
   Given I am on the conditions page
-  When I follow "Delete"
-  Then I should not see "cond1"
+  When I follow "Delete" within the table row containing "Default"
+  Then I should be on the conditions page
+  Then I should not see "Default"

@@ -1,5 +1,16 @@
 class TasksController < ApplicationController
 
+  before_filter :check_if_test_user, :except => [:create, :static]
+
+  protected
+  
+  def check_if_test_user
+    @task = Task.find params[:id]
+    @test_user = @task.learner.for_testing?
+  end
+
+  public
+
   def static
     # creates an anonymous form to fill in params that will be used in task#create
   end
@@ -7,7 +18,6 @@ class TasksController < ApplicationController
   def create
     begin
       @task = Task.create_from_params(params)
-      #@is_admin = @task.user.kind_of(Instructor) || @task.user.kind_of(Administrator)
       @timer = session[:timer] = WaitingRoom.add(@task)
       @task.log(:start)
       redirect_to task_welcome_path(@task)
@@ -19,39 +29,19 @@ class TasksController < ApplicationController
     end
   end
 
+  #
+  #  All methods below this point rely on the before_filter to set up @task
+  #
   def welcome
     unless (@timer = session[:timer])
       redirect_to :action => 'sorry', :notice => 'Timer value was not found.'
     end
-    @task = Task.find params[:id]
-    #@is_admin = @task.user.kind_of(Instructor) || @task.user.kind_of(Administrator)
     # never start with a timer of zero. If timer is zero, bump up to
     # next start time.
     if @timer.zero? then @timer += @task.activity_schema.starts_every end
   end
 
-  def admin_action
-    @task = Task.find params[:id]
-    WaitingRoom.admin_action @task
-    case @task.chat_group
-    when WaitingRoom::CHAT_GROUP_NONE
-      @task.log :reject
-      render :action => 'sorry'
-    when nil
-      # WaitingRoom didn't get emptied.  Wait a few seconds and try again.
-      # :BUG: this should be logged
-      session[:timer] = 5
-      render :action => 'welcome'
-    else
-      @task.log :form_group
-      @task.save!
-      redirect_to task_page_path(@task)
-    end
-  end
-
-
   def join_group
-    @task = Task.find params[:id]
     WaitingRoom.process_all!
     case @task.chat_group
     when WaitingRoom::CHAT_GROUP_NONE
@@ -71,7 +61,6 @@ class TasksController < ApplicationController
   
   def page
     @task_id = params[:id]
-    @task = Task.find @task_id
     @template = @task.current_page
     if @template.nil?
       redirect_to('/', :notice => 'No more pages left in task')
@@ -99,7 +88,6 @@ class TasksController < ApplicationController
 
   def collect_response
     render(:nothing => true, :status => 403) and return unless request.xhr?
-    @task = Task.find params[:id]
     # save any user state posted by template; if none provided, don't overwrite
     if params[:u]
       user_state = params[:u].stringify_keys
@@ -117,7 +105,6 @@ class TasksController < ApplicationController
   # advances the counters
 
   def next_page
-    @task = Task.find params[:id]
     @task.next_page!
     # if 'next_question' field is nonblank, advance question counter
     @task.next_question! if !params[:next_question].blank?
@@ -132,8 +119,7 @@ class TasksController < ApplicationController
   def log
     render(:nothing => true, :status => 403) and return unless request.xhr?
     # Log the event
-    task = Task.find params[:id]
-    task.log params[:name], params[:value]
+    @task.log params[:name], params[:value]
     render :nothing => true
   end
 

@@ -1,6 +1,6 @@
 <h1>Welcome to MOOCchat</h1>
 <h3> Greetings, <%= @task.learner.name %>!</h3>
-<%= admin_button(@task) %>
+<%= render(:partial => 'tasks/admin_button') if @test_user %>
 <%= form_tag task_join_group_path(@task), :id => '_main' do %>
   <p> 
     Your activity <strong>"<%= @task.activity_schema.name %>"</strong>

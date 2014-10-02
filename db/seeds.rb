@@ -45,13 +45,7 @@ activity_schema = ActivitySchema.create!(name: "Quiz Review", cohort: cohort, en
 WaitingRoom.delete_all
 
 User.delete_all
-%w(Alex Ben Calvin).each do |name|
-  learner = Learner.create! :name => "#{name} Testing"
-  task =  Task.create!(
-      :condition => condition,
-      :learner => learner,
-      :completed => false,
-      :chat_group => nil,
-      :activity_schema => activity_schema,
-    :sequence_state => Task::Sequencer.new(:body_repeat_count => 1, :num_questions => 1))
+(1..3).each do |num|
+  learner = Learner.create! :name => "Learner #{num}"
+  learner.update_attribute(:for_testing, true)
 end

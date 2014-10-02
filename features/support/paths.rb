@@ -16,7 +16,6 @@ module NavigationHelpers
     when /^the home\s?page$/ then '/'
     when /^the error page$/ then '/error'
     when /^root_page$/ then '/'
-    when /^the ([A-Z]\w+s) index page$/ then "/#{$1.downcase}"
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

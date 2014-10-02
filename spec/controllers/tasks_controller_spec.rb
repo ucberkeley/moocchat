@@ -123,7 +123,7 @@ describe TasksController do
           to change { EventLog.count }.by(1)
       end
       it 'extracts name from params' do
-        t = mock_model Task
+        t = mock_model(Task).as_null_object
         Task.should_receive(:find).with(@task.id.to_s).and_return(t)
         t.should_receive(:log).with('continue', anything())
         xhr :post, :log, :id => @task, :name => 'continue'

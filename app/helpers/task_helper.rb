@@ -17,15 +17,4 @@ module TaskHelper
     render :partial => "tasks/vote"
   end
 
-  def admin_button(task)
-    if defined? __admin_button
-      raise "Can only have a single admin_button per page"
-    else
-      __admin_button = true
-    end
-    @task = task
-    render :partial => "tasks/admin_button"
-  end
-
-
 end

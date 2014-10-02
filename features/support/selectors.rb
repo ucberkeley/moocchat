@@ -28,6 +28,12 @@ module HtmlSelectorsHelpers
     #  when /the header/
     #    [:xpath, "//header"]
 
+    when /^the table row containing "(.*)"$/
+      [:xpath, "//tr[contains(.,'#{$1}')]" ]
+
+    when /^the (.*) containing "(.*)"$/
+      [:xpath, "//#{$1}[contains(.,'#{$2}')]" ]
+
     # This allows you to provide a quoted selector as the scope
     # for "within" steps as was previously the default for the
     # web steps:

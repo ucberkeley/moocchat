@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140714002421) do
+ActiveRecord::Schema.define(:version => 20141002213710) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -113,10 +113,11 @@ ActiveRecord::Schema.define(:version => 20140714002421) do
   end
 
   create_table "users", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.string   "type"
     t.string   "name"
+    t.boolean  "for_testing", :default => false
   end
 
   create_table "waiting_rooms", :force => true do |t|
