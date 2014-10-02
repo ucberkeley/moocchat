@@ -128,6 +128,8 @@ GEM
       thor (~> 0.19.1)
     gherkin (2.12.2)
       multi_json (~> 1.3)
+    haml (4.0.5)
+      tilt
     hashie (2.1.2)
     hike (1.2.3)
     hirb (0.7.2)
@@ -329,6 +331,7 @@ DEPENDENCIES
   factory_girl_rails
   faye-websocket
   foreman
+  haml
   jasmine-jquery-rails
   jasmine-rails (= 0.9.1)
   jquery-rails

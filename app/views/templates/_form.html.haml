@@ -1,0 +1,14 @@
+.notice= @template.errors.full_messages.join('<br/>')
+
+= form_for @template do |f|
+  .control-group
+    = f.label :name, "Name",:class => 'control-label'
+    .controls
+      = f.text_field :name, :class => 'text_field'
+  .control-group
+    = f.label :html,"HTML", :class => 'control-label'
+    .controls
+      = f.text_area :html, :class => 'text-area-html-raw'
+  .form-actions
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to 'Cancel', templates_path, :class => 'btn'

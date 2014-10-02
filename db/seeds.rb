@@ -19,19 +19,13 @@ end
 
 # Default template page
 
-template_arr = []
 Template.delete_all
-Template.delete_all
-template_files = File.join(Rails.root, 'db', '*.html')   # makes it easy to put templates somewhere else in future
-template_files = Dir.glob(template_files).map do |filename|
-    filename
-end
-template_files = template_files.sort
-
-templates = template_files.map do |filename|
+template_glob = File.join(Rails.root, 'db', '*.html')   # makes it easy to put templates somewhere else in future
+files = Dir.glob(template_glob).sort
+template_arr = files.map do |filename|
   html = IO.read(filename)
   name = if html.match( /<title>([^>]+)<\/title>/i ) then  $1 else File.basename(filename) end
-  template_arr.push(Template.create! :name => name, :html => html)
+  Template.create! :name => name, :html => html
 end
 
 Condition.delete_all
@@ -50,34 +44,14 @@ activity_schema = ActivitySchema.create!(name: "Quiz Review", cohort: cohort, en
 # delete any WaitingRooms, since they have foreign keys to activity schemas and conditions
 WaitingRoom.delete_all
 
-#For testing with admin button only:
-learnerA = Learner.create!(:name => "Alex Testing")
-learnerB = Learner.create!(:name => "Ben Testing")
-learnerC = Learner.create!(:name => "Calvin Testing")
-taskA = Task.create!(
+User.delete_all
+%w(Alex Ben Calvin).each do |name|
+  learner = Learner.create! :name => "#{name} Testing"
+  task =  Task.create!(
       :condition => condition,
-      :learner => learnerA,
+      :learner => learner,
       :completed => false,
       :chat_group => nil,
       :activity_schema => activity_schema,
-      :sequence_state => nil
-      )
-taskB = Task.create!(
-      :condition => condition,
-      :learner => learnerB,
-      :completed => false,
-      :chat_group => nil,
-      :activity_schema => activity_schema,
-      :sequence_state => nil
-      )
-taskC = Task.create!(
-      :condition => condition,
-      :learner => learnerC,
-      :completed => false,
-      :chat_group => nil,
-      :activity_schema => activity_schema,
-      :sequence_state => nil
-      )
-taskA.fill_sequence_state
-taskB.fill_sequence_state
-taskC.fill_sequence_state
+    :sequence_state => Task::Sequencer.new(:body_repeat_count => 1, :num_questions => 1))
+end

@@ -13,7 +13,10 @@
       <div class="container">  
         <div class="col-md-6 moocchat-left-panel">
           <div class="row">
-            <div class="col-sm-11 moocchat-left-panel-direction h3">Other students' responses are shown below. Discuss these assumptions in order to prepare for a question shown on the next screen.</div>
+            <div class="col-sm-11 moocchat-left-panel-direction h3">
+              Other students' responses are shown below. 
+              Discuss these assumptions in order to prepare for a question shown on the next screen.
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-11 moocchat-reading well"><%= @question.text %></div>
@@ -24,15 +27,14 @@
           <div class="row">
             <div class="col-sm-11">
               <div class="list-group">
+                <%- @data.each_with_index do |learner, index| %>
+                <%- next if index == @me %>
                 <div class="list-group-item">
-                  <h4 class="list-group-item-heading"><span class="student-1">Student 1</span> responded 'iu'</h4>
+                  <h4 class="list-group-item-heading"><span class="student-<%= index -%>">
+                      Student <%= index -%> chose '<%= learner[choice] -%>'
+                  </h4>
                 </div>
-                <div class="list-group-item">
-                  <h4 class="list-group-item-heading"><span class="student-2">Student 2</span> responded 'sdg'</h4>
-                </div>
-                <div class="list-group-item">
-                  <h4 class="list-group-item-heading"><span class="student-3">Student 3</span> responded 'asf'</h4>
-                </div>
+                <% end %>
               </div>
             </div>
           </div>

@@ -1,3 +1,15 @@
 // Place all the styles related to the Templates controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.text-area-html-raw {
+  width: 100%;
+  height: 50em;
+  font-family: 'Andale Mono', 'Courier New', 'Courier', 'Fixed', 'monospace';
+} 
+
+// When an answer box is hilited, tint its background.
+.answer-highlight {
+  background-color: PaleGreen;
+}
+                  

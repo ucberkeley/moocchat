@@ -11,7 +11,7 @@ Scenario: edit page, valid conditions, Administrator
 
 	Given I start on the Edit Page for template
 	When I fill in "Non Default" for "Name"
-	When I fill in "<h1>hello moocChat</h1>" for "Html"
+	When I fill in "<h1>hello moocChat</h1>" for "HTML"
 	And I press "Update Template"
-	Then I should redirect to the show page for template
-	And I should see "<h1>hello moocChat</h1>"
+	Then I should be on the Templates index page
+        And I should see "successfully updated"

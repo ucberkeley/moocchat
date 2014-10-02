@@ -12,7 +12,7 @@ module TimerHelper
   # ==== Options
   # * +:seconds+ - number of seconds to count down from.  If not given uses value of +@timer+ variable
   # * +:submit+ - a URL that will be fetched via GET (replacing the current page) when the timer expires.  If absent, the one and only form on the page will be submitted via POST.
-  def timer(seconds, opts = {})
+  def timer(seconds=@timer, opts = {})
     if defined? __timer
       raise "Can only have a single timer per template"
     else
@@ -22,6 +22,8 @@ module TimerHelper
       'class' => 'timer',
       'data-countfrom' => seconds.to_i,
       'data-submit' => opts[:submit]}
+    # if only previewing a template, disable timer counting
+    attribs['id'] = '_timer_test' if @preview
     content_tag 'span', '00:00', attribs
   end
 end

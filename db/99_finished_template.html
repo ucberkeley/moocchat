@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <%= javascript_include_tag 'application' %>
-      <%= stylesheet_link_tag    "application", :media => "all" %>
-      <title>Page <%= @counter %></title>
-    </head>
-    <body>
-		<center>
-			<h1>You have finished the assignment. Thank you</h1>
-			<br>
-			<br>
-			<br>
-			<h2>Go Back to MoocChat Configeration Page? </h2>
-			<h1><%= link_to "yes", "/" %></h1>
-		</center>
-		<%= vote %>
-</body>
+  <head>
+    <%= javascript_include_tag 'application' %>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <title>Page <%= @counter %></title>
+  </head>
+  <body>
+    <center>
+      <h1>You have finished the assignment. Thank you</h1>
+      <br>
+      <br>
+      <br>
+      <h1><%= link_to "Return to start page", "/" %></h1>
+    </center>
+    <%= vote %>
+  </body>
 </html>

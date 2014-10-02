@@ -4,6 +4,7 @@ ruby '1.9.3'
 gem 'rails', '3.2.18'
 gem 'unicorn'
 gem 'faye-websocket'
+gem 'haml'
 gem 'omniauth'
 gem 'jquery-rails'
 gem 'date_validator'            # datetime validations for ActiveRecord

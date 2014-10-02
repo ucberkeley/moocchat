@@ -1,0 +1,19 @@
+.page-header
+  %h1 Templates
+
+%p= link_to 'Add New', new_template_path, :class => 'btn btn_primary'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Last modified
+      %th
+      %th
+  %tbody
+    - @templates.each do |template|
+      %tr
+        %td= template.name
+        %td= template.updated_at.to_formatted_s
+        %td= link_to 'Preview', template_path(template), :class => 'btn btn-mini'
+        %td= link_to 'Edit', edit_template_path(template), :class => 'btn btn-mini'
