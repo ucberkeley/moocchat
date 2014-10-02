@@ -2,12 +2,13 @@ source 'https://rubygems.org'
 
 ruby '1.9.3'
 gem 'rails', '3.2.18'
-gem 'puma'
+gem 'unicorn'
 gem 'faye-websocket'
 gem 'omniauth'
 gem 'jquery-rails'
 gem 'date_validator'            # datetime validations for ActiveRecord
 gem 'foreman'
+gem 'capybara-puma'
 
 group :development, :test do
   gem 'sqlite3'
@@ -21,7 +22,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara-puma'
   gem 'cucumber-rails', :require => false
   gem 'cucumber-rails-training-wheels'          # basic web steps like "I should see..."
   gem 'database_cleaner' # required by Cucumber
@@ -34,6 +34,7 @@ group :test do
 end
 
 group :production do
+  gem 'newrelic_rpm'
   gem 'rails_12factor'
   gem 'pg'
 end

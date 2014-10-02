@@ -75,8 +75,7 @@ to verify that there is no bug introduced
 
 ## To deploy on Heroku for your own testing:
 
-0. First time: `heroku app:create pick-some-app-name`
-0. First time: `heroku labs:enable websockets` to enable websockets for chat app
+0. First time: `heroku apps:create pick-some-app-name`
 0. Make sure your changes are committed locally
 0. `git push heroku master`
 0. Your app should now be live at `http://pick-some-app-name.herokuapp.com`
@@ -85,8 +84,8 @@ to verify that there is no bug introduced
 ## Testing your JavaScript
 
 0. You can add tests in `spec/javascripts/*.js` or `*.js.coffee`
-0. To run tests with browser GUI: start the app locally (`foreman run
-local` or even just `rails s`), then go to `http://localhost:3000`; each
+0. To run tests with browser GUI: start the app locally (`foreman start`)
+then go to `http://localhost:5000`; each
 time you re-load this page, it re-runs all your JS specs
 0. To run tests from command line: `rake spec:javascript` (uses
 `phantomjs`) 
@@ -108,3 +107,16 @@ command
 * [CodeClimate code
 quality](https://codeclimate.com/github/ucberkeley/moocchat) for this project
 
+## The Heroku production deployment
+
+The app is hosted on Armando's Heroku account as
+`moocchat.herokuapp.com`.
+
+We have [extended monitoring](https://devcenter.heroku.com/articles/log-runtime-metrics) 
+turned on to help troubleshoot system load issues.  `heroku logs --tail`
+shows them.
+
+NewRelic APM (application performance monitoring) is turned on.  In
+the app's [Heroku resources
+dashboard](https://dashboard-next.heroku.com/apps/moocchat/resources),  
+click New Relic.
