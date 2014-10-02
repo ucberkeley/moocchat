@@ -1,5 +1,4 @@
 describe("chat socket", function() {
-
 	var chatGroup = "1,2,3";
 	var groupList = [1, 2, 3];
 	var votes = [false, false, false];
@@ -30,17 +29,11 @@ describe("chat socket", function() {
 			'<div class="form-group">' +
 				'<input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />' +
 				'<button id="send-chat-message" class="btn btn-primary" type="submit">Send</button>' +
-				'<div id="vote-box" data-chatgroup="<%= @chat_group ||= 'default' %>" data-taskid = "<%=@task_id%>" data-production = <%=Rails.env%>>' +
-  					'<table>' +
-    					'<tr>' +
-      						'<td><div id="vote-number-voted">0</div></td>' +
-      						'<td> of </td>'+
-      						'<td><div id="vote-number-total">0</div></td>' +
-      						'<td>  have voted. </td>' +
-    					'</tr>' +
-  					'</table>' 
-  					'<button id="vote-button" class="btn btn-default">Vote to move on</button>' +
-				'</div>' +
+				
+				'<div id="vote-box" data-chatgroup="1,2,3" data-taskid = "2" data-production = <%=Rails.env%>>' +
+                	'<button id="vote-button" class="col-sm-6 col-sm-offset-1 btn btn-lg moocchat-next-button btn-danger">Vote to move on</button>' +
+				'</div>'+
+
 			'</div>' +
 			'<div class="page-header">' +
 				'<h1>Chat TEST</h1>' +
@@ -112,12 +105,7 @@ describe("chat socket", function() {
 			});
 
 			it('sends the message to the server', function() {
-				expect(web_socket.isVote()).toBe(5);
-				// expect(this.sendSpy).toHaveBeenCalledWith(sendEndVoteJSON);
-			});
-
-			it("marks the current user as finished", function() {
-				expect(web_socket.vote).toHaveBeenCalledWith(taskID);
+				expect(this.sendSpy).toHaveBeenCalledWith(sendEndVoteJSON);
 			});
 		});
 
