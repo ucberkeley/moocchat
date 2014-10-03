@@ -27,7 +27,6 @@ var web_socket = {
     this.sendMessages();
     this.receiveMessages();
     this.taskid = taskid;
-    console.log(this.type + this.taskid);
   },
 
   vote: function(taskid) {
@@ -71,16 +70,17 @@ var web_socket = {
   },
   
   sendLog: function(taskid, name, value){
-  	log_data = {name: name, value: value};
+  	log_data = { name: name, value: value };
+    console.log('inSendLog');
   	$.ajax({
   		type: "POST",
   		url: "/tasks/" + taskid + "/log",
   		data: log_data,
   		success: function(data, textStatus, jqXHR){
-  			console.log("sucessfully logged vote");
+  			console.log("sucessfully logged " + name);
   		},
   		error: function (data, textStatus, jqXHR){
-  			console.log("fail to logged vote");
+  			console.log("fail to log " + name);
   		}
   	});
   },

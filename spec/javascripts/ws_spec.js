@@ -1,4 +1,5 @@
 describe("chat socket", function() {
+	
 	var chatGroup = "1,2,3";
 	var groupList = [1, 2, 3];
 	var votes = [false, false, false];
@@ -21,8 +22,12 @@ describe("chat socket", function() {
 		this.sendSpy = jasmine.createSpy('for ws.send');
 
 		spyOn(window, 'WebSocket').and.returnValue({send: this.sendSpy, onmessage: onmessageSpy});
+
+		spyOn($, 'ajax').and.returnValue(function(params) { return {type: params.type, url: params.url, data: parmas.data }}); // CHANGE THIS VALUE
+
 		spyOn(web_socket, 'sendMessages').and.callThrough();
 		spyOn(web_socket, 'vote').and.callThrough();
+		spyOn(web_socket, 'sendLog').and.callThrough();
 
 		var fixture = $('<div id="chat-box" class="container" data-chatgroup=' + chatGroup + ' data-taskid=' + taskID + 
 			' data-production=' + prodcution + '> ' + 
@@ -44,7 +49,7 @@ describe("chat socket", function() {
 			'</div>' +
 		'</div>');
 		setFixtures(fixture);
-    	web_socket.setup();
+    web_socket.setup();
 
 	});
 	
@@ -79,6 +84,17 @@ describe("chat socket", function() {
 			it('sends the correct message', function() {
 				expect(this.sendSpy).toHaveBeenCalledWith(chatJSON);
 			});
+
+			it('logs the chat message', function() {
+				console.log("in logs chat");
+				expect(web_socket.sendLog).toHaveBeenCalledWith(2, "chat", "Hello World");
+				var args = $.ajax.calls.first().args[0];
+				console.log(args);
+				expect(args.type).toEqual('POST');
+				expect(args.url).toEqual('/tasks/2/log');
+				expect(args.data).toEqual({ name : 'chat', value : 'Hello World' });
+
+			});
 		});
 
 		describe("receiving chat", function() {
@@ -106,6 +122,15 @@ describe("chat socket", function() {
 
 			it('sends the message to the server', function() {
 				expect(this.sendSpy).toHaveBeenCalledWith(sendEndVoteJSON);
+			});
+
+			it('logs the vote', function() {
+				expect(web_socket.sendLog).toHaveBeenCalledWith(2, "quit_chat", "");
+				var args = $.ajax.calls.first().args[0];
+				console.log(args);
+				expect(args.type).toEqual('POST');
+				expect(args.url).toEqual('/tasks/2/log');
+				expect(args.data).toEqual({ name : 'quit_chat', value : '' });
 			});
 		});
 
