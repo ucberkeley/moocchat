@@ -1,7 +1,7 @@
 // edxbootstrap is loaded and executed directly in the edX domain
-// using the following JS code fragment in an HTML or Text block:
+// using a JS code fragment like the following in an HTML or Text block:
 //
-// <script>$.getScript("https://moocchat.herokuapp.com/edxbootstrap.js");</script><div id=moocchat></div>
+// <script>$.getScript("https://moocchat.herokuapp.com/edxbootstrap.js");</script><div id=moocchat condition_id=4 activity_schema_id=4></div>
 //
 // It is responsible for embedding the MOOCchat app in edX, and
 // retrieving any needed information such as username from the edX DOM
@@ -48,8 +48,8 @@ divContent =
 ['<form id="moocchat_form" action="https://moocchat.herokuapp.com/tasks" method="post" target="moocchat_iframe">',
  '  <input type="submit" value="SUBMIT" />',
  '  <input type="hidden" name="learner_name" value="' + escapeHtml(getUsername()) + '" />',
- '  <input type="hidden" name="condition_id" value="3" />',
- '  <input type="hidden" name="activity_schema_id" value="3" />',
+ '  <input type="hidden" name="condition_id" value="' + $("#moocchat").attr('condition_id') + '" />',
+ '  <input type="hidden" name="activity_schema_id" value="' + $("#moocchat").attr('activity_schema_id') + '" />',
  '</form>',
  '<iframe name="moocchat_iframe" src="javascript:void(0)" height="550" width="100%"></iframe>'
 ].join('\n');
