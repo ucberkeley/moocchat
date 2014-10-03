@@ -61,36 +61,21 @@ var web_socket = {
         var text   = $("#input-text")[0].value;
         self.ws.send(JSON.stringify({ text: text, taskid: self.taskid, type: "message" }));
         $("#input-text")[0].value = "";
-        self.logChat(text);
+      	self.sendLog(self.taskid, "chat", text);
       });
     }
     this.voteButton.click(function(event) {
       self.ws.send(JSON.stringify({ text: '', taskid: self.taskid, type: "end-vote" }));
-      self.logVote();
+      self.sendLog(self.taskid, "quit_chat", "");
     });
   },
   
-  logVote: function(){
-  	log_data = {name: "quit_chat", value: ""};
+  sendLog: function(taskid, name, value){
+  	log_data = {name: name, value: value};
   	$.ajax({
   		type: "POST",
   		url: "/tasks/" + taskid + "/log",
-  		data: 
-  		success: function(data, textStatus, jqXHR){
-  			console.log("sucessfully logged vote");
-  		},
-  		error: function (data, textStatus, jqXHR){
-  			console.log("fail to logged vote");
-  		}
-  	});
-  },
-
-  logChat: function(text){
-  	log_data = {name: "chat", value: text};
-  	$.ajax({
-  		type: "POST",
-  		url: "/tasks/" + taskid + "/log",
-  		data: 
+  		data: log_data,
   		success: function(data, textStatus, jqXHR){
   			console.log("sucessfully logged vote");
   		},
