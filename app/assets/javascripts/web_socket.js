@@ -71,7 +71,6 @@ var web_socket = {
   
   sendLog: function(taskid, name, value){
   	log_data = { name: name, value: value };
-    console.log('inSendLog');
   	$.ajax({
   		type: "POST",
   		url: "/tasks/" + taskid + "/log",
