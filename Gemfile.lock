@@ -147,7 +147,6 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.1)
     json_pure (1.8.1)
-    kgio (2.9.2)
     launchy (2.4.2)
       addressable (~> 2.3)
     mail (2.5.4)
@@ -234,7 +233,6 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     rainbow (2.0.0)
-    raindrops (0.13.0)
     rake (10.3.2)
     rdoc (3.12.2)
       json (~> 1.4)
@@ -306,10 +304,6 @@ GEM
     uglifier (2.5.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unicorn (4.8.3)
-      kgio (~> 2.6)
-      rack
-      raindrops (~> 0.7)
     websocket (1.0.7)
     websocket-driver (0.3.3)
     xpath (2.0.0)
@@ -340,6 +334,7 @@ DEPENDENCIES
   omniauth
   pg
   poltergeist
+  puma
   railroady
   rails (= 3.2.18)
   rails_12factor
@@ -352,4 +347,3 @@ DEPENDENCIES
   timecop
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
-  unicorn
