@@ -27,7 +27,6 @@ var web_socket = {
     this.sendMessages();
     this.receiveMessages();
     this.taskid = taskid;
-    console.log(this.type + this.taskid);
   },
 
   vote: function(taskid) {
@@ -38,7 +37,6 @@ var web_socket = {
       submitForm();
     }
   },
-
 
   receiveMessages: function() {
     var self = this;
@@ -62,13 +60,30 @@ var web_socket = {
         var text   = $("#input-text")[0].value;
         self.ws.send(JSON.stringify({ text: text, taskid: self.taskid, type: "message" }));
         $("#input-text")[0].value = "";
+      	self.sendLog(self.taskid, "chat", text);
       });
     }
     this.voteButton.click(function(event) {
       self.ws.send(JSON.stringify({ text: '', taskid: self.taskid, type: "end-vote" }));
+      self.sendLog(self.taskid, "quit_chat", "");
     });
   },
   
+  sendLog: function(taskid, name, value){
+  	log_data = { name: name, value: value };
+  	$.ajax({
+  		type: "POST",
+  		url: "/tasks/" + taskid + "/log",
+  		data: log_data,
+  		success: function(data, textStatus, jqXHR){
+  			console.log("sucessfully logged " + name);
+  		},
+  		error: function (data, textStatus, jqXHR){
+  			console.log("fail to log " + name);
+  		}
+  	});
+  },
+
   isBoth: function(){
   	return this.type == "both";
   },
