@@ -41,6 +41,14 @@ class TasksController < ApplicationController
     if @timer.zero? then @timer += @task.activity_schema.starts_every end
   end
 
+  def force_continue
+    if @test_user
+      @task.force_group_formation_now!
+      session[:timer] = 0
+    end
+    redirect_to task_welcome_path(@task)
+  end
+
   def join_group
     WaitingRoom.process_all!
     case @task.chat_group

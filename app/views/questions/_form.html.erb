@@ -1,3 +1,15 @@
+<% if @question.errors.any? %>
+ <div id="error_explanation">
+    <h2><%= pluralize(@question.errors.count, "error") %> prevented this
+      question from being saved:
+    </h2>
+    <ul>
+    <% @question.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
 <%= form_for @question, :html => { :class => 'form-horizontal', :class => 'form-warning' } do |f| %>
   <div class="control-group">
     <%= f.label :text, :class => 'control-label' %>
@@ -8,7 +20,7 @@
   <br>
   <div class="control-group">
     <%= f.label "Answer Choices", :class => 'control-label' %>
-    <%if @question.answers.any? %>
+    <% if @question.answers.any? %>
       <% index = 0 %>
       <% @question.answers.each do |element| %>
         <div class="controls">
@@ -18,16 +30,16 @@
           <% index+=1 %>
         </div>
       <% end %>
-    <%else%>
-      <% index = 0 %>
-      <% 5.times do %>
+    <% else %>
+      <% 0.upto(4) do |index| %>
        <div class="controls">
           <label for="Question Answers">
-            <textarea name="question[answers][]" class="text_area" id="question_Answer<%= index%>"></textarea>
-          <% index+=1 %>
+            <textarea name="question[answers][]" class="text_area"
+                      id="question_Answer<%= index -%>">
+            </textarea>
         </div>
       <% end %>
-    <%end%>
+    <% end %>
   </div>
   <div class="control-group">
     <%= f.label :explanation, :class => 'control-label' %>

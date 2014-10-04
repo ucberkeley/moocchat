@@ -64,25 +64,11 @@ class WaitingRoom < ActiveRecord::Base
     end
   end
 
-  def self.admin_action task
-    learnerA = Learner.where(name: "Alex Testing").first
-    learnerB = Learner.where(name: "Ben Testing").first
-    learnerC = Learner.where(name: "Calvin Testing").first
-    taskA = Task.find_by_learner_id(learnerA.id)
-    taskB = Task.find_by_learner_id(learnerB.id)
-    taskC = Task.find_by_learner_id(learnerC.id)
-    task_list = Array.new
-    task_list << task << taskA << taskB << taskC
-    wr = WaitingRoom.
-      find_or_create_by_activity_schema_id_and_condition_id!(
-      task.activity_schema_id, task.condition_id)
-    wr.process_admin task_list
+  # Admins can force waiting room to process tasks immediately (ie on
+  # next call to TasksController#join_groups action).
+  def force_group_formation_now!
+    self.update_attribute(:expires_at, 1.second.ago)
   end
-
-  def process_admin task_list
-    create_group_from task_list
-  end
-
 
   # Wake up and check all waiting rooms.  For any waiting rooms whose +expired_at+ now
   # matches or exceeds the current time, process it, then destroy it.

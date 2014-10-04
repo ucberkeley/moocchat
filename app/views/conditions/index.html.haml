@@ -1,7 +1,7 @@
 .page-header
   %h1 Conditions
 
-%p= link_to 'New', new_condition_path
+%p= link_to 'New', new_condition_path, :class => 'btn btn-mini'
 
 %table.table.table-striped
   %thead
@@ -15,7 +15,6 @@
   %tbody
     - @conditions.each do |condition|
       %tr
-        %td= link_to condition.id, edit_condition_path(condition)
         %td= condition.name
         - %w(prologue_pages body_pages epilogue_pages).each do |pages|
           %td
