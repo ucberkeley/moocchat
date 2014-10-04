@@ -35,7 +35,6 @@ describe WaitingRoom do
   describe 'expiration time' do
     [
       [6, 15, 18], [6, 0, 6], [6, 58, 0],
-       
     ].each do |test_case|
       starts_every, minute_now, minute_to_expire = test_case
       specify "should be :#{'%02d' % minute_to_expire} if it's now :#{'%02d' % minute_now} and tasks are every #{starts_every} minutes" do
@@ -53,6 +52,12 @@ describe WaitingRoom do
       end
     end
   end
+  it 'can be forced to process groups immediately' do
+    @wr = create :waiting_room, :expires_at => 10.minutes.from_now
+    @wr.force_group_formation_now!
+    @wr.expires_at.should be < Time.zone.now
+  end
+    
   describe 'wakeup task' do
     before :each do
       @expiring = Array.new(3) { create(:waiting_room, :expires_at => 1.minute.ago) }

@@ -27,6 +27,8 @@ module HtmlSelectorsHelpers
     #
     #  when /the header/
     #    [:xpath, "//header"]
+    when /^the timer$/
+      "span#_timer_"
 
     when /^the table row containing "(.*)"$/
       [:xpath, "//tr[contains(.,'#{$1}')]" ]

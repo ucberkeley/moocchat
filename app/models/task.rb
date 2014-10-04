@@ -35,6 +35,10 @@ class Task < ActiveRecord::Base
   
   serialize :user_state, Hash
 
+  # For testing purposes, an admin or "Test learner" can bypass the
+  # timer on the welcome page and force group formation to happen RIGHT NOW.
+  delegate :force_group_formation_now!, :to => :waiting_room
+
   # Create a new task from a hash that includes a +condition_id+,
   # +activity_schema_id+, and +learner_name+.
   #

@@ -18,14 +18,14 @@ Moocchat::Application.routes.draw do
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
   post '/tasks' => 'tasks#create' # regular form posting
 
+  # admin/test learner can force task to continue without waiting for WaitingRoom expiration
+  post '/tasks/:id/force_continue', :to => 'tasks#force_continue', :as => 'task_force_continue'
+
   # error encountered while creating task
   get '/tasks/error', :to => 'tasks#error', :as => 'task_error'
 
   # welcome page ("Welcome! Click to start your learning activity")
   get '/tasks/:id', :to => 'tasks#welcome', :as => 'task_welcome'
-
-  # go to first page/view of a task
-  post '/tasks/:id/admin_action', :to => 'tasks#admin_action', :as => 'task_admin_action'
 
   # go to first page/view of a task
   post '/tasks/:id/join_group', :to => 'tasks#join_group', :as => 'task_join_group'

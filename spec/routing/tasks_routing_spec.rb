@@ -19,6 +19,7 @@ describe TasksController do
     end
     it 'routes to Welcome page' do
       expect(:get => '/tasks/10').to route_to :controller => 'tasks', :action => 'welcome', :id => '10'
+      expect(:get => task_welcome_path(10)).to route_to :controller => 'tasks', :action => 'welcome', :id => '10'
     end
     it 'routes to page render' do
       expect(:get => '/tasks/10/page').to route_to :controller => 'tasks', :action => 'page', :id => '10'
