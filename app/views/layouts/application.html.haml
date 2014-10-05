@@ -1,0 +1,13 @@
+-# NOTE! This layout is used for all app administration pages but NOT for
+-# the learner-facing templates! Each of those is rendered in its entirety
+-# and must carry its own layout.
+!!! 5
+%html
+  %head
+    %title MOOCChat
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body.admin
+    .notice= flash[:notice]
+    .container= yield

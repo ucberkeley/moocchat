@@ -8,7 +8,6 @@ describe 'main form', ->
   describe 'on template page', ->
     beforeEach -> ContinueButton.setup()
     it 'hides the interstitial initially', ->
-      ContinueButton.setup()
       expect($('#interstitial')).toBeHidden()
     describe 'when Submit is pressed', ->
       beforeEach ->
@@ -28,7 +27,7 @@ describe 'main form', ->
       it 'disables the submit button', ->
         expect($('form#_main :submit')).toBeDisabled()
       
-  describe 'on a non-template page', ->
+  describe 'on an admin-enabled (non-template) page', ->
     beforeEach ->
       $('body').addClass('admin')
       ContinueButton.setup()

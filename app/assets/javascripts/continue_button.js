@@ -29,6 +29,8 @@ var ContinueButton =  {
     $('body').addClass('serverNotified');
   },
   setup: function() {
+    // Don't intercept form submits on non-task-flow pages (in general, 
+    // those are only available to admin users and have body.admin)
     if ($('body').hasClass('admin')) {
       return;
     }
