@@ -78,6 +78,11 @@ to verify that there is no bug introduced
 0. First time: `heroku apps:create pick-some-app-name`
 0. Make sure your changes are committed locally
 0. `git push heroku master`
+0. The first time you deploy, you must also `heroku run rake db:migrate`
+to setup the database, and `heroku run rake db:seed` to populate it with
+necessary initial data.  (**Warning:**  the `db:seed` task wipes the
+database before re-seeding it, so don't use it if you want to preserve
+existing data!)
 0. Your app should now be live at `http://pick-some-app-name.herokuapp.com`
 0. If you get an application failed error message, try 'heroku run rake db:migrate' then refresh page
 
