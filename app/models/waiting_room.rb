@@ -95,16 +95,18 @@ class WaitingRoom < ActiveRecord::Base
     self.destroy
   end
 
-  # Stretch out timer by 1 second for every N groups to be formed
-  # (so the users don't all bang on the server at once to join a group),
-  # but no larger than the time until the next waiting-room-emptying.
-  # Number of users to allow hitting the server "simultaneously" on timer
-  # expiration to form initial groups
-  MAX_USERS = 100
+  # Stretch out timer so users don't all bang on the server at once to
+  # join a group.  In general, try to avoid more than MAX_USERS every 
+  # SERVICE_TIME_IN_MS hitting the server simultaneously
+
+  MAX_USERS = 10
+  SERVICE_TIME_IN_MS = 500
 
   def timer_until(task)
     timer_base = self.expires_at - Time.zone.now
-    fuzz = Integer(self.tasks.size / (task.condition.preferred_group_size * MAX_USERS))
+    max_fuzz_seconds = 60 * task.activity_schema.starts_every
+    fuzz = Integer(
+      self.tasks.size / MAX_USERS / (1000 / SERVICE_TIME_IN_MS))
     timer_base + [fuzz, 60 * task.activity_schema.starts_every].min
   end  
 

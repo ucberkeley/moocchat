@@ -32,6 +32,31 @@ describe WaitingRoom do
       end
     end
   end
+  describe 'timer fuzzing' do
+    # these tests depend on constants MAX_USERS and SERVICE_TIME_IN_MS
+    # in waiting_room.rb.  If their values are changed, these tests will fail
+    [ # normal fuzz amounts
+      [ 100, 5 ],
+      [ 1000, 50 ],
+      # no fuzz needed
+      [ 11, 0 ],
+      [ 20, 0 ],
+      # should not exceed expiration time of next task (here, 60 sec)
+      [ 2000, 60 ],
+      [ 2500, 60 ]
+    ].each do |users,fuzz|
+      it "adds #{fuzz}s when there are #{users} users" do
+        Timecop.freeze(Time.zone.now) do
+          @t = mock_model Task
+          @t.stub_chain(:activity_schema, :starts_every).and_return(1)
+          @w = WaitingRoom.new
+          @w.expires_at = Time.zone.now
+          @w.stub_chain(:tasks, :size).and_return(users)
+          @w.timer_until(@t).should be_within(1).of(fuzz)
+        end
+      end
+    end
+  end
   describe 'expiration time' do
     [
       [6, 15, 18], [6, 0, 6], [6, 58, 0],
