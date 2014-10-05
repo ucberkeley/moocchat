@@ -8,9 +8,7 @@ TAGS: $(FILES)
 check:
 	/bin/rm -f $(shell rails r -e development "puts Rails.configuration.database_configuration['development']['database']")
 	/bin/rm -rf tmp
-	rake db:schema:load
-	rake db:seed
-	rake db:test:prepare
+	rake db:reset
 	rake spec
 	rake spec:javascript
 	rake cucumber
