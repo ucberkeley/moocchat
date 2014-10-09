@@ -109,6 +109,11 @@ describe TasksController do
       post :next_page, :id => @t[1], :params=>{:data=>[{'answer'=>'1'}]}
       @t[1].user_state.should == {'val' => 1}
     end
+    it 'sets the start time offset' do
+      Task.any_instance.stub(:start_page_time).and_return(3)
+      get :page, :id => @t[1]
+      assigns(:offset).should be > 0
+    end
   end
   
   describe 'logging' do

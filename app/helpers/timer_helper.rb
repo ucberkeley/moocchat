@@ -18,6 +18,11 @@ module TimerHelper
     else
       __timer = true
     end
+
+    if @offset and seconds
+      seconds = seconds - @offset
+    end
+
     attribs = {'id' => '_timer_',
       'class' => 'timer',
       'data-countfrom' => seconds.to_i,
