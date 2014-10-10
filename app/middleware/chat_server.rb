@@ -15,10 +15,9 @@ class ChatServer
   GREETING = "Learner %s"
   GENERIC_ASYNC_RACK_RESPONSE = [ -1, {}, [] ]
 
-  attr_accessor :groups
   def initialize(app)
     @app     = app
-    @groups = Hash.new( [ ] )
+    @groups = {}
   end
   
   def call(env)
@@ -36,7 +35,6 @@ class ChatServer
   # the person responsible for *this* request is task ID 13.
   # Task IDs are never recycled.
   def channel_and_position_from_url(url)
-  # =>   print(url);
     if url =~ /\b([0-9,]+),([0-9]+)\b/
       channel, my_id = $1, $2
       position = channel.split(/,/).index(my_id)
@@ -49,12 +47,13 @@ class ChatServer
 
   def ensure_setup_socket_for(env)
     channel, my_position = channel_and_position_from_url(env['ORIGINAL_FULLPATH'])
-    unless groups[channel][my_position]
+    unless @groups.has_key?(channel) && @groups[channel][my_position]
       ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME })
+      @groups[channel] ||= []
+      @groups[channel][my_position] = ws
       ws.on(:open)    { |event| ; }
       ws.on(:message) { |event| redistribute_message(event, channel, my_position) }
-      ws.on(:close)   { groups[channel][my_position] = nil }
-      groups[channel][my_position] = ws
+      ws.on(:close)   { @groups[channel][my_position] = nil }
       ws.rack_response   # async Rack response
     else
       GENERIC_ASYNC_RACK_RESPONSE
@@ -65,6 +64,7 @@ class ChatServer
     message = extract_text(websocket_event)
     type = extract_type(websocket_event)
     taskid = extract_taskid(websocket_event)
+    puts "redistribution #{type}: #{message}"
     if type == "message"
       speaker = "Learner #{1+my_position}"
       json = create_text_message "#{speaker}: #{message}", taskid
@@ -72,8 +72,8 @@ class ChatServer
     if type == "end-vote"
       json = create_end_vote taskid
     end
-    groups[channel].each_with_index do |websocket, position|
-        websocket.send json
+    @groups[channel].each_with_index do |websocket, position|
+      websocket.send json
     end
   end
 
@@ -100,6 +100,7 @@ class ChatServer
   end
 
   def abort_with(message)
+    puts "Aborting with #{message}"
     raise MalformedWebsocketUrlError, message
     #  should notify via hoptoad or something as well
   end

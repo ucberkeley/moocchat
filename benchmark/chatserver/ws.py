@@ -20,8 +20,8 @@ def print_store(record):
 	print str(record)
 	statFile.write(record + "\n")
 
-number = 1000
-groupSize = 500
+number = 5000
+groupSize = 200
 first_taskid = 0
 
 total_completed = 0
@@ -60,6 +60,7 @@ while number > 0:
 		expected = message_sent[str(first_taskid)]
 		if expected != result:
 			print_store("Failed: different meessage! Expected: " + expected + "| Got: " + result)
+			print_store_stat()
 			sys.exit(1)
 		ws.close()
 		total_completed = total_completed + 1	
