@@ -6,6 +6,8 @@ import datetime
 #https://pypi.python.org/pypi/websocket-client/
 #best = 538
 
+number = 300
+size = 300
 
 def getDateTime():
 	current = str(datetime.datetime.now())	
@@ -19,11 +21,10 @@ def construct_response(learner_number, input):
 
 
 def print_store_total():
-	return
-	#print "Finish a total of: " + str(total_completed) + " websockets"
-	#print "Took a total of: " + str(sum(runtimes))
-	#statFile.write("Finish a total of: " + str(total_completed) + " websockets" + "\n")
-	#statFile.write("Took a total of: " + str(sum(runtimes)) + "\n")
+	print "Finish a total of: " + str(total_completed) + " websockets"
+	print "Took a total of: " + str(sum(runtimes))
+	statFile.write("Finish a total of: " + str(total_completed) + " websockets" + "\n")
+	statFile.write("Took a total of: " + str(sum(runtimes)) + "\n")
 
 def print_store(record):
 	print str(record)
@@ -47,12 +48,14 @@ def createAllWS(group, first_taskid, last_taskid):
 	return websockets
 
 def verifyReceive(websockets, expected):
+	global total_completed
 	for ws in websockets:
 		result = json.loads(ws.recv())
 		if expected != result:
 			print_store("Failed: different meessage! Expected: " + str(expected) + "| Got: " + result)
 			print_store_total()
 			sys.exit(1)
+		total_completed = total_completed + 1
 
 def closeAllWS():
 	for group in groups:
@@ -60,7 +63,7 @@ def closeAllWS():
 			ws.close()
 
 def performGroup(groupSize, first_taskid):
-	#start = timeit.default_timer()
+	start = timeit.default_timer()
 	last_taskid = first_taskid + groupSize
 	group = formGroup(first_taskid, last_taskid)	
 	websockets = createAllWS(group, first_taskid, last_taskid)
@@ -68,26 +71,23 @@ def performGroup(groupSize, first_taskid):
 	#send data from ws1
 	data = json.dumps({"text": "testLoading", "taskid": first_taskid, "type": "message"})
 	websockets[0].send(data)
-	print_store("message_sent: " + str(data) + "\n")
+	print_store("message_sent: " + str(data))
 	expected = construct_response(1, data)	# 1 is learner index
-	print_store("expected to receive: " + str(expected) + "\n")
+	print_store("expected to receive: " + str(expected))
 	#receive number of web sockets
 	verifyReceive(websockets, expected)
-	#stop = timeit.default_timer()
-	#runtime = stop - start
-	#runtimes.append(runtime)
-	print_store("Finish: " + str(groupSize) + " websockets")
-	#print_store("Took: " + str(runtime) + "\n\n\n")
+	stop = timeit.default_timer()
+	runtime = stop - start
+	runtimes.append(runtime)
+	print_store("Finish: " + str(groupSize) + " websockets\n")
+	print_store("Took: " + str(runtime) + "\n")
 
-number = 2
-size = 2
 groups = []
 first_taskid = 0
 
-#total_completed = 0
-#runtimes = []
+total_completed = 0
+runtimes = []
 statFile = open("loadResult" + str(getDateTime()) + ".txt", "w")
-
 
 while number > 0:
 	groupSize = 0
