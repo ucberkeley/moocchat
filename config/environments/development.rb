@@ -37,4 +37,8 @@ Moocchat::Application.configure do
 
   # Enable threaded mode
   config.threadsafe!
+  # Allow dependencies to be loaded if running as part of a rake task
+  # (normally threadsafe turns off dependency loading)
+  config.dependency_loading = true if $rails_rake_task
+
 end
