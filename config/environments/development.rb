@@ -36,5 +36,5 @@ Moocchat::Application.configure do
   config.assets.debug = true
 
   # Enable threaded mode
-  config.threadsafe!
+  #config.threadsafe!
 end
