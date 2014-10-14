@@ -42,7 +42,7 @@ def formGroup(first_taskid, last_taskid):
 def createAllWS(group, first_taskid, last_taskid):
 	websockets = []
 	for taskid in range(first_taskid, last_taskid):
-		url = "wss://moocchat-john.herokuapp.com/" + group + "," + str(taskid)
+		url = "wss://moocchat-john-single.herokuapp.com/" + group + "," + str(taskid)
 		ws = create_connection(url)
 		websockets.append(ws)
 	return websockets
