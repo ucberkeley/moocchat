@@ -60,7 +60,9 @@ class TasksController < ApplicationController
       # :BUG: this should be logged
       session[:timer] = 5
       render :action => 'welcome'
-    else
+      else
+      current_time = Time.now
+      @task.update_attribute(:start_page_time, current_time)    #set the time the learner started the activity
       @task.log :form_group
       @task.save!
       redirect_to task_page_path(@task)
