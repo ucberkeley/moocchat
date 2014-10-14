@@ -71,7 +71,7 @@ class TasksController < ApplicationController
     @task_id = params[:id]
     @template = @task.current_page
     if @task.start_page_time
-      @offset = Time.now.to_i - @task.start_page_time
+      @offset = (Time.now - @task.start_page_time).to_i
     else
       @offset = 0
     end
@@ -122,7 +122,6 @@ class TasksController < ApplicationController
     @task.next_question! if !params[:next_question].blank?
     if @task.current_page
       current_time = Time.now
-      current_time = current_time.to_i
       @task.update_attribute(:start_page_time, current_time)    #set the time the learner started the activity
       # log the event of user 'continuing'
       @task.log(:continue)

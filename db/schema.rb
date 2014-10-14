@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141010190546) do
+ActiveRecord::Schema.define(:version => 20141014154022) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(:version => 20141010190546) do
     t.text     "sequence_state",     :limit => 255
     t.integer  "waiting_room_id"
     t.text     "user_state"
-    t.time     "start_page_time"
+    t.datetime "start_page_time"
   end
 
   add_index "tasks", ["activity_schema_id"], :name => "index_tasks_on_activity_schema_id"
