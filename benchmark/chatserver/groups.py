@@ -6,8 +6,8 @@ import datetime
 #https://pypi.python.org/pypi/websocket-client/
 #best = 538
 
-number = 300
-size = 300
+number = 2000
+size = 20
 
 def getDateTime():
 	current = str(datetime.datetime.now())	
@@ -95,7 +95,13 @@ while number > 0:
 		groupSize = size
 	else:
 		groupSize = number % size
-	performGroup(groupSize, first_taskid)
+	try:
+		performGroup(groupSize, first_taskid)
+	except Exception:
+		closeAllWS()
+		print_store("Exception")
+		print_store_total()
+		sys.exit(0)
 	#wrap up for next loop
 	first_taskid = first_taskid + groupSize
 	number = number - size
