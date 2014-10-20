@@ -14,7 +14,7 @@ class ChatServer
   KEEPALIVE_TIME = 30 # in seconds
   GREETING = "Learner %s"
   GENERIC_ASYNC_RACK_RESPONSE = [ -1, {}, [] ]
-
+  attr_accessor :groups
   def initialize(app)
     @app     = app
     @groups = {}
