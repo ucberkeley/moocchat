@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_filter :check_if_test_user, :except => [:create, :static]
 
   protected
-  
+
   def check_if_test_user
     @task = Task.find params[:id]
     @test_user = @task.learner.for_testing?
@@ -60,7 +60,9 @@ class TasksController < ApplicationController
       # :BUG: this should be logged
       session[:timer] = 5
       render :action => 'welcome'
-    else
+      else
+      current_time = Time.now
+      @task.update_attribute(:start_page_time, current_time)    #set the time the learner started the activity
       @task.log :form_group
       @task.save!
       redirect_to task_page_path(@task)
@@ -70,6 +72,12 @@ class TasksController < ApplicationController
   def page
     @task_id = params[:id]
     @template = @task.current_page
+    if @task.start_page_time
+      @offset = (Time.now - @task.start_page_time).to_i
+    else
+      @offset = 0
+    end
+
     if @template.nil?
       redirect_to('/', :notice => 'No more pages left in task')
     end
@@ -115,6 +123,8 @@ class TasksController < ApplicationController
     # if 'next_question' field is nonblank, advance question counter
     @task.next_question! if !params[:next_question].blank?
     if @task.current_page
+      current_time = Time.now
+      @task.update_attribute(:start_page_time, current_time)    #set the time the learner started the activity
       # log the event of user 'continuing'
       @task.log(:continue)
       redirect_to task_page_path(@task)
@@ -132,6 +142,6 @@ class TasksController < ApplicationController
   end
 
   def error
-    
+
   end
 end

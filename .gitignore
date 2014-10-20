@@ -30,3 +30,6 @@ doc/
 
 # Ignore temp recovery files:
 *~
+
+# rubymine settings
+.idea/*
