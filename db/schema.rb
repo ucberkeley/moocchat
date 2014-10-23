@@ -11,11 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141014154022) do
+ActiveRecord::Schema.define(:version => 20141023000359) do
 
   create_table "activity_schemas", :force => true do |t|
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.integer  "cohort_id"
     t.boolean  "enabled"
     t.boolean  "randomized"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20141014154022) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "starts_every"
+    t.integer  "activity_schema_id"
   end
 
   create_table "cohorts", :force => true do |t|

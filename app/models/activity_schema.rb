@@ -2,6 +2,7 @@ class ActivitySchema < ActiveRecord::Base
   include HasManyInline
   has_many :tasks
   has_many :event_logs
+  has_one :activity_schema #time_filler, :class => ActivitySchema
 
   belongs_to :cohort
 
