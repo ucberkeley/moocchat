@@ -17,4 +17,14 @@ module TaskHelper
     render :partial => "tasks/vote"
   end
 
+  def time_filler(questions)
+    if defined? __time_filler
+      raise "Can only have a single timer_filler per page"
+    else
+      __time_filler = true
+      @time_filler_qs = questions[0]
+    end
+    render :partial => "tasks/time_filler"
+  end
+
 end
