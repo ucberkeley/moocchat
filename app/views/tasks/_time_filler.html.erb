@@ -1,13 +1,13 @@
-<div class="col-md-6 moocchat-left-panel">
+<div class="col-md-6 moocchat-right-panel">
   <div class="row">
-    <div class="col-sm-11 moocchat-left-panel-direction h3">
+    <div class="col-sm-11 moocchat-right-panel-direction h3">
       For the essay below, select one of the <%= @time_filler_qs.answers.size %> choices.
     </div>
   </div>
   <div class="row col-sm-11 moocchat-reading well"><%= @time_filler_qs.text %></div>
   <div class="row">
     <div class="col-sm-11 moocchat-post-reading-direction">
-      Which of the following makes the most reasonable assuption?
+      Which of the following makes the most reasonable assumption?
     </div>
   </div>
   <div class="row answer-box-js">
@@ -30,4 +30,5 @@
     </div>
     <% end %>
   </div>
+  <button id="next-q"></button>
 </div>
