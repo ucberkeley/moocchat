@@ -1,22 +1,28 @@
-<div id="this-carousel-id" class="carousel slide"><!-- class of slide for animation -->
+<div id="this-carousel-id" class="carousel slide" data-interval="false"><!-- class of slide for animation -->
   <div class="carousel-inner">
     <div class="item active">
-      <img src="http://placehold.it/1200x480" alt="" />
+      <h1>Let's try a few time filler questions!</h1>
+      <h3>press the Next Question button on the top right corner.</h3>
     </div>
     <% @questions.each_with_index do |question, index| %>
       <div class="item">
-        <div class="col-md-6 moocchat-left-panel">
+        <div class="col-md-12 moocchat-left-panel">
           <div class="row">
-            <div class="col-sm-11 moocchat-left-panel-direction h3">
+            <div class="col-md-12 moocchat-left-panel-direction h3">
               For the essay below, select one of the <%= question.answers.size %> choices.
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-11 moocchat-reading well"><%= question.text %></div>
+            <div class="col-md-12 moocchat-reading well"><%= question.text %></div>
           </div>
+          <% correct = question.correct_answer_index %>
+          <% str = index_to_letter(correct) %>
           <div class="row">
-            <div class="col-sm-11 moocchat-post-reading-direction">
+            <div class="col-md-5 moocchat-post-reading-direction">
               Which of the following makes the most reasonable assuption?
+            </div>
+            <div id="timer_filler_answer" class="col-md-7"><h4>The answer is</h4> 
+              <h4><%= str %></h4>
             </div>
           </div>
           <div class="row answer-box-js">
@@ -24,7 +30,7 @@
             <!-- capture learner's answer as a letter A, B, C, ... -->
             <% question.answers.each_with_index do |answer, index| %>
             <% choice_letter = index_to_letter(index) %>
-            <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
+            <div class="col-md-12 moocchat-choice-area moocchat-conditional answer-box">
               <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
                 <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
                   <%= radio_button_tag "u[choice]", choice_letter, checked=false, :class => 'choice-button', 'data-index' => index %>
@@ -42,10 +48,11 @@
         </div>
       </div>
     <% end %>
+    <button id="time_filler_submit" class="btn btn-lg btn-primary">Submit Answer</button>
   </div><!-- /.carousel-inner -->
   <!--  Next and Previous controls below
         href values must reference the id for this carousel -->
-    <a class="carousel-control left" href="#this-carousel-id" data-slide="prev">&lsaquo;</a>
-    <a class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo;</a>
+    <a id="carousel_prev" class="carousel-control left" href="#this-carousel-id" data-slide="prev">&lsaquo;</a>
+    <a id="carousel_next" class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo; Next Question</a>
 </div><!-- /.carousel -->
 
