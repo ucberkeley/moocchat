@@ -1,13 +1,29 @@
-var time_filling = {
-  setup: function() {
-    var answerBox = $('.moocchat-choice');
+/*$(document).ready(function(){
+  var time_filler_carousel = $("#carousel-time-filler");
+  console.log("#carousel-time-filler exists: " + time_filler_carousel.length);
+  if(time_filler_carousel.length > 0){
+    $("#carousel-time-filler").carousel();
+  }
+});*/
 
-    answerBox.click(function() {
-      // IF ANSWER IS WRONG: HIGHLIGHT CORRECT ANSWER
+
+var time_filler = {
+  time_filler: null,
+
+  initialize: function(time_filler) {
+    this.time_filler = time_filler
+	$(document).ready(function(){
+      time_filler.carousel();
     });
-    $('#next-q').click(function() {
-      // SHOW NEXT QUESTION
-    });
+  },
+
+  setup: function(){
+    var time_filler_carousel = $("#carousel-time-filler");
+    console.log("#carousel-time-filler exists: " + time_filler_carousel.length);
+    if(time_filler_carousel.length > 0){
+      //time_filler.initialize(time_filler_carousel);	
+      //time_filler_carousel.carousel();
+    }
   }
 };
-$(time_filling.setup);
+$(time_filler.setup);

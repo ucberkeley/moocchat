@@ -6,9 +6,9 @@
     Your activity <strong>"<%= @task.activity_schema.name %>"</strong>
     will start automatically in
     <span class="timer">
-      <%= timer(@timer) %>
+      <%= timer(10000) %>
     </span> minutes.
   </p>
-  <%= time_filler(@task.activity_schema.questions)%>
+  <%= time_filler(@task.activity_schema)%>
   <input type="submit" id="_submit" class="offscreen">
 <% end %>
