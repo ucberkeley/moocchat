@@ -14,6 +14,10 @@ Moocchat::Application.routes.draw do
 
   root :to => 'tasks#static', :as => 'static'
 
+  # get next group-formation time for a given condition + activity_schema
+  get '/group_formation_times/:activity_schema_id/:condition_id' =>
+    'waiting_rooms#group_formation_times'
+
   # login and establish a session
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
   post '/tasks' => 'tasks#create' # regular form posting
