@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141106075929) do
+ActiveRecord::Schema.define(:version => 20141106184134) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -115,11 +115,13 @@ ActiveRecord::Schema.define(:version => 20141106075929) do
   end
 
   create_table "users", :force => true do |t|
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
     t.string   "type"
     t.string   "name"
-    t.boolean  "for_testing", :default => false
+    t.boolean  "for_testing",       :default => false
+    t.boolean  "consent"
+    t.datetime "consent_timestamp"
   end
 
   add_index "users", ["name"], :name => "index_users_on_name", :unique => true
