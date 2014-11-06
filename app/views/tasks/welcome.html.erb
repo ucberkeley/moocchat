@@ -9,6 +9,6 @@
       <%= timer(10000) %>
     </span> minutes.
   </p>
-  <%= time_filler(@task.activity_schema)%>
+  <%= time_filler(@task.condition.time_filler)%>
   <input type="submit" id="_submit" class="offscreen">
 <% end %>

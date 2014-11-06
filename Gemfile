@@ -10,6 +10,7 @@ gem 'jquery-rails'
 gem 'date_validator'            # datetime validations for ActiveRecord
 gem 'foreman'
 gem 'capybara-puma'
+gem 'foreigner'			#foreign key support for rails
 
 group :development, :test do
   gem 'sqlite3'
