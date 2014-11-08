@@ -19,17 +19,23 @@ var time_filler = {
 
   setup: function(){
     var submitButton = $("#time_filler_submit");
-    var answer = $("#timer_filler_answer");
+    var answer = $(".answer");
     var carouselNext = $("#carousel_next");
     var carouselPrev = $("#carousel_prev");
-    if(submitButton.length > 0 && answer.length > 0 && carouselNext.length > 0 && carouselPrev.length > 0){
+    if(submitButton.length > 0 && carouselNext.length > 0 && carouselPrev.length > 0){
       console.log("found all required buttons for time_filler");
       answer.hide();
       submitButton.hide();
       carouselPrev.hide();
       carouselNext.click(function(event){
         event.preventDefault();
+        answer.hide();
         submitButton.show();
+        setTimeout(function() {
+          if ($('.item.active').hasClass('first')) {
+            submitButton.hide();
+          }
+        },1000);
       });
       submitButton.click(function(event){
         event.preventDefault();
