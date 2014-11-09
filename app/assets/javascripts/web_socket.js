@@ -104,7 +104,7 @@ var web_socket = {
       console.log("chat_length: " + chats.length);
       console.log("vote_length: " + votes.length);
     }
-  },
+  }
 };
 $(web_socket.setup);
 

@@ -128,7 +128,7 @@ describe WaitingRoom do
         before :each do
           @condition.update_attributes(:preferred_group_size => size, :minimum_group_size => min_size)
           len.times { WaitingRoom.add(create(:task, :condition => @condition, :activity_schema => @activity)) }
-          @w = WaitingRoom.find_by_activity_schema_id_and_condition_id!(@condition.id, @activity.id)
+          @w = WaitingRoom.find_by_activity_schema_id_and_condition_id!(@activity.id, @condition.id)
           @w.process
           @groups = Task.group('chat_group')
         end

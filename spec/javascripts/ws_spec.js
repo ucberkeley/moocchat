@@ -86,10 +86,8 @@ describe("chat socket", function() {
 			});
 
 			it('logs the chat message', function() {
-				console.log("in logs chat");
 				expect(web_socket.sendLog).toHaveBeenCalledWith(2, "chat", "Hello World");
 				var args = $.ajax.calls.first().args[0];
-				console.log(args);
 				expect(args.type).toEqual('POST');
 				expect(args.url).toEqual('/tasks/2/log');
 				expect(args.data).toEqual({ name : 'chat', value : 'Hello World' });
@@ -127,7 +125,6 @@ describe("chat socket", function() {
 			it('logs the vote', function() {
 				expect(web_socket.sendLog).toHaveBeenCalledWith(2, "quit_chat", "");
 				var args = $.ajax.calls.first().args[0];
-				console.log(args);
 				expect(args.type).toEqual('POST');
 				expect(args.url).toEqual('/tasks/2/log');
 				expect(args.data).toEqual({ name : 'quit_chat', value : '' });

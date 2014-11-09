@@ -1,9 +1,18 @@
+log = Logger.new(STDOUT)
+log.level = Logger::INFO
+
 Given /^a condition "(.*?)"$/ do |name|
+  @time_filler_activity_schema = create(:activity_schema, :name => 'test_activity_schema', :questions => [create(:question)])
   @condition = create(:condition, :name => name, :body_repeat_count => 1,:prologue_pages => [create(:template)])
+  @condition.time_filler = @time_filler_activity_schema
+  log.info(@condition.time_filler)
 end
 
 Given /^a condition "(.*)" with group size (\d+)\.+(\d+)$/ do |name,min,max|
+  @time_filler_activity_schema = create(:activity_schema, :name => 'test_activity_schema', :questions => [create(:question)])
   @condition = create :condition, :preferred_group_size => max, :minimum_group_size => min, :name => name
+  @condition.time_filler = @time_filler_activity_schema
+  log.info(@condition.time_filler)
 end
 
 Given(/^I start on the Edit Page for condition$/) do 
