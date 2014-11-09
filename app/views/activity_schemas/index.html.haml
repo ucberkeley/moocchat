@@ -17,7 +17,7 @@
     - @activity_schemas.each do |activity_schema|
       %tr
         %td= link_to activity_schema.id, activity_schema_path(activity_schema)
-        %td= activity_schema.cohort.name
+        %td= activity_schema.cohort.try(:name)
         %td= activity_schema.name
         %td= activity_schema.enabled
         %td= activity_schema.randomized
