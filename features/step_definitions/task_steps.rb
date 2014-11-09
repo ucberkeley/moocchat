@@ -1,6 +1,8 @@
 Given(/^I start on the Static Page$/) do 
 	visit static_path
 end
+log = Logger.new(STDOUT)
+log.level = Logger::INFO
 
 When /^I post to the URL for learner:\s*"(.+)",\s*activity schema:\s*"(.+)",\s*condition:\s*"(.+)"$/ do |learner, activity_schema, condition|
   activity_schema_id = ActivitySchema.find_by_name!(activity_schema).id
@@ -12,8 +14,14 @@ When /^I post to the URL for learner:\s*"(.+)",\s*activity schema:\s*"(.+)",\s*c
   page.driver.status_code.should == 302
   # Rack::Test doesn't automatically follow redirects
   visit page.driver.response_headers['Location']
+
+  #log.info(Task.all)
+  #log.info(Condition.find 3)
+  #log.info(ActivitySchema.all)
+  #log.info("condition_id" + condition_id.to_s)
+  #log.info("activity_schema_id" + activity_schema_id.to_s)
   @task = Task.find_by_learner_id_and_condition_id_and_activity_schema_id!(
-    Learner.find_by_name!(learner).id, activity_schema_id, condition_id)
+    Learner.find_by_name!(learner).id, condition_id, activity_schema_id)
 end
 
 Given /^a task with a (\d+)-page condition repeated (\d+)\s+times?/ do |num_steps,repeat|

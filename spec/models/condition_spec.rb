@@ -34,9 +34,6 @@ describe Condition do
     it 'requires a name' do
       Condition.new(args.except(:name)).should_not be_valid
     end
-    it 'requires a time_filler' do
-      Condition.new(args.except(:time_filler)).should_not be_valid
-    end
 
     it 'returns time_filler_questions correctly' do
       c = Condition.new(args)
