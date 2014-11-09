@@ -6,6 +6,7 @@ describe Condition do
       :preferred_group_size => 2,
       :minimum_group_size => 1,
       :body_pages => [create(:template)],
+      :time_filler => create(:activity_schema),
       :body_repeat_count => 1
     }}
   it 'should be valid with valid args' do
@@ -32,5 +33,9 @@ describe Condition do
   it 'requires a name' do
     Condition.new(args.except(:name)).should_not be_valid
   end
+  it 'requires a time_filler' do
+    Condition.new(args.except(:time_filler)).should_not be_valid
+  end
+
 end
   
