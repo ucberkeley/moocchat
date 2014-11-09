@@ -1,0 +1,34 @@
+.page_header
+  %h1 Activity Schemas
+
+%table.table.table-striped
+  %thead>
+    %tr
+      %th id
+      %th Cohort
+      %th Name
+      %th Enabled?
+      %th Randomize order?
+      %th Questions
+      %th Tag
+      %th Updated
+      %th Actions
+  %tbody
+    - @activity_schemas.each do |activity_schema|
+      %tr
+        %td= link_to activity_schema.id, activity_schema_path(activity_schema)
+        %td= activity_schema.cohort.name
+        %td= activity_schema.name
+        %td= activity_schema.enabled
+        %td= activity_schema.randomized
+        %td
+          %ol{:start => 0}
+            - activity_schema.questions.each do |q|
+              %li!= q.text.truncate(160, :separator => ' ')
+        %td= activity_schema.tag
+        %td= l activity_schema.updated_at
+        %td
+          = link_to 'Edit', edit_activity_schema_path(activity_schema), :class => 'btn btn-mini'
+          = link_to 'Delete', activity_schema_path(activity_schema), :method => :delete, :data => { :confirm => 'Are you sure?'}, :class => 'btn btn-mini btn-danger'
+
+= link_to 'New', new_activity_schema_path, :class => 'btn btn-primary'
