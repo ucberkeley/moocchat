@@ -69,6 +69,14 @@
   </div>
     <!-- TBD: create UI for specifying prologue/epilogue/body pages -->
 
+  <div class="control-group">
+    <%= f.label :time_filler, :class => 'control-label'  %>
+    <div class="controls">
+      <%= collection_select( :time_filler, :id, ActivitySchema.all, :id, :name,
+        {prompt: 'Please Select from the following choices'}, 
+        {class: "form-control", name: "time_filler" }) %>
+    </div>
+  </div>
 
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
