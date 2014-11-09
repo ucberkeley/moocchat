@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-11 moocchat-reading well"><%= @question.text %></div>
+            <div class="col-sm-11 moocchat-reading well"><%== @question.text %></div>
           </div>
           <div class="row">
             <div class="col-sm-11 moocchat-post-reading-direction">Which of the following makes the most reasonable assuption?</div>
@@ -38,7 +38,7 @@
                     <%= choice_letter -%>
                   </div>
                   <label for="u_final_choice_<%= choice_letter -%>" class="list-group-item-heading moocchat-choice-statement">
-                    <%= answer %> 
+                    <%== answer %> 
                   </label>
                 </div>
               </div>

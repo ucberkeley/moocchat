@@ -26,8 +26,8 @@
   <dd><% if @activity_schema.questions.any? %>
           <% index =1 %>
           <% @activity_schema.questions.each do |elm| %>
-            <%="Q "+ index.to_s+":" %>
-            <%= link_to elm.text, question_path(elm) %>
+            <%= link_to "Q#{index}: ", question_path(elm) %>
+            <%== elm.text %>
             <br>
             <% index = index +1 %>
           <%end%>

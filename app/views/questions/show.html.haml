@@ -1,0 +1,22 @@
+.page_header
+  %h1 Question #{@question.id}
+
+%dl.dl-horizontal
+  %dt
+    %strong Text
+  %dd!= @question.text
+  %dt
+    %strong Answers
+  %dd
+    %ol{:start => 0}
+      - @question.answers.each_with_index do |answer,index|
+        %li{:class => ('text-primary' if index == @question.correct_answer_index)}
+          != answer
+  %dt
+    %strong Explanation
+  %dd!= @question.explanation
+
+.form-actions
+  = link_to 'Back', questions_path, :class => 'btn'
+  = link_to 'Edit', edit_question_path(@question), :class => 'btn'
+  = link_to 'Delete', question_path(@question), :method => 'delete', :data => { :confirm => 'Are you sure?' }, :class => 'btn btn-danger'

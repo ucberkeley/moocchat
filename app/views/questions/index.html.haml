@@ -1,0 +1,29 @@
+.page_header
+  %h1 Questions
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th id
+      %th Text
+      %th Answers
+      %th Explanation
+      %th Created
+      %th Actions
+  %tbody
+    - @questions.each do |question|
+      %tr
+        %td= link_to question.id, question_path(question) 
+        %td!= question.text
+        %td
+          %ol{:start => 0}
+            - question.answers.each_with_index do |answer,index|
+              %li{:class => ('text-primary' if index==question.correct_answer_index)}
+                != answer
+        %td!= question.explanation
+        %td= l question.created_at
+        %td
+          = link_to 'Edit', edit_question_path(question), :class => 'btn btn-mini'
+          = link_to 'Delete', question_path(question), :method => :delete, :data => { :confirm => 'Are you sure?'}, :class => 'btn btn-mini btn-danger'
+
+= link_to 'New', new_question_path, :class => 'btn btn-primary'
