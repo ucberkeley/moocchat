@@ -12,7 +12,6 @@ var time_filler = {
   carouselNext: null,
 
   initialize: function(submitButton, carouselNext) {
-    console.log("yay")
     this.submitButton = submitButton;
     this.carouselNext = carouselNext;
   },
@@ -22,8 +21,7 @@ var time_filler = {
     var answer = $(".answer");
     var carouselNext = $("#carousel_next");
     var carouselPrev = $("#carousel_prev");
-    if(submitButton.length > 0 && carouselNext.length > 0 && carouselPrev.length > 0){
-      console.log("found all required buttons for time_filler");
+    if(carouselNext.length > 0 && carouselPrev.length > 0){
       answer.hide();
       submitButton.hide();
       carouselPrev.hide();
@@ -32,7 +30,7 @@ var time_filler = {
         answer.hide();
         submitButton.show();
         setTimeout(function() {
-          if ($('.item.active').hasClass('first')) {
+          if ($('.active').hasClass('first')) {
             submitButton.hide();
           }
         },1000);
