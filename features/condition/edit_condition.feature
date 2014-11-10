@@ -19,3 +19,5 @@ Scenario: edit page, valid conditions, Administrator
   And I press "Update Condition"
   Then I should redirect to the show page for condition
   And I should see "Condition was successfully updated." 
+  And I should see "new_time_filler"
+

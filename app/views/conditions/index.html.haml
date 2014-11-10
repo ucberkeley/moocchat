@@ -11,7 +11,9 @@
       %th Body
       %th Epilogue
       %th Last updated
+      %th Time filler Name
       %th Actions
+
   %tbody
     - @conditions.each do |condition|
       %tr
@@ -22,6 +24,8 @@
               = link_to page.name, edit_template_path(page)
               %br
         %td= condition.updated_at.to_formatted_s
+        - time_filler_name = (condition.time_filler == nil)? "nil" : condition.time_filler.name
+        %td= time_filler_name
         %td
           = link_to 'Edit', edit_condition_path(condition), :class => 'btn btn-mini'
           - if condition.minimum_group_size == 1

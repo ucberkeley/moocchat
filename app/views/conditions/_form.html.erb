@@ -74,7 +74,7 @@
     <div class="controls">
       <%= collection_select( :time_filler, :id, ActivitySchema.all, :id, :name,
         {prompt: 'Please Select from the following choices'}, 
-        {class: "form-control", name: "time_filler" }) %>
+        {class: "form-control", name: "condition[time_filler]" }) %>
     </div>
   </div>
 

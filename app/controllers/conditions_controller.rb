@@ -30,6 +30,11 @@ class ConditionsController < ApplicationController
 
   # POST /conditions
   def create
+    if params[:condition][:time_filler] != ""
+      params[:condition][:time_filler] = ActivitySchema.find(params[:condition][:time_filler].to_i)
+    else
+      params[:condition][:time_filler] = nil
+    end
     #to handle the collection_select to object array
     @prologue=params[:condition][:prologue_pages]
     @body=params[:condition][:body_pages]
@@ -48,7 +53,11 @@ class ConditionsController < ApplicationController
   # PUT /conditions/1
   def update
     @condition = Condition.find(params[:id])
-
+    if params[:condition][:time_filler] != ""
+      params[:condition][:time_filler] = ActivitySchema.find(params[:condition][:time_filler].to_i)
+    else
+      params[:condition][:time_filler] = nil
+    end
     #to handle the collection_select to object array
     @prologue=params[:condition][:prologue_pages]
     @body=params[:condition][:body_pages]
