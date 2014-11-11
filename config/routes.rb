@@ -49,7 +49,7 @@ Moocchat::Application.routes.draw do
   # AJAX endpoint to log an event recorded at client
   post '/tasks/:id/log', :to => 'tasks#log', :as => 'task_log_event'
 
-  # Record that a user has consented or rejected participation in the experiment
+  # Record that a user has consented or rejected participation in the experiment - must use GET for JSONP
   get "users/record_consent"
   # Check whether a user has consented to participate in the experiment
   get "users/check_consent"

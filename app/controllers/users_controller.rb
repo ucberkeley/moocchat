@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   def record_consent
+    # Do not require request.xhr? because it blocks JSONP
     users = User.where(['name = ?', params[:username]])
     if users.empty?
       @user = Learner.new(name: params[:username])
@@ -12,6 +13,7 @@ class UsersController < ApplicationController
   end
 
   def check_consent
+    # Do not require request.xhr? because it blocks JSONP
     users = User.where(['name = ?', params[:username]])
     if !users.empty?
       @user = users.first
