@@ -8,10 +8,6 @@ Moocchat::Application.routes.draw do
   resources :questions
   resources :templates
 
-  #a simple get to redirect to this page
-  get 'chat' => 'chat#chatpage'
-  get 'test' => 'chat#chattest'
-
   root :to => 'tasks#static', :as => 'static'
 
   # get next group-formation time for a given condition + activity_schema
