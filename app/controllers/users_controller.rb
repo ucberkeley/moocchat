@@ -1,16 +1,19 @@
 class UsersController < ApplicationController
   def record_consent
+    render(:nothing => true, :status => 403) and return unless request.xhr?
     users = User.where(['name = ?', params[:username]])
     if users.empty?
       @user = Learner.new(name: params[:username])
     else
       @user = users.first
     end
-    @user.update_attribute(:consent, params[:consent]=='1' || params[:consent]=='true')
-    @user.update_attribute(:consent_timestamp, params[:consent_timestamp])
+    @user.update_attribute(:consent, params[:consent])
+    @user.update_attribute(:consent_timestamp, Time.current.utc)
+    render :nothing => true
   end
 
   def check_consent
+    render(:nothing => true, :status => 403) and return unless request.xhr?
     users = User.where(['name = ?', params[:username]])
     if !users.empty?
       @user = users.first

@@ -1,20 +1,82 @@
 require 'spec_helper'
 
+def record_and_check(val, username, expected)
+  xhr :post, :record_consent, {:username => username, :consent => val }
+  xhr :get, :check_consent, {:username => username, :callback => 'jsonCallback' }
+  regex = /^jsonCallback\((.*)\)$/
+  response.body.should =~ regex
+  response.body.match regex
+  @response = JSON($1)
+  @response['completed'].should be_true
+  @response['consented'].should == expected
+end
+
 describe UsersController do
 
-  describe "GET 'record_consent'" do
-    it "returns http success" do
-      # TODO 
-      # get 'record_consent'
-      # response.should be_success
+  describe 'record_consent' do
+    before :each do
+      @params = {:username => 'record_consent_test_user', :consent => 'true' }
+    end
+    it 'via regular POST gives a Forbidden error' do
+      post :record_consent, @params
+      response.code.should == '403'
+    end
+    context 'via AJAX POST' do
+      it 'creates new user record' do
+        expect { xhr :post, :record_consent, @params }.to change { User.count }.by(1)
+      end
     end
   end
 
-  describe "GET 'check_consent'" do
-    it "returns http success" do
-      # TODO
-      # get 'check_consent'
-      # response.should be_success
+  describe 'check_consent' do
+    it 'via regular GET gives a Forbidden error' do
+      get :check_consent, {:username => 'user', :callback => 'jsonCallback' }
+      response.code.should == '403'
+    end
+    context 'nonexistent user' do
+      it 'returns not completed for nonexistent user' do
+        xhr :get, :check_consent, {:username => 'nonexistent_user', :callback => 'jsonCallbackNonexistentUser' }
+        regex = /^jsonCallbackNonexistentUser\((.*)\)$/
+        response.body.should =~ regex
+        response.body.match regex
+        @response = JSON($1)
+        @response['completed'].should be_false
+      end
+    end
+    context 'consenting user' do
+      it 'returns completed and consented for consenting user (true)' do
+        record_and_check('true', 'user_true', true)
+      end
+      it 'returns completed and consented for consenting user (1)' do
+        record_and_check('1', 'user_1', true)
+      end
+    end
+    context 'rejecting user' do
+      it 'returns completed and not consented for rejecting user (false)' do
+        record_and_check('false', 'user_false', false)
+      end
+      it 'returns completed and not consented for rejecting user (0)' do
+        record_and_check('0', 'user_0', false)
+      end
+    end
+    context 'repeat user' do
+      before :each do
+        xhr :post, :record_consent, {:username => 'user_repeat', :consent => 'false' }
+      end
+      it 'updates consent state each time if user sends multiple requests' do
+        record_and_check('true', 'user_repeat', true)
+      end
+    end
+    context 'check timestamp' do
+      it 'records a correct timestamp' do
+        @start_time = Time.current.utc
+        xhr :post, :record_consent, {:username => 'user_check_timestamp', :consent => '1' }
+        @end_time = Time.current.utc
+        @user = User.find_by_name('user_check_timestamp')
+        @time = @user.consent_timestamp
+        @time.should be >= @start_time
+        @time.should be <= @end_time
+      end
     end
   end
 
