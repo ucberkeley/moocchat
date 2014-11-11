@@ -50,7 +50,7 @@ Moocchat::Application.routes.draw do
   post '/tasks/:id/log', :to => 'tasks#log', :as => 'task_log_event'
 
   # Record that a user has consented or rejected participation in the experiment
-  post "users/record_consent"
+  get "users/record_consent"
   # Check whether a user has consented to participate in the experiment
   get "users/check_consent"
 
