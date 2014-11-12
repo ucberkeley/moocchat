@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(:version => 20141111193352) do
     t.string   "name"
     t.boolean  "consent"
     t.datetime "consent_timestamp"
-    t.boolean  "for_testing", :default => false
+    t.boolean  "for_testing",       :default => false
     t.string   "email"
   end
 

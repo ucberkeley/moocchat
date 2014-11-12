@@ -29,7 +29,7 @@ Moocchat::Application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # ...except for simple requests to get info about waiting rooms' next group-formation time, etc
-  config.middleware.use Rack::SslEnforcer, :ignore => %r{^/group_formation_times/}
+  config.middleware.use Rack::SslEnforcer, :ignore => [%r{^/group_formation_times/}, %r{^/users/}]
 
   # See everything in the log (default is :info)
   # config.log_level = :debug

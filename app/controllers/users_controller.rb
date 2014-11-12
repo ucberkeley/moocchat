@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  skip_before_filter :require_authenticated_user
   def record_consent
     # Do not require request.xhr? because it blocks JSONP
     users = User.where(['name = ?', params[:username]])
