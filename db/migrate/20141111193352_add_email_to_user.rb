@@ -10,7 +10,9 @@ class AddEmailToUser < ActiveRecord::Migration
       'Bjoern Hartmann (Berkeley)' => 'bjoern@berkeley.edu',
       'D Coetzee (Berkeley)' => 'dcoetzee@berkeley.edu',
       'D Coetzee' => 'dcoetzee@gmail.com',
+      'Yeung John Li (Berkeley)' => 'liyeungjohn@berkeley.edu',
       'Marti Hearst (Berkeley)' => 'hearst@berkeley.edu',
+      'Claire Thompson (Berkeley)' => 'cthompson44@berkeley.edu',
       'Claire Thompson' => 'clairethomp44@gmail.com'
     }
     admins.each_pair do |name,email|
