@@ -1,6 +1,11 @@
 Moocchat::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  # Set a Google client id and secret for authenticaiton with Google in development
+  # These will only redirect back to https://localhost:3000/auth/google-oauth2/callback
+  ENV['GOOGLE_CLIENT_ID'] = '628865701741-j9rip8s981rouni6piq2c3o49rb28h13.apps.googleusercontent.com'
+  ENV['GOOGLE_CLIENT_SECRET'] = 'e2b_98_cXVGcuib08qzW_Oxo'
+
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 

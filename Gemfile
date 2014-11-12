@@ -6,6 +6,7 @@ gem 'puma'
 gem 'faye-websocket'
 gem 'haml'
 gem 'omniauth'
+gem 'omniauth-google-oauth2'
 gem 'jquery-rails'
 gem 'date_validator'            # datetime validations for ActiveRecord
 gem 'foreman'

@@ -8,11 +8,16 @@ Moocchat::Application.routes.draw do
   resources :questions
   resources :templates
 
-  root :to => 'tasks#static', :as => 'static'
+  root :to => 'tasks#static', :as => 'root'
 
   # get next group-formation time for a given condition + activity_schema
   get '/group_formation_times/:activity_schema_id/:condition_id' =>
     'waiting_rooms#group_formation_times'
+
+  # login as an authenticated user
+  match '/auth/:provider/callback', :to => 'sessions#try_login'
+  get '/auth/failure', :to => 'sessions#login_failed'
+  post '/logout', :to => 'sessions#destroy'
 
   # login and establish a session
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'

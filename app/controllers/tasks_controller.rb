@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
 
   before_filter :check_if_test_user, :except => [:create, :static]
+  skip_before_filter :require_authenticated_user
 
   protected
 

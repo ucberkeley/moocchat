@@ -38,6 +38,32 @@ Capybara.javascript_driver = :poltergeist
 #
 ActionController::Base.allow_rescue = false
 
+# For any scenarios that DO NOT explicitly test authentication, assume logged-in user is an Admin.
+Before '~@auth_test' do
+  OmniAuth.config.test_mode = true
+  OmniAuth.config.mock_auth[:default] = OmniAuth::AuthHash.new( {
+    :provider => 'google_oauth2',
+      :uid => '12345',
+      :info => {
+        :name => "Anna Admin",
+        :email => 'anna_admin@gmail.com',
+        :first_name => 'Anna',
+        :last_name => 'Admin'
+      }
+    })
+  create :administrator, :name => 'Anna Admin', :email => 'anna_admin@gmail.com'
+  visit '/auth/google_oauth2'
+end
+After '~@auth_test' do
+  Administrator.find_by_email('anna_admin@gmail.com').destroy
+  OmniAuth.config.mock_auth.delete(:default)
+end
+
+# For scenarios that DO test authentication, tear down their setup after running.
+After '@auth_test' do
+  OmniAuth.config.mock_auth = {}
+end
+
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
