@@ -29,11 +29,13 @@ matches their Google email address.
 Currently this must be done manually.
 
 **In production**, you must setup a [Google OAuth2 API
-key](https://console.developers.google.com/project/628865701741/apiui/credential?clientType&authuser=0)
-and set environment variable `GOOGLE_CLIENT_ID` to the OAuth2 client ID
+key and enable Google+ and Google Contacts on your Heroku
+deployment](https://github.com/zquestz/omniauth-google-oauth2), and wait
+a few minutes for the changes to take effect on Google's side.
+You must also set environment variable `GOOGLE_CLIENT_ID` to the OAuth2 client ID
 provided by Google and `GOOGLE_CLIENT_SECRET` to the client secret
-provided by Google for that key.  (On Heroku, you can set an app's
-environment variables on its Settings page.)  **In addition,** on the
+provided by Google for that key.  (On Heroku, you do this
+on the app's Settings page.)  **In addition,** on the
 Google settings for that API key, the
 "Redirect URI" must be
 `https://your-app-name.herokuapp.com/auth/google_oauth2/callback`.
