@@ -22,9 +22,14 @@ quality](https://codeclimate.com/github/ucberkeley/moocchat)
 0. `mkdir .ssh`
 0. Install your SSH key for Github in `~/.ssh/id_rsa`
 0. `chmod 600 ~/.ssh/id_rsa`
-0. `sudo apt-get install git curl libpq-dev phantomjs chromium-chromedriver python-selenium nodejs`
+0. `sudo apt-get install git curl libpq-dev phantomjs chromium-chromedriver python-selenium nodejs postgresql`
 0. `sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver`
 0. `sudo ln -s /usr/lib/chromium-browser/libs/lib*.so /usr/lib/`
+0. `sudo su postgres -c psql` (this will enter the postgres environment where you will set up the database)
+0. `CREATE USER yourusername WITH PASSWORD 'development';` (use your UNIX username in place of `yourusername`)
+0. CREATE DATABASE development_master OWNER yourusername; (use your branch name in place of `master` with `/` and `-` characters replaced by `_`)
+0. CREATE DATABASE test_master OWNER dcoetzee;
+0. `\q` (to exit postgres)
 0. `curl -sSL https://get.rvm.io | bash`
 0. `source ~/.rvm/scripts/rvm`
 0. `git clone git@github.com:ucberkeley/moocchat.git`

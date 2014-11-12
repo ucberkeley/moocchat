@@ -11,9 +11,9 @@ gem 'date_validator'            # datetime validations for ActiveRecord
 gem 'foreman'
 gem 'capybara-puma'
 gem 'foreigner'			#foreign key support for rails
+gem 'pg'
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'debugger'
   gem 'factory_girl_rails'
   gem 'railroady' # requires 'brew install graphviz' on mac or 'sudo apt-get install graphviz' on linux
@@ -38,7 +38,6 @@ end
 group :production do
   gem 'newrelic_rpm'
   gem 'rails_12factor'
-  gem 'pg'
 end
 
 
