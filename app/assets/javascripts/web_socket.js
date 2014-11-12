@@ -33,7 +33,7 @@ var web_socket = {
     if(!contain(this.votes, taskid) & contain(this.group, taskid)){
       this.votes[this.group.indexOf(taskid)] = taskid;
     }
-    if(compare(this.group, this.votes)){
+    if(arrays_equal(this.group, this.votes)){
       submitForm();
     }
   },
@@ -66,6 +66,7 @@ var web_socket = {
     this.voteButton.click(function(event) {
       self.ws.send(JSON.stringify({ text: '', taskid: self.taskid, type: "end-vote" }));
       self.sendLog(self.taskid, "quit_chat", "");
+      return false;
     });
   },
   
@@ -126,7 +127,7 @@ function contain(array, element){
   return array.indexOf(element) != - 1;
 }
 
-function compare(array1, array2){
+function arrays_equal(array1, array2){
   if(array1.length != array2.length){
     return false;
   }
