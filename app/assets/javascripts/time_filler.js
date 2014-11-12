@@ -39,8 +39,6 @@ var time_filler = {
         event.preventDefault();
         answer.show();
       });
-    }else{
-      console.log("unable to find all required buttons to start time filler")
     }
   }
 };

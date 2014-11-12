@@ -1,8 +1,8 @@
 <div id="this-carousel-id" class="carousel slide" data-interval="false"><!-- class of slide for animation -->
   <div class="carousel-inner">
     <div class="item active first">
-      <h1>Let's try a few time filler questions!</h1>
-      <h3>press the Next Question button on the top right corner.</h3>
+      <h1>The activity will begin when the timer expires. Practice questions are available while you wait.</h1>
+      <h3>press the Next button in the top right corner to begin.</h3>
     </div>
     <% @questions.each_with_index do |question, index| %>
       <div class="item">
@@ -18,9 +18,6 @@
           <% correct = question.correct_answer_index %>
           <% str = index_to_letter(correct) %>
           <div class="row">
-            <div class="col-md-5 moocchat-post-reading-direction">
-              Which of the following makes the most reasonable assumption?
-            </div>
             <div id="timer_filler_answer" class="col-md-7 answer"><h4>The answer is</h4>
               <h4><%= str %></h4>
             </div>
@@ -53,6 +50,6 @@
   <!--  Next and Previous controls below
         href values must reference the id for this carousel -->
     <a id="carousel_prev" class="carousel-control left" href="#this-carousel-id" data-slide="prev">&lsaquo;</a>
-    <a id="carousel_next" class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo; Next Question</a>
+    <a id="carousel_next" class="carousel-control right" href="#this-carousel-id" data-slide="next">&rsaquo; Next</a>
 </div><!-- /.carousel -->
 

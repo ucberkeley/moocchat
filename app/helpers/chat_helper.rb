@@ -19,7 +19,7 @@ module ChatHelper
 
   def interstitial(text=nil)
     @interstitial_text = text ||
-      'You will continue to the next phase of the activity when the timer expires.'
+      'You will continue when your group finishes this step or the timer expires.'
     render :partial => "chat/interstitial"
   end
 
