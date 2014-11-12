@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
   skip_before_filter :require_authenticated_user
-  ssl_required :try_login if Rails.env.production?
   
   def try_login
     email = get_auth_provider_email
