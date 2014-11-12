@@ -28,15 +28,39 @@
             <div class="col-sm-11">
               <div class="list-group">
                 <%- @data.each_with_index do |learner, index| %>
-                <%- next if index == @me %>
-                <div class="list-group-item">
-                  <h4 class="list-group-item-heading"><span class="student-<%= index -%>">
-                      Student <%= index -%> chose '<%= learner["choice"] -%>'
-                  </h4>
-                </div>
+		  <% if index == @me %>
+		  <div class="list-group-item">
+		    <h4 class="list-group-item-heading"><span class="student-1">
+			You chose '<%= learner["choice"] -%>'
+		    </h4>
+		  </div>
+		  <% else %>
+		  <div class="list-group-item">
+		    <h4 class="list-group-item-heading"><span class="student-1">
+			Learner <%= index+1 -%> chose '<%= learner["choice"] -%>'
+		    </h4>
+		  </div>
+		  <% end %>
                 <% end %>
               </div>
             </div>
+          </div>
+	  <div class="row answer-box-js">
+            <% @question.answers.each_with_index do |answer, index| %>
+            <% choice_letter = index_to_letter(index) %>
+            <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
+              <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
+                <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
+                  <div class="moocchat-choice-box moocchat-choice-box-<%= index -%> letter-box letter-box-<%= index -%>">
+                    <%= choice_letter -%>
+                  </div>
+                  <label for="u_choice_<%= choice_letter -%>" class="list-group-item-heading moocchat-choice-statement">
+                    <%== answer %> 
+                  </label>
+                </div>
+              </div>
+            </div>
+            <% end %>
           </div>
         </div>
         <div class="col-md-6 moocchat-right-panel">
