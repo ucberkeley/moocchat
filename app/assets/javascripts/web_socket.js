@@ -64,6 +64,7 @@ var web_socket = {
       });
     }
     this.voteButton.click(function(event) {
+      self.ws.send(JSON.stringify({ text: "has voted to quit chat", taskid: self.taskid, type: "message" }));
       self.ws.send(JSON.stringify({ text: '', taskid: self.taskid, type: "end-vote" }));
       self.sendLog(self.taskid, "quit_chat", "");
       return false;
