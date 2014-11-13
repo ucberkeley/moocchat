@@ -1,7 +1,6 @@
 # Steps for single-user waiting room leading to a chat page
 
 Given /^I am a learner assigned to a singleton waiting room$/ do
-  pending
   @task = create :task, :with_chat_group
   @task.assign_to_chat_group Task.chat_group_name_from_tasks([@task])
   @task.save!

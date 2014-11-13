@@ -8,6 +8,7 @@ Background:
 
   Given a condition "Default"
 
+@wip
 Scenario: Delete a condition, valid conditions
 
   Given I am on the conditions page

@@ -1,3 +1,4 @@
+@wip
 Feature: Chat can send and receive message
 
   As a learner
