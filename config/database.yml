@@ -1,11 +1,7 @@
-# SQLite version 3.x
-#   gem install sqlite3
-#
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
 development:
   adapter: postgresql
   database: development_<%= `git branch --no-color | grep '^*'`.gsub(/^../,'').gsub(/[\-\/]/,'_').chomp %>
+  <%= 'host: localhost' if `uname` =~ /Darwin/ %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -13,6 +9,7 @@ development:
 test: &test
   adapter: postgresql
   database: test_<%= `git branch --no-color | grep '^*'`.gsub(/^../,'').gsub(/[\-\/]/,'_').chomp %>
+  <%= 'host: localhost' if `uname` =~ /Darwin/ %>
 
 production:
   # this is ignored by heroku anyway

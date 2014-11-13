@@ -157,7 +157,7 @@ describe TasksController do
     assigns(:subcounter).should be_an_integer
     assigns(:question_counter).should be_an_integer
     assigns(:chat_group).should == group
-    assigns(:start_form_tag).should have_xpath( %Q{//form[@data-log-url="#{task_collect_response_path(1)}"][@action="#{task_next_page_path(1)}"]})
+    assigns(:start_form_tag).should have_xpath( %Q{//form[@data-log-url="#{task_collect_response_path(@task.id)}"][@action="#{task_next_page_path(@task.id)}"]})
     assigns(:u).should == {'foo' => '1'}
     assigns(:data).should be_an Array
     assigns(:me).should == 0

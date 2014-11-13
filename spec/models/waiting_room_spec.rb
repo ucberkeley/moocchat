@@ -130,18 +130,22 @@ describe WaitingRoom do
           len.times { WaitingRoom.add(create(:task, :condition => @condition, :activity_schema => @activity)) }
           @w = WaitingRoom.find_by_activity_schema_id_and_condition_id!(@activity.id, @condition.id)
           @w.process
-          @groups = Task.group('chat_group')
+          @tasks_by_chat_group = Task.all.group_by(&:chat_group) # ActiveRelation's GROUP and HAVING are wonky in PGSql
         end
         it "should create #{num_groups} large groups" do
-          @groups.having("COUNT(*)=#{size}").length.should == num_groups
+          @tasks_by_chat_group.count { |group,grouparray| grouparray.length == size }.should == num_groups
         end
         it "should create #{num_small} small groups" do
           # special case: if pref'd group size is 1, there will never be any small groups,
           # and the below test will produce a false negative
-          size == 1 ? true : (@groups.having("COUNT(*)=#{min_size}").length.should == num_small)
+          size == 1 ? true : (@tasks_by_chat_group.count { |group,grouparray| grouparray.length == min_size }.should == num_small)
         end
         it "should have #{num_rejects} rejects" do
-          Task.where('chat_group = "NONE"').count.should == num_rejects
+          if num_rejects.zero?
+            @tasks_by_chat_group['NONE'].should be_nil
+          else
+            @tasks_by_chat_group['NONE'].length.should == num_rejects
+          end
         end
         it "should empty the waiting room" do
           @w.tasks.length.should == 0
