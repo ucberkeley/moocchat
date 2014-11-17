@@ -9,5 +9,6 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body.admin
+    .page-header= render :partial => 'layouts/header'
     .notice= flash[:notice]
     .container= yield

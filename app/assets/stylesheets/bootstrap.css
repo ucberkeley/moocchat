@@ -547,7 +547,8 @@ h4 small,
 
 .page-header {
   padding-bottom: 9px;
-  margin: 40px 0 20px;
+  padding-right: 10px;
+  margin: 20px;
   border-bottom: 1px solid #eeeeee;
 }
 
@@ -2355,6 +2356,11 @@ input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
+}
+
+.button_to,
+.button_to div {
+  display: inline;
 }
 
 .fade {

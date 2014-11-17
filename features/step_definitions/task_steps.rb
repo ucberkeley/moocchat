@@ -1,5 +1,5 @@
 Given(/^I start on the Static Page$/) do 
-	visit static_path
+	visit root_path
 end
 
 When /^I post to the URL for learner:\s*"(.+)",\s*activity schema:\s*"(.+)",\s*condition:\s*"(.+)"$/ do |learner, activity_schema, condition|
