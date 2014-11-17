@@ -16,6 +16,46 @@ are initials of developer, eg "AF") for new features,
 0. We are using [CodeClimate to monitor our code
 quality](https://codeclimate.com/github/ucberkeley/moocchat)
 
+## Developers -- important note on authentication
+
+Google OAuth2 is used to enforce that only Instructors and
+Administrators may administer content.  To make someone an instructor or
+administrator:
+
+0. Make sure the `type` field (i.e. subclass) of their entry
+in the `users` table is set to either `Instructor` or `Administrator`
+0. Make sure they have a nonblank `email` attribute that exactly
+matches their Google email address.  
+Currently this must be done manually.
+
+**In production**, you must setup a [Google OAuth2 API
+key and enable Google+ and Google Contacts on your Heroku
+deployment](https://github.com/zquestz/omniauth-google-oauth2), and wait
+a few minutes for the changes to take effect on Google's side.
+You must also set environment variable `GOOGLE_CLIENT_ID` to the OAuth2 client ID
+provided by Google and `GOOGLE_CLIENT_SECRET` to the client secret
+provided by Google for that key.  (On Heroku, you do this
+on the app's Settings page.)  **In addition,** on the
+Google settings for that API key, the
+"Redirect URI" must be
+`https://your-app-name.herokuapp.com/auth/google_oauth2/callback`.
+
+**In development**, Google OAuth2 is turned off, and the "Google Login"
+button is replaced by a "Dev Mode Login" button.  On the login form,
+enter your name and email exactly as they'd appear if you were
+authenticating with Google, and you'll be logged in.
+
+**For testing (Cucumber scenarios)**, if your scenario **specifically**
+deals with testing authentication directly, give it the tag
+`@auth_test`.  You will then have to create OmniAuth mocks to simulate
+the desired result of an authentication transaction; see
+`features/step_definitions/auth_steps.rb` for an example.  All
+scenarios WITHOUT this tag will be preceded by a `Before` action (see
+`features/support/env.rb`) that simulates an admin login, so these
+scenarios can assume that an admin is logged in.
+
+**For testing (RSpec controller tests)**:  TBD
+
 ## Developers -- detailed setting up on a fresh Ubuntu 14.04.1 install
 
 0. `sudo apt-get update && sudo apt-get upgrade`

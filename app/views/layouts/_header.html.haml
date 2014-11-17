@@ -1,0 +1,12 @@
+.text-right
+  - if @user
+    - %w(conditions questions activity_schemas templates).each do |model|
+      = link_to model.humanize, self.send("#{model}_path"), :class => 'btn btn-primary'
+    = button_to 'Log Out', logout_path, :class => 'btn btn-danger'
+    = @user.email
+  - else
+    - if Rails.env.production?
+      = link_to 'Google Login', '/auth/google_oauth2', :class => 'btn'
+    - else
+      = link_to 'Dev Mode login', '/auth/developer', :class => 'btn'
+

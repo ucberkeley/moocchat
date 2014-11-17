@@ -56,10 +56,12 @@ FactoryGirl.define do
     time_filler {create :activity_schema, :questions => [create(:question)]}
   end
 
-  factory :learner do
-    sequence(:name) { |n| "Learner#{n}" }
+  %w(learner instructor administrator).each do |user_type|
+    factory user_type do
+      sequence(:name) { |n| "#{user_type}#{n}" }
+    end
   end
-
+  
   factory :question do
     sequence(:text) { |n| "Question #{n}" }
     answers ["Wrong", "Wrong", "Right"]

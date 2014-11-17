@@ -28,7 +28,8 @@ Moocchat::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  # ...except for simple requests to get info about waiting rooms' next group-formation time, etc
+  config.middleware.use Rack::SslEnforcer, :ignore => [%r{^/group_formation_times/}, %r{^/users/}]
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
