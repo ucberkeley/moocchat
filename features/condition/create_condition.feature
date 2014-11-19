@@ -8,6 +8,7 @@ Background:
   Given I am on the conditions page
   Given a pregenerated Template named "Default"
   Given a condition "Test"
+  Given an activity schema "primary_activity_schema"
   Given an activity schema "time_filler_activity_schema"
   And I follow "New"
 
@@ -17,6 +18,7 @@ Scenario: Create a condition, valid conditions,Administrator
   And I select "Default" from "prologue_Pages0"
   And I select "Default" from "body_Pages1"
   And I select "Default" from "epilogue_Pages4"
+  And I select "primary_activity_schema" from "primary_activity_schema_id"
   And I select "time_filler_activity_schema" from "time_filler_id"
   And I press "Create Condition"
   Then I should see "Default"

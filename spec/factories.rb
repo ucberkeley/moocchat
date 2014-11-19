@@ -53,6 +53,7 @@ FactoryGirl.define do
     body_pages { [create(:template)] }
     epilogue_pages []
     body_repeat_count 1
+    primary_activity_schema {create :activity_schema, :questions => [create(:question)]}    
     time_filler {create :activity_schema, :questions => [create(:question)]}
   end
 
