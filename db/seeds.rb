@@ -55,3 +55,19 @@ User.delete_all
   learner = Learner.create! :name => "Learner #{num}"
   learner.update_attribute(:for_testing, true)
 end
+admins = {
+  'Armando Fox' => 'armandofox@gmail.com',
+  'Armando Fox (Berkeley)' => 'fox@berkeley.edu',
+  'Bjoern Hartmann' => 'bjoern.hartmann@gmail.com',
+  'Bjoern Hartmann (Berkeley)' => 'bjoern@berkeley.edu',
+  'D Coetzee (Berkeley)' => 'dcoetzee@berkeley.edu',
+  'D Coetzee' => 'dcoetzee@gmail.com',
+  'Yeung John Li (Berkeley)' => 'liyeungjohn@berkeley.edu',
+  'Yeung John Li' => 'liyeungjohn@gmail.com',
+  'Marti Hearst (Berkeley)' => 'hearst@berkeley.edu',
+  'Claire Thompson (Berkeley)' => 'cthompson44@berkeley.edu',
+  'Claire Thompson' => 'clairethomp44@gmail.com'
+}
+admins.each_pair do |name,email|
+  Administrator.create! :name => name, :email => email
+end
