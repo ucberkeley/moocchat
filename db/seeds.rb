@@ -32,7 +32,7 @@ Cohort.delete_all
 cohort = Cohort.create!(name: "Cohort 1")
 
 ActivitySchema.delete_all
-activity_schema = ActivitySchema.create!(name: "Quiz Review", cohort: cohort, enabled: true, randomized: false,
+primary_activity_schema = ActivitySchema.create!(name: "Quiz Review", cohort: cohort, enabled: true, randomized: false,
   num_questions: 1, tag: "Quiz Review", questions: [Question.first],
   start_time: Time.zone.now.midnight, end_time: Time.zone.now + 2.days, starts_every: 1)
 
@@ -42,8 +42,8 @@ time_filler_activity_schema = ActivitySchema.create!(name: "time_filler_Quiz_Rev
 
 Condition.delete_all
 condition = Condition.create!(name: "Chat Sequence 1", time_filler: time_filler_activity_schema,
-  prologue_pages: [],body_pages: template_arr, epilogue_pages: [],preferred_group_size: 2,
-  minimum_group_size:1, body_repeat_count: 1)
+  primary_activity_schema: primary_activity_schema, prologue_pages: [],body_pages: template_arr, 
+  epilogue_pages: [], preferred_group_size: 2, minimum_group_size:1, body_repeat_count: 1)
 
 
 
