@@ -49,24 +49,20 @@ class Task < ActiveRecord::Base
   # of +Learner+ will be created.
  
   def self.create_from_params(params)
-    act = params[:activity_schema_id]
     cond = params[:condition_id]
-    if(act.is_a?(Hash) && cond.is_a?(Hash)) #suggested by github to handle collection select(which returns {:id => value} rather than value)
-      act = act[:id]
+    if(cond.is_a?(Hash)) #suggested by github to handle collection select(which returns {:id => value} rather than value)
       cond = cond[:id]
     end
     condition = Condition.find  cond
-    activity_schema = ActivitySchema.find act
     learner = Learner.find_or_create_by_name! params[:learner_name]
 
-    raise ActivityNotOpenError unless activity_schema.enabled?
+    #raise ActivityNotOpenError unless activity_schema.enabled?
     
     @t = Task.create!(
       :condition => condition,
       :learner => learner,
       :completed => false,
       :chat_group => nil,
-      :activity_schema => activity_schema,
       :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count, :num_questions => activity_schema.num_questions)
       )
   end
