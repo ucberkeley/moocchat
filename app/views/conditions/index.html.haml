@@ -11,7 +11,8 @@
       %th Body
       %th Epilogue
       %th Last updated
-      %th Time filler Name
+      %th Primary acitivity schema
+      %th Time filler
       %th Actions
 
   %tbody
@@ -24,6 +25,7 @@
               = link_to page.name, edit_template_path(page)
               %br
         %td= condition.updated_at.to_formatted_s
+        %td= condition.primary_activity_schema.name
         - time_filler_name = (condition.time_filler == nil)? "nil" : condition.time_filler.name
         %td= time_filler_name
         %td

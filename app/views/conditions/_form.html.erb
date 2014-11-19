@@ -70,6 +70,15 @@
     <!-- TBD: create UI for specifying prologue/epilogue/body pages -->
 
   <div class="control-group">
+    <%= f.label :primary_activity_schema, :class => 'control-label'  %>
+    <div class="controls">
+      <%= collection_select( :primary_activity_schema, :id, ActivitySchema.all, :id, :name,
+        {prompt: 'Please Select from the following choices'}, 
+        {class: "form-control", name: "condition[primary_activity_schema]" }) %>
+    </div>
+  </div>
+
+  <div class="control-group">
     <%= f.label :time_filler, :class => 'control-label'  %>
     <div class="controls">
       <%= collection_select( :time_filler, :id, ActivitySchema.all, :id, :name,
