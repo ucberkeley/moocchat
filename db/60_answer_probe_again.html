@@ -1,74 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <%= javascript_include_tag 'application' %>
-    <%= stylesheet_link_tag    "application", :media => "all" %>
-    <title>Page <%= @counter %></title>
-  </head>
-  <body>
-    <%= interstitial %>
-    <%= @start_form_tag %>
+<head>
+  <%= javascript_include_tag 'application' %>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <title>Page <%= @counter %></title>
+</head>
+<body>
+<%= interstitial %>
+<%= @start_form_tag %>
 
-    <div id="main-task-page" class="moocchat-page">
-      <div class="container">
-        <!-- left side -->
-        <div class="col-md-6 moocchat-left-panel">
-          <div class="row">
-            <div class="col-sm-11 moocchat-left-panel-direction h3">
-              Based on your reflection on the previous page, select your final response. 
-              <span class ='bonus-text'>You will receive a $1 bonus if you answer correctly.</span>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-11 moocchat-reading well"><%== @question.text %></div>
-          </div>
-          <div class="row">
-            <div class="col-sm-11 moocchat-post-reading-direction">Which of the following makes the most reasonable assuption?</div>
-          </div>
-          <div class="row answer-box-js">
-            <p>Select the best answer:</p>
-            <!-- capture learner's answer as choice letter  -->
-            <% @question.answers.each_with_index do |answer, index| %>
-            <% choice_letter = index_to_letter(index) %>
-            <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
-              <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
-                <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
-                  <%= radio_button_tag "u[final_choice]", choice_letter, checked=false, :class => 'choice-button', 'data-index' => index %>
-                  <div class="moocchat-choice-box moocchat-choice-box-<%= index %> letter-box letter-box-<%= index %>">
-                    <%= choice_letter -%>
-                  </div>
-                  <label for="u_final_choice_<%= choice_letter -%>" class="list-group-item-heading moocchat-choice-statement">
-                    <%== answer %> 
-                  </label>
-                </div>
-              </div>
-            </div>
-            <% end %>
-          </div>
-        </div>
-        <!--right side -->
-        <div class="col-md-6 moocchat-right-panel">
-          <div class="row">
-            <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
-              <button type="button" class="col-sm-5 btn btn-lg btn-default main-task-timer disabled">Timer <span id="main-task-timer-time"> <%= timer(65) %></span></button>
-              
-              <button type="submit" id="learning-button" class="col-sm-6 col-md-offset-1 btn btn-lg btn-info moocchat-next-button ">Next</button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">Submit your final answer and optionally revise your justification before the timer runs out.</div>
-          </div>
-
-          <div class="h3">Justify your answer.
-            <br>
-            <br>
-          </div>  
-          <textarea id= "justication_probe_again" class="col-sm-11 col-sm-offset-1 justify"></textarea>
-
+<div id="main-task-page" class="moocchat-page">
+  <div class="container">
+    <!-- left side -->
+    <div class="col-md-6 moocchat-left-panel">
+      <div class="row">
+        <div class="col-sm-11 moocchat-left-panel-direction h3">
+          Based on the chat on the previous page, select your final response.
         </div>
       </div>
-      <!-- </div> -->
+      <div class="row">
+        <div class="col-sm-11 moocchat-reading well"><%== @question.text %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11 moocchat-post-reading-direction">Which of the following makes the most reasonable assuption?</div>
+      </div>
+      <div class="row answer-box-js">
+        <p>Select the best answer:</p>
+        <!-- capture learner's answer as choice letter  -->
+        <% @question.answers.each_with_index do |answer, index| %>
+        <% choice_letter = index_to_letter(index) %>
+        <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
+          <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
+            <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
+              <%= radio_button_tag "u[final_choice]", choice_letter, checked=false, :class => 'choice-button', 'data-index' => index %>
+              <div class="moocchat-choice-box moocchat-choice-box-<%= index %> letter-box letter-box-<%= index %>">
+                <%= choice_letter -%>
+              </div>
+              <label for="u_final_choice_<%= choice_letter -%>" class="list-group-item-heading moocchat-choice-statement">
+                <%== answer %>
+              </label>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      </div>
     </div>
+    <!--right side -->
+    <div class="col-md-6 moocchat-right-panel">
+      <div class="row">
+        <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
+          <button type="button" class="col-sm-5 btn btn-lg btn-default main-task-timer disabled">Timer <span id="main-task-timer-time"> <%= timer(65) %></span></button>
+
+          <button type="submit" id="learning-button" class="col-sm-6 col-md-offset-1 btn btn-lg btn-info moocchat-next-button ">Next</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">Submit your final answer and optionally revise your justification before the timer runs out.</div>
+      </div>
+
+      <div class="h3">Justify your answer.
+        <br>
+        <br>
+      </div>
+      <textarea id= "justication_probe_again" class="col-sm-11 col-sm-offset-1 justify"></textarea>
+
+    </div>
+  </div>
+  <!-- </div> -->
+</div>
 </div>
 </form>
 <%= vote %>
