@@ -32,7 +32,7 @@
         <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
           <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
             <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
-              <%= radio_button_tag "u[final_choice]", choice_letter, checked=false, :class => 'choice-button', 'data-index' => index %>
+              <%= radio_button_tag "u[final_choice]", choice_letter, checked=(choice_letter == @u["choice"]), :class => 'choice-button', 'data-index' => index %>
               <div class="moocchat-choice-box moocchat-choice-box-<%= index %> letter-box letter-box-<%= index %>">
                 <%= choice_letter -%>
               </div>
