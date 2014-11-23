@@ -91,7 +91,7 @@ class WaitingRoom < ActiveRecord::Base
     # if there are leftover people, create groups of the minimum size (which could be singletons)...
     rejects = leftovers.empty? ? [ ] : create_groups_of(condition.minimum_group_size, leftovers)
     # if there are any singletons now, they're rejects
-    rejects.each { |t| t.assign_to_chat_group CHAT_GROUP_NONE }
+    rejects.each { |t| t.assign_to_chat_group(CHAT_GROUP_NONE, true) }
     self.destroy
   end
 
@@ -125,7 +125,7 @@ class WaitingRoom < ActiveRecord::Base
   # Create a chat group from a list of tasks
   def create_group_from task_list # :nodoc:
     group_name = Task.chat_group_name_from_tasks(task_list)
-    task_list.each { |t| t.assign_to_chat_group group_name }
+    task_list.each { |t| t.assign_to_chat_group(group_name, true) }
   end
 
   # Compute the expiration date of a waiting room that is being created.

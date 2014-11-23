@@ -64,13 +64,18 @@ class ChatServer
     message = extract_text(websocket_event)
     type = extract_type(websocket_event)
     taskid = extract_taskid(websocket_event)
-    puts "redistribution #{type}: #{message}"
+    if type != "heartbeat"   # Heartbeat too spammy
+      puts "redistribution #{type}: #{message}"
+    end
     if type == "message"
       speaker = "Learner #{1+my_position}"
       json = create_text_message "#{speaker}: #{message}", taskid
     end
     if type == "end-vote"
       json = create_end_vote taskid
+    end
+    if type == "heartbeat"
+      json = create_heartbeat taskid
     end
     @groups[channel].each_with_index do |websocket, position|
       websocket.send json
@@ -97,6 +102,10 @@ class ChatServer
 
   def create_end_vote(taskid)
     {:text => "", :type => "end-vote", :taskid => taskid }.to_json
+  end
+
+  def create_heartbeat(taskid)
+    {:text => "", :type => "heartbeat", :taskid => taskid }.to_json
   end
 
   def abort_with(message)

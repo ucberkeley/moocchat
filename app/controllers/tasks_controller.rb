@@ -145,4 +145,11 @@ class TasksController < ApplicationController
   def error
 
   end
+
+  def disconnect
+    render(:nothing => true, :status => 403) and return unless request.xhr?
+    task_id = params[:id].to_i
+    @task.group_tasks.each { |t| Task.find(t).remove_from_chat_group task_id }
+    render :nothing => true
+  end
 end

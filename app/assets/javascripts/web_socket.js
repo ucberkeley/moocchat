@@ -5,13 +5,16 @@ var web_socket = {
   type: null, //both, vote, welcome
   sendChatMessageButton: null,
   voteButton: null,
+  lastHeartbeatMap: null,
+  heartbeatTimeMs: 5000,
+  heartbeatTimeoutMs: 14000,
 
   initialize: function(chatGroup,taskid,rails_mode, type) {
     this.type = type;
     if(typeof chatGroup == "number"){
-    	this.group = [chatGroup];
+      this.group = [chatGroup];
     } else{
-    	this.group = makeIntArray(chatGroup.split(','));
+      this.group = makeIntArray(chatGroup.split(','));
     }
     // create websocket
     var scheme= (rails_mode == 'production' ? 'wss://' : 'ws://');
@@ -19,6 +22,17 @@ var web_socket = {
     this.ws = new WebSocket(uri);
     this.votes = new Array(this.group.length);
     this.voteButton = $('#vote-button');
+
+    // Create heartbeat map and initialize to current time in case we
+    // never receive a heartbeat from a group member
+    this.lastHeartbeatMap = new Object();
+    var currentTime = new Date().getTime();
+    for(var i = 0; i < this.group.length; i++) {
+      if (this.group[i] != this.taskid) {
+        this.lastHeartbeatMap[this.group[i]] = currentTime;
+      }
+    }
+
     if(this.isBoth()){
       this.sendChatMessageButton = $('#send-chat-message');
     } else if(this.isVote()){
@@ -49,7 +63,11 @@ var web_socket = {
       if (data.type == "end-vote") {
         self.vote(data.taskid);
       }
-    }
+      if (data.type == "heartbeat" && data.taskid != self.taskid) {
+        var currentTime = new Date().getTime();
+        self.lastHeartbeatMap[data.taskid] = currentTime;
+      }
+    };
   },
   
   sendMessages: function() {
@@ -60,7 +78,7 @@ var web_socket = {
         var text   = $("#input-text")[0].value;
         self.ws.send(JSON.stringify({ text: text, taskid: self.taskid, type: "message" }));
         $("#input-text")[0].value = "";
-      	self.sendLog(self.taskid, "chat", text);
+        self.sendLog(self.taskid, "chat", text);
       });
     }
     this.voteButton.click(function(event) {
@@ -69,25 +87,43 @@ var web_socket = {
       self.sendLog(self.taskid, "quit_chat", "");
       return false;
     });
+
+    window.setInterval(function(message) {
+      self.ws.send(JSON.stringify({ text: '', taskid: self.taskid, type: "heartbeat" }));
+      var currentTimeMs = new Date().getTime();
+      for(var i = 0; i < self.group.length; i++) {
+        other_taskid = self.group[i];
+        if (other_taskid != self.taskid) {
+          if (self.lastHeartbeatMap[other_taskid] < currentTimeMs - self.heartbeatTimeoutMs) {
+            console.log("Task " + other_taskid + " has disconnected (heartbeat not received for " + self.heartbeatTimeoutMs + " ms)");
+            remove_from_array(self.group, other_taskid);
+            // Report disconnection to server (server may receive multiple reports)
+            // TODO: error handling
+            $.ajax({type: "POST", url: "/tasks/" + other_taskid + "/disconnect"});
+            break;
+          }
+        }
+      }
+    }, this.heartbeatTimeMs);
   },
   
   sendLog: function(taskid, name, value){
-  	log_data = { name: name, value: value };
-  	$.ajax({
-  		type: "POST",
-  		url: "/tasks/" + taskid + "/log",
-  		data: log_data,
-  		success: function(data, textStatus, jqXHR){
-  			console.log("sucessfully logged " + name);
-  		},
-  		error: function (data, textStatus, jqXHR){
-  			console.log("fail to log " + name);
-  		}
-  	});
+    log_data = { name: name, value: value };
+    $.ajax({
+        type: "POST",
+        url: "/tasks/" + taskid + "/log",
+        data: log_data,
+        success: function(data, textStatus, jqXHR){
+            console.log("sucessfully logged " + name);
+        },
+        error: function (data, textStatus, jqXHR){
+            console.log("fail to log " + name);
+        }
+    });
   },
 
   isBoth: function(){
-  	return this.type == "both";
+    return this.type == "both";
   },
 
   isVote: function(){
@@ -138,4 +174,12 @@ function arrays_equal(array1, array2){
     }
   }
   return true;
+}
+function remove_from_array(array, val){
+  // Based on http://stackoverflow.com/questions/5767325/remove-specific-element-from-an-array
+  for(var i = array.length - 1; i >= 0; i--) {
+      if(array[i] === val) {
+     array.splice(i, 1);
+      }
+  }
 }

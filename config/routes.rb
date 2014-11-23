@@ -26,6 +26,9 @@ Moocchat::Application.routes.draw do
   # admin/test learner can force task to continue without waiting for WaitingRoom expiration
   post '/tasks/:id/force_continue', :to => 'tasks#force_continue', :as => 'task_force_continue'
 
+  # admin/test learner can force task to continue without waiting for WaitingRoom expiration
+  post '/tasks/:id/disconnect', :to => 'tasks#disconnect', :as => 'task_disconnect'
+
   # error encountered while creating task
   get '/tasks/error', :to => 'tasks#error', :as => 'task_error'
 
