@@ -88,6 +88,10 @@ class WaitingRoom < ActiveRecord::Base
   def process
     # create as many groups of the preferred size as we can...
     leftovers = create_groups_of(condition.preferred_group_size, tasks)
+    # For this run we want to create groups larger than the minimum size if possible
+    (condition.preferred_group_size - 1).downto(condition.minimum_group_size + 1) { |size|
+      leftovers = leftovers.empty? ? [ ] : create_groups_of(size, leftovers)
+    }
     # if there are leftover people, create groups of the minimum size (which could be singletons)...
     rejects = leftovers.empty? ? [ ] : create_groups_of(condition.minimum_group_size, leftovers)
     # if there are any singletons now, they're rejects

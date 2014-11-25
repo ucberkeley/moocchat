@@ -51,6 +51,8 @@ var web_socket = {
     this.ws.onerror = function(evt) {
       console.log("WebSocket onerror: evt.data: " + evt.data);
     };
+
+    this.showWelcomeMessage();
   },
 
   checkVote: function() {
@@ -89,13 +91,19 @@ var web_socket = {
     this.checkVote(); // the disconnecting learner may have been the last one who didn't vote, in which case proceed
   },
 
+  showMessage: function(text) {
+    if ($("#chat-system").length) {
+      $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + text + "</p></blockquote>");
+      $("#chat-system").scrollTop($("#chat-system")[0].scrollHeight); // ensure automatic scroll to bottom of chat window
+    }
+  },
+
   receiveMessages: function() {
     var self = this;
     this.ws.onmessage = function(message) {
       var data = JSON.parse(message.data)
       if (data.type == "message" & self.isBoth()) {
-        $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + data.text + "</p></blockquote>");
-        $("#chat-system").scrollTop($("#chat-system")[0].scrollHeight); // ensure automatic scroll to bottom of chat window
+        self.showMessage(data.text);
       }
       if (data.type == "end-vote") {
         self.vote(data.taskid);
@@ -165,6 +173,38 @@ var web_socket = {
 
   isVote: function(){
     return this.type == "vote";
+  },
+
+  showWelcomeMessage: function(){
+    if (this.group.length == 1) {
+      this.showMessage("No one is currently available to chat with you. You may use this chatroom to reflect on the question. Click the end button above when done.");
+    } else if (this.group.length == 2) {
+      var you_learner = '';
+      var learner = '';
+      for(var i = 0; i < this.group.length; i++) {
+          if (this.group[i] == this.taskid) {
+            you_learner = i + 1;
+          } else  {
+            learner = i + 1;
+          }
+      }
+      this.showMessage("You are Learner " + you_learner + ". Learner " + learner + " is also here.");
+    } else if (this.group.length == 3) {
+      var you_learner = '';
+      var learners = '';
+      for(var i = 0; i < this.group.length; i++) {
+          if (this.group[i] == this.taskid) {
+            you_learner = i + 1;
+          } else if (this.group[i] != this.taskid) {
+              if (learners == '') {
+                learners = i + 1;
+              } else {
+                learners = learners + " and " + (i + 1);
+              }
+          }
+      }
+      this.showMessage("You are Learner " + you_learner + ". Learners " + learners + " are also here.");
+    }
   },
 
   setup: function() {
