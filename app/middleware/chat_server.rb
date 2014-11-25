@@ -52,23 +52,28 @@ class ChatServer
       @groups[channel] ||= []
       @groups[channel][my_position] = ws
       ws.on(:open)    { |event| ; }
-      ws.on(:message) { |event| redistribute_message(event, channel, my_position) }
-      ws.on(:close)   { @groups[channel][my_position] = nil }
+      ws.on(:message) { |event| redistribute_message(event.data, channel, my_position) }
+      ws.on(:close)   {
+        @groups[channel][my_position] = nil
+        # Send disconnect message, encode position in text field
+        redistribute_message('{"text": "' + my_position.to_s + '", "taskid": "", "type": "disconnect"}', channel, my_position)
+      }
       ws.rack_response   # async Rack response
     else
       GENERIC_ASYNC_RACK_RESPONSE
     end
   end
 
-  def redistribute_message(websocket_event, channel, my_position)
-    message = extract_text(websocket_event)
-    type = extract_type(websocket_event)
-    taskid = extract_taskid(websocket_event)
+  def redistribute_message(websocket_data, channel, my_position)
+    message = extract_text(websocket_data)
+    type = extract_type(websocket_data)
+    taskid = extract_taskid(websocket_data)
     if type != "heartbeat"   # Heartbeat too spammy
       puts "redistribution #{type}: #{message}"
     end
     if type == "message"
-      speaker = "Learner #{1+my_position}"
+      speaker_position = channel.split(/,/).index(taskid.to_s)
+      speaker = "Learner #{1+speaker_position}"
       json = create_text_message "#{speaker}: #{message}", taskid
     end
     if type == "end-vote"
@@ -77,23 +82,28 @@ class ChatServer
     if type == "heartbeat"
       json = create_heartbeat taskid
     end
+    if type == "disconnect"
+      json = create_disconnect message, taskid
+    end
     @groups[channel].each_with_index do |websocket, position|
-      websocket.send json
+      unless websocket.nil?  # May be nil if learner disconnected
+        websocket.send json
+      end
     end
   end
 
   private
 
   def extract_text(event)
-    JSON.parse(event.data)['text']
+    JSON.parse(event)['text']
   end
 
   def extract_taskid(event)
-    JSON.parse(event.data)['taskid']
+    JSON.parse(event)['taskid']
   end
 
   def extract_type(event)
-    JSON.parse(event.data)['type']
+    JSON.parse(event)['type']
   end
 
   def create_text_message(text, taskid)
@@ -106,6 +116,10 @@ class ChatServer
 
   def create_heartbeat(taskid)
     {:text => "", :type => "heartbeat", :taskid => taskid }.to_json
+  end
+
+  def create_disconnect(text, taskid)
+    {:text => text, :type => "disconnect", :taskid => taskid }.to_json
   end
 
   def abort_with(message)

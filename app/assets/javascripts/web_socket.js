@@ -6,8 +6,8 @@ var web_socket = {
   sendChatMessageButton: null,
   voteButton: null,
   lastHeartbeatMap: null,
-  heartbeatTimeMs: 5000,
-  heartbeatTimeoutMs: 14000,
+  heartbeatTimeMs: 10000,
+  heartbeatTimeoutMs: 29000,
 
   initialize: function(chatGroup,taskid,rails_mode, type) {
     this.type = type;
@@ -41,15 +41,49 @@ var web_socket = {
     this.sendMessages();
     this.receiveMessages();
     this.taskid = taskid;
+
+    var self = this;
+    this.ws.onclose = function(evt) {
+      if (!evt.wasClean) {
+        console.log("WebSocket connection closed abnormally, onclose: code: " + evt.code + ", reason: " + evt.reason);
+      }
+    };
+    this.ws.onerror = function(evt) {
+      console.log("WebSocket onerror: evt: " + evt.data);
+    };
+  },
+
+  checkVote: function() {
+    if(arrays_equal(this.group, this.votes)){
+      submitForm();
+    }
   },
 
   vote: function(taskid) {
     if(!contain(this.votes, taskid) & contain(this.group, taskid)){
       this.votes[this.group.indexOf(taskid)] = taskid;
     }
-    if(arrays_equal(this.group, this.votes)){
-      submitForm();
+    this.checkVote();
+  },
+
+  disconnect: function(position) {
+    other_taskid = this.group[position];
+    console.log("Received disconnect notification for position " + position + " (task " + other_taskid + ")");
+    // Remove departed learner from group and votes
+    this.group.splice(position, 1);
+    this.votes.splice(position, 1);
+
+    // First member of the remaining group is responsible for sending quit message
+    // Small bug: Message may be lost if two quit at exact same time
+    if (this.taskid == this.group[0])
+    {
+      this.ws.send(JSON.stringify({ text: "has disconnected", taskid: other_taskid, type: "message" }));
     }
+    // Report disconnection to server (server may receive multiple reports)
+    // TODO: error handling
+    $.ajax({type: "POST", url: "/tasks/" + other_taskid + "/disconnect"});
+
+    this.checkVote(); // the disconnecting learner may have been the last one who didn't vote, in which case proceed
   },
 
   receiveMessages: function() {
@@ -62,6 +96,9 @@ var web_socket = {
       }
       if (data.type == "end-vote") {
         self.vote(data.taskid);
+      }
+      if (data.type == "disconnect") {
+        self.disconnect(parseInt(data.text)); // text field encodes position
       }
       if (data.type == "heartbeat" && data.taskid != self.taskid) {
         var currentTime = new Date().getTime();
@@ -96,10 +133,7 @@ var web_socket = {
         if (other_taskid != self.taskid) {
           if (self.lastHeartbeatMap[other_taskid] < currentTimeMs - self.heartbeatTimeoutMs) {
             console.log("Task " + other_taskid + " has disconnected (heartbeat not received for " + self.heartbeatTimeoutMs + " ms)");
-            remove_from_array(self.group, other_taskid);
-            // Report disconnection to server (server may receive multiple reports)
-            // TODO: error handling
-            $.ajax({type: "POST", url: "/tasks/" + other_taskid + "/disconnect"});
+            self.disconnect(self.group.indexOf(other_taskid));
             break;
           }
         }
@@ -138,9 +172,7 @@ var web_socket = {
     }else if(votes.length > 0){
       web_socket.initialize(votes.data('chatgroup'),votes.data('taskid'),votes.data('production'), "vote");
     } else{
-      console.log("websocket is not initialized because unclear type");
-      console.log("chat_length: " + chats.length);
-      console.log("vote_length: " + votes.length);
+      // No chat-box or vote-box on this page, don't initialize websocket
     }
   }
 };
@@ -174,12 +206,4 @@ function arrays_equal(array1, array2){
     }
   }
   return true;
-}
-function remove_from_array(array, val){
-  // Based on http://stackoverflow.com/questions/5767325/remove-specific-element-from-an-array
-  for(var i = array.length - 1; i >= 0; i--) {
-      if(array[i] === val) {
-     array.splice(i, 1);
-      }
-  }
 }
