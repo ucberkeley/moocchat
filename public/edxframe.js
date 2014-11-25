@@ -16,9 +16,7 @@ init();
 //   window.onload = init;
 // }
 
-function showChat(group) {
-    condition_id = 6;
-    activity_schema_id = 6;
+function showChat(condition_id, activity_schema_id) {
     divContent =
         ['<form id="moocchat_form" action="' + urlPrefix + 'tasks" method="post" target="moocchat_iframe">',
          '  <input type="submit" value="SUBMIT" />',
@@ -51,9 +49,9 @@ function init() {
               $("#moocchat").html("<p>You have not yet completed the consent form for this activity. Please complete it and then visit this page again.</p>");
               $("#moocchat").show();
           } else if (json.consented) {
-              showChat(6, 6);
+              showChat(6, 10);
           } else {
-              showChat(7, 8);
+              showChat(7, 13);
           }
       }
   });
