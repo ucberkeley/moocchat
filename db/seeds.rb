@@ -42,7 +42,7 @@ time_filler_activity_schema = ActivitySchema.create!(name: "time_filler_Quiz_Rev
 
 Condition.delete_all
 condition = Condition.create!(name: "Chat Sequence 1", time_filler: time_filler_activity_schema,
-  prologue_pages: [],body_pages: template_arr, epilogue_pages: [],preferred_group_size: 2,
+  prologue_pages: [],body_pages: template_arr, epilogue_pages: [],preferred_group_size: 3,
   minimum_group_size:1, body_repeat_count: 1)
 
 

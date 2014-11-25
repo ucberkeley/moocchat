@@ -20,15 +20,15 @@ function recordConsent(val) {
   });
 }
 
-$("#consentform").hide();
+$("#consentaccept1").hide();
+$("#consentreject1").hide();
+$("#consentaccept2").hide();
+$("#consentreject2").hide();
 
-$("#consentaccept").click(function(){
-    recordConsent(true);
-});
-
-$("#consentreject").click(function(){
-    recordConsent(false);
-});
+$("#consentaccept1").click(function(){ recordConsent(true); });
+$("#consentreject1").click(function(){ recordConsent(false); });
+$("#consentaccept2").click(function(){ recordConsent(true); });
+$("#consentreject2").click(function(){ recordConsent(false); });
 
 $.ajax({
     url: urlPrefix + 'users/check_consent/',
@@ -39,9 +39,15 @@ $.ajax({
     jsonpCallback: 'jsonCallback',
     success: function (json) {
         if (json.completed) {
-            $("#consentform").html("<p>You have already completed this consent form. Please proceed to the activity.</p>");
+            $("#consentaccept1").html("<b>You have already completed this consent form. Please proceed to the activity.</b>");
+            $("#consentreject1").html("&nbsp;");
+            $("#consentaccept2").html("<b>You have already completed this consent form. Please proceed to the activity.</b>");
+            $("#consentreject2").html("&nbsp;");
         }
-        $("#consentform").show();
+        $("#consentaccept1").show();
+        $("#consentreject1").show();
+        $("#consentaccept2").show();
+        $("#consentreject2").show();
     }
 });
 
