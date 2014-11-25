@@ -22,7 +22,7 @@ function showChat(group) {
     divContent =
         ['<form id="moocchat_form" action="' + urlPrefix + 'tasks" method="post" target="moocchat_iframe">',
          '  <input type="submit" value="SUBMIT" />',
-         '  <input type="hidden" name="learner_name" value="' + escapeHtml(getUsername()) + '" />',
+         '  <input type="hidden" name="learner_name" value="edX user ' + escapeHtml(getUsername()) + '" />',
          '  <input type="hidden" name="condition_id" value="' + condition_id + '" />',
          '  <input type="hidden" name="activity_schema_id" value="' + activity_schema_id + '" />',
          '</form>',
