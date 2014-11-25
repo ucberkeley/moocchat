@@ -68,8 +68,7 @@ describe ChatServer do
     end
     
     specify 'extracting text' do
-      event = double('event', :data => @app.create_text_message('foo bar', 2))
-      @app.extract_text(event).should == "foo bar"
+      @app.extract_text(@app.create_text_message('foo bar', 2)).should == "foo bar"
     end
   end
 end
