@@ -49,7 +49,7 @@ var web_socket = {
       }
     };
     this.ws.onerror = function(evt) {
-      console.log("WebSocket onerror: evt: " + evt.data);
+      console.log("WebSocket onerror: evt.data: " + evt.data);
     };
   },
 
@@ -66,9 +66,12 @@ var web_socket = {
     this.checkVote();
   },
 
-  disconnect: function(position) {
-    other_taskid = this.group[position];
-    console.log("Received disconnect notification for position " + position + " (task " + other_taskid + ")");
+  disconnect: function(other_taskid) {
+    var position = this.group.indexOf(other_taskid);
+    console.log("Received disconnect notification for task " + other_taskid + " (position " + position + ")");
+    if (position == -1) { // Already removed (defensive check)
+      return;
+    }
     // Remove departed learner from group and votes
     this.group.splice(position, 1);
     this.votes.splice(position, 1);
@@ -97,8 +100,8 @@ var web_socket = {
       if (data.type == "end-vote") {
         self.vote(data.taskid);
       }
-      if (data.type == "disconnect") {
-        self.disconnect(parseInt(data.text)); // text field encodes position
+      if (data.type == "disconnect") { 
+        self.disconnect(data.taskid);
       }
       if (data.type == "heartbeat" && data.taskid != self.taskid) {
         var currentTime = new Date().getTime();
@@ -133,7 +136,7 @@ var web_socket = {
         if (other_taskid != self.taskid) {
           if (self.lastHeartbeatMap[other_taskid] < currentTimeMs - self.heartbeatTimeoutMs) {
             console.log("Task " + other_taskid + " has disconnected (heartbeat not received for " + self.heartbeatTimeoutMs + " ms)");
-            self.disconnect(self.group.indexOf(other_taskid));
+            self.disconnect(other_taskid);
             break;
           }
         }

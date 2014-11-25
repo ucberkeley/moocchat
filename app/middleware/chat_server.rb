@@ -42,21 +42,38 @@ class ChatServer
     else
       abort_with "Malformed URL: #{url}"
     end
-    return channel, position
+    return channel, position, my_id
+  end
+
+  def print_exception_info(e, msg)
+    puts msg
+    puts '  %s: %s' % [e.class, e.message]
+    puts e.backtrace
   end
 
   def ensure_setup_socket_for(env)
-    channel, my_position = channel_and_position_from_url(env['ORIGINAL_FULLPATH'])
+    channel, my_position, my_id = channel_and_position_from_url(env['ORIGINAL_FULLPATH'])
     unless @groups.has_key?(channel) && @groups[channel][my_position]
       ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME })
       @groups[channel] ||= []
       @groups[channel][my_position] = ws
       ws.on(:open)    { |event| ; }
-      ws.on(:message) { |event| redistribute_message(event.data, channel, my_position) }
+      ws.on(:message) { |event|
+        begin
+          redistribute_message(event.data, channel, my_position)
+        rescue Exception => e
+          print_exception_info(e, 'websocket server encountered unhandled exception while processing message event:')
+          raise e
+        end
+      }
       ws.on(:close)   {
-        @groups[channel][my_position] = nil
-        # Send disconnect message, encode position in text field
-        redistribute_message('{"text": "' + my_position.to_s + '", "taskid": "", "type": "disconnect"}', channel, my_position)
+        begin
+          @groups[channel][my_position] = nil
+          redistribute_message('{"text": "", "taskid": ' + my_id.to_s + ', "type": "disconnect"}', channel, my_position)
+        rescue Exception => e
+          print_exception_info(e, 'websocket server encountered unhandled exception while processing close event:')
+          raise e
+        end
       }
       ws.rack_response   # async Rack response
     else
@@ -83,7 +100,7 @@ class ChatServer
       json = create_heartbeat taskid
     end
     if type == "disconnect"
-      json = create_disconnect message, taskid
+      json = create_disconnect taskid
     end
     @groups[channel].each_with_index do |websocket, position|
       unless websocket.nil?  # May be nil if learner disconnected
@@ -118,8 +135,8 @@ class ChatServer
     {:text => "", :type => "heartbeat", :taskid => taskid }.to_json
   end
 
-  def create_disconnect(text, taskid)
-    {:text => text, :type => "disconnect", :taskid => taskid }.to_json
+  def create_disconnect(taskid)
+    {:text => "", :type => "disconnect", :taskid => taskid }.to_json
   end
 
   def abort_with(message)
