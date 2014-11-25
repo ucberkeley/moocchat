@@ -69,7 +69,11 @@ class ChatServer
       ws.on(:close)   {
         begin
           @groups[channel][my_position] = nil
-          redistribute_message('{"text": "", "taskid": ' + my_id.to_s + ', "type": "disconnect"}', channel, my_position)
+          # Currently, this works on Firefox but causes issues on IE
+          # and Chrome because close events happen when navigating
+          # between pages. Heartbeat will still catch it eventually.
+          # TODO: find an alternative way to deal with this.
+          # redistribute_message('{"text": "", "taskid": ' + my_id.to_s + ', "type": "disconnect"}', channel, my_position)
         rescue Exception => e
           print_exception_info(e, 'websocket server encountered unhandled exception while processing close event:')
           raise e
