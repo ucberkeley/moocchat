@@ -20,10 +20,8 @@ function recordConsent(val) {
   });
 }
 
-$("#consentaccept1").hide();
-$("#consentreject1").hide();
-$("#consentaccept2").hide();
-$("#consentreject2").hide();
+$("#responses1").hide();
+$("#responses2").hide();
 
 $("#consentaccept1").click(function(){ recordConsent(true); });
 $("#consentreject1").click(function(){ recordConsent(false); });
@@ -39,16 +37,14 @@ $.ajax({
     jsonpCallback: 'jsonCallback',
     success: function (json) {
         if (json.completed) {
-            $("#consentaccept1").html("<b>You have already completed this consent form. Please proceed to the activity.</b>");
-            $("#consentreject1").html("&nbsp;");
-            $("#consentaccept2").html("<b>You have already completed this consent form. Please proceed to the activity.</b>");
-            $("#consentreject2").html("&nbsp;");
+            alreadyCompleteMessage = "<b>You have already completed this consent form. Please proceed to the activity.</b>";
+            $("#responses1").html(alreadyCompleteMessage);
+            $("#responses2").html(alreadyCompleteMessage);
         }
-        $("#consentaccept1").show();
-        $("#consentreject1").show();
-        $("#consentaccept2").show();
-        $("#consentreject2").show();
+        $("#responses1").show();
+        $("#responses2").show();
     }
+    // TODO: handle error case, show error message
 });
 
 }); // $.getScript('util.js', function(){
