@@ -11,8 +11,9 @@ class WaitingRoomsController < ApplicationController
   end
 
   def seconds_to_next_group_formation  
+    # Do not require request.xhr? because it blocks JSONP
     activity_schema = ActivitySchema.find params[:activity_schema_id]
-    render :json => (activity_schema.compute_expiration_time - Time.zone.now).to_i
+    render :json => {seconds_to_next_group_formation: (activity_schema.compute_expiration_time - Time.zone.now).to_i}.to_json, :callback => params['callback']
   end
 
 end
