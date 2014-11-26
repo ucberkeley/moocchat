@@ -12,6 +12,7 @@ divContent =
 
 // Hide div during initialization to prevent submit button from being seen
 $('#seq_content').prepend('<div id=moocchat_global_notification></div>');
+$('static_tab_wrapper').prepend('<div id=moocchat_global_notification></div>');
 $("#moocchat_global_notification").hide();
 $("#moocchat_global_notification").html(divContent);
 
