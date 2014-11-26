@@ -14,6 +14,11 @@ Moocchat::Application.routes.draw do
   get '/group_formation_times/:activity_schema_id/:condition_id' =>
     'waiting_rooms#group_formation_times'
 
+  # get seconds until next group formation timer expires
+  # (should be consistent with actual current welcome screen timer)
+  get '/seconds_to_next_group_formation/:activity_schema_id/' =>
+    'waiting_rooms#seconds_to_next_group_formation'
+
   # login as an authenticated user
   match '/auth/:provider/callback', :to => 'sessions#try_login'
   get '/auth/failure', :to => 'sessions#login_failed'

@@ -67,4 +67,15 @@ class ActivitySchema < ActiveRecord::Base
 
   public
 
+  # Compute next group formation time for this activity.
+  # The +ActivitySchema+ knows the start and end times and how often the waiting rooms empty.
+  # Since the repeat interval must be an integral divisor of 60 minutes, we just set the
+  # expiration time to round *strictly up* to the nearest minute-boundary of a repeat, that is,
+  # if the repeat is every 6 minutes and it's currently 16 after the hour, round up to 18.
+  def compute_expiration_time
+    repeat = self.starts_every
+    minutes_to_add = repeat - (Time.zone.now.min % repeat)
+    (Time.zone.now + minutes_to_add.minutes).change(:sec => 0)
+  end
+
 end

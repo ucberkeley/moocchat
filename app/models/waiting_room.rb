@@ -30,7 +30,7 @@ class WaitingRoom < ActiveRecord::Base
   # Any time a new +WaitingRoom+ is created, its expiration time is automatically set
   # to the next 'boundary' of when the experiment repeats.
   before_create do
-    self.expires_at ||= compute_expiration_time
+    self.expires_at ||= activity_schema.compute_expiration_time
   end
 
   # When the class method +process_all!+ is called, all waiting rooms
@@ -131,17 +131,6 @@ class WaitingRoom < ActiveRecord::Base
   def create_group_from task_list # :nodoc:
     group_name = Task.chat_group_name_from_tasks(task_list)
     task_list.each { |t| t.assign_to_chat_group(group_name, true) }
-  end
-
-  # Compute the expiration date of a waiting room that is being created.
-  # The +ActivitySchema+ knows the start and end times and how often the waiting rooms empty.
-  # Since the repeat interval must be an integral divisor of 60 minutes, we just set the
-  # expiration time to round *strictly up* to the nearest minute-boundary of a repeat, that is,
-  # if the repeat is every 6 minutes and it's currently 16 after the hour, round up to 18.
-  def compute_expiration_time
-    repeat = activity_schema.starts_every
-    minutes_to_add = repeat - (Time.zone.now.min % repeat)
-    (Time.zone.now + minutes_to_add.minutes).change(:sec => 0)
   end
 
 end
