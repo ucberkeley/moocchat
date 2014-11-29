@@ -33,5 +33,7 @@ function update() {
     });
 }
 
-update();
-setInterval(function () {update();}, 30000);
+// Disabled - not currently running experiment
+// TODO: make global notification automatically disable outside experiment date range.
+// update();
+// setInterval(function () {update();}, 30000);
