@@ -27,6 +27,9 @@ class WaitingRoom < ActiveRecord::Base
   # Sentinel value meaning you're not assigned to any chat group
   CHAT_GROUP_NONE = 'NONE'
 
+  # The number of seconds before the timer expires that a heartbeat is sent
+  @heartbeat_seconds = 15
+
   # Any time a new +WaitingRoom+ is created, its expiration time is automatically set
   # to the next 'boundary' of when the experiment repeats.
   before_create do
@@ -41,6 +44,10 @@ class WaitingRoom < ActiveRecord::Base
   #
 
   public
+
+  def self.heartbeat_seconds
+    @heartbeat_seconds
+  end
 
   # Add a task to a waiting room.
   # If the waiting room for this condition and activity doesn't exist,
@@ -86,6 +93,7 @@ class WaitingRoom < ActiveRecord::Base
   # someone out is done by placing the sentinel value +CHAT_GROUP_NONE+ as the
   # chat group ID for those learners' tasks.
   def process
+    self.remove_disconnected
     # create as many groups of the preferred size as we can...
     leftovers = create_groups_of(condition.preferred_group_size, tasks)
     # For this run we want to create groups larger than the minimum size if possible
@@ -97,6 +105,12 @@ class WaitingRoom < ActiveRecord::Base
     # if there are any singletons now, they're rejects
     rejects.each { |t| t.assign_to_chat_group(CHAT_GROUP_NONE, true) }
     self.destroy
+  end
+
+  def remove_disconnected
+    current_time = Time.zone.now
+    # Add 10 seconds to give some buffer room for network delay in the join_group call
+    self.tasks = self.tasks.select{ |t| !t.last_heartbeat.nil? && current_time - t.last_heartbeat < WaitingRoom.heartbeat_seconds + 10 }
   end
 
   # Stretch out timer so users don't all bang on the server at once to

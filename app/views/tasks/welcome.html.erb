@@ -6,7 +6,7 @@
     Your activity <strong>"<%= @task.activity_schema.name %>"</strong>
     will start automatically in: 
     <span class="timer">
-      <%= timer(@timer) %>
+      <%= timer(@timer, {:heartbeat_seconds => @heartbeat_seconds, :heartbeat_url => '/tasks/' + @task.id.to_s + '/heartbeat'}) %>
     </span>
   </p>
   <%= time_filler(@task.condition)%>

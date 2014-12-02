@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141123050008) do
+ActiveRecord::Schema.define(:version => 20141202100938) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20141123050008) do
     t.text     "user_state"
     t.datetime "start_page_time"
     t.string   "original_chat_group"
+    t.datetime "last_heartbeat"
   end
 
   add_index "tasks", ["activity_schema_id"], :name => "index_tasks_on_activity_schema_id"

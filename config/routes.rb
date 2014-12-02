@@ -31,8 +31,12 @@ Moocchat::Application.routes.draw do
   # admin/test learner can force task to continue without waiting for WaitingRoom expiration
   post '/tasks/:id/force_continue', :to => 'tasks#force_continue', :as => 'task_force_continue'
 
-  # admin/test learner can force task to continue without waiting for WaitingRoom expiration
+  # Informs the server that a particular task has disconnected. Sent when another user in
+  # the same group is not receiving heartbeats from this user.
   post '/tasks/:id/disconnect', :to => 'tasks#disconnect', :as => 'task_disconnect'
+
+  # Sent to inform server that this task is still active. Sent shortly before the timer expires.
+  post '/tasks/:id/heartbeat', :to => 'tasks#heartbeat', :as => 'task_heartbeat'
 
   # error encountered while creating task
   get '/tasks/error', :to => 'tasks#error', :as => 'task_error'

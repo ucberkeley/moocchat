@@ -26,7 +26,9 @@ module TimerHelper
     attribs = {'id' => '_timer_',
       'class' => 'timer',
       'data-countfrom' => seconds.to_i,
-      'data-submit' => opts[:submit]}
+      'data-submit' => opts[:submit],
+      'data-heartbeatsecs' => opts[:heartbeat_seconds],
+      'data-heartbeaturl' => opts[:heartbeat_url]}
     # if only previewing a template, disable timer counting
     attribs['id'] = '_timer_test' if @preview
     content_tag 'span', '00:00', attribs
