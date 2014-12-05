@@ -19,6 +19,11 @@ Moocchat::Application.routes.draw do
   get '/seconds_to_next_group_formation/:activity_schema_id/' =>
     'waiting_rooms#seconds_to_next_group_formation'
 
+  # Get current UTC timestamp by on this server's time.
+  # Useful for client side time-based operations like scheduling windows.
+  get '/get_current_timestamp_utc/' =>
+    'waiting_rooms#get_current_timestamp_utc'
+
   # login as an authenticated user
   match '/auth/:provider/callback', :to => 'sessions#try_login'
   get '/auth/failure', :to => 'sessions#login_failed'

@@ -1,7 +1,7 @@
 class WaitingRoomsController < ApplicationController
 
   skip_before_filter :require_authenticated_user, :only =>
-    [:group_formation_times, :seconds_to_next_group_formation]
+    [:group_formation_times, :seconds_to_next_group_formation, :get_current_timestamp_utc]
 
   def group_formation_times
     waiting_room = WaitingRoom.where(
@@ -14,6 +14,11 @@ class WaitingRoomsController < ApplicationController
     # Do not require request.xhr? because it blocks JSONP
     activity_schema = ActivitySchema.find params[:activity_schema_id]
     render :json => {seconds_to_next_group_formation: (activity_schema.compute_expiration_time - Time.zone.now).to_i}.to_json, :callback => params['callback']
+  end
+
+  def get_current_timestamp_utc
+    # Do not require request.xhr? because it blocks JSONP
+    render :json => {current_timestamp_utc: Time.now.to_i}.to_json, :callback => params['callback']
   end
 
 end
