@@ -57,6 +57,14 @@ class WaitingRoom < ActiveRecord::Base
     wr = WaitingRoom.
       find_or_create_by_activity_schema_id_and_condition_id!(
       task.activity_schema_id, task.condition_id)
+
+    current_time = Time.zone.now
+    # If more than a minute has passed since this room expired, destroy it and make a new one
+    if current_time > wr.expires_at + 60 then
+      wr.destroy
+      return self.add task
+    end
+
     wr.add task
     return wr.timer_until(task)
   end
