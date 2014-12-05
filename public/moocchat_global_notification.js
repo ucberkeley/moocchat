@@ -35,6 +35,7 @@ startSessionTime2 = Date.UTC(2014, 11, 6, 1, 30);
 endSessionTime2 = Date.UTC(2014, 11, 6, 2, 30);
 
 var interval;
+var started = true; // Default to true so that the alert isn't shown repeatedly as they navigate between pages during the event
 
 function update() {
     $.ajax({
@@ -47,10 +48,12 @@ function update() {
             var now = json.current_timestamp_utc * 1000; // Convert sec to ms
             var divContent = divNowContent;
             if (now <= startSessionTime1) {
+                started = false;
                 diff1 = startSessionTime1 - now;
                 diff2 = startSessionTime2 - now;
                 divContent = '<div style="width: 100%; background-color: #eeffee; bottom; padding-bottom: 3px; margin-left:auto; margin-right:auto; border: 1px solid #88dd88;">The two Interactive Quiz 3 Review Activity events are occurring in ' + timeIntervalToString(diff1) + ' and ' + timeIntervalToString(diff2) + '. Plan to attend one if you can!</div>';
             } else if (now >= endSessionTime1 && now <= startSessionTime2) {
+                started = false;
                 diff2 = startSessionTime2 - now;
                 divContent = '<div style="width: 100%; background-color: #eeffee; bottom; padding-bottom: 3px; margin-left:auto; margin-right:auto; border: 1px solid #88dd88;">The only remaining Interactive Quiz 3 Review Activity is occurring in ' + timeIntervalToString(diff2) +'. Plan to be there if you can!</div>';
             } else if (now > endSessionTime2) {
@@ -58,6 +61,11 @@ function update() {
                 $("#moocchat_global_notification").hide();
                 clearInterval(interval);
                 return;
+            } else {
+                if (!started) {
+                    alert("The Interactive Quiz 3 Review Activity has just started!\nClick the link in the green box at the top of\nthis page to join us now.");
+                }
+                started = true;
             }
             $("#moocchat_global_notification").html(divContent);
         }
