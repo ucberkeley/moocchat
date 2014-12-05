@@ -49,9 +49,9 @@ function init() {
               $("#moocchat").html("<p>You have not yet completed the consent form for this activity. Please complete it and then visit this page again.</p>");
               $("#moocchat").show();
           } else if (json.consented) {
-              showChat(6, 10);
+              showChat(8, 14);
           } else {
-              showChat(7, 13);
+              showChat(9, 16);
           }
       }
   });
