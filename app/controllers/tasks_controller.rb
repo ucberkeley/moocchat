@@ -34,6 +34,11 @@ class TasksController < ApplicationController
   #  All methods below this point rely on the before_filter to set up @task
   #
   def welcome
+    # Consider initial welcome page request to also be a heartbeat
+    # This deals with an edge case where someone arrives at the last moment and
+    # transitions to the next page before they can send a heartbeat message.
+    @task.last_heartbeat = Time.zone.now
+
     unless (@timer = session[:timer])
       redirect_to :action => 'sorry', :notice => 'Timer value was not found.'
     end
