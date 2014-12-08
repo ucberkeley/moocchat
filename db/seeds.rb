@@ -43,7 +43,7 @@ time_filler_activity_schema = ActivitySchema.create!(name: "time_filler_Quiz_Rev
 Condition.delete_all
 condition = Condition.create!(name: "Chat Sequence 1", time_filler: time_filler_activity_schema,
   primary_activity_schema: primary_activity_schema, prologue_pages: [],body_pages: template_arr, 
-  epilogue_pages: [], preferred_group_size: 2, minimum_group_size:1, body_repeat_count: 1)
+  epilogue_pages: [], preferred_group_size: 3, minimum_group_size:1, body_repeat_count: 1)
 
 
 
@@ -54,4 +54,20 @@ User.delete_all
 (1..3).each do |num|
   learner = Learner.create! :name => "Learner #{num}"
   learner.update_attribute(:for_testing, true)
+end
+admins = {
+  'Armando Fox' => 'armandofox@gmail.com',
+  'Armando Fox (Berkeley)' => 'fox@berkeley.edu',
+  'Bjoern Hartmann' => 'bjoern.hartmann@gmail.com',
+  'Bjoern Hartmann (Berkeley)' => 'bjoern@berkeley.edu',
+  'D Coetzee (Berkeley)' => 'dcoetzee@berkeley.edu',
+  'D Coetzee' => 'dcoetzee@gmail.com',
+  'Yeung John Li (Berkeley)' => 'liyeungjohn@berkeley.edu',
+  'Yeung John Li' => 'liyeungjohn@gmail.com',
+  'Marti Hearst (Berkeley)' => 'hearst@berkeley.edu',
+  'Claire Thompson (Berkeley)' => 'cthompson44@berkeley.edu',
+  'Claire Thompson' => 'clairethomp44@gmail.com'
+}
+admins.each_pair do |name,email|
+  Administrator.create! :name => name, :email => email
 end

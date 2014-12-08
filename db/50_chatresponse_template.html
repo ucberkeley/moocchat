@@ -1,86 +1,85 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <%= javascript_include_tag 'application' %>
-    <%= stylesheet_link_tag "application", :media=>"all" %>
-    <title>Page <%= @counter %></title>
-  </head>
-  <body>
-    <%= interstitial %>
-    <%= @start_form_tag %>
-    <div id="main-task-page" class="moocchat-page">
-      <div class="container">  
-        <div class="col-md-6 moocchat-left-panel">
-          <div class="row">
-            <div class="col-sm-11 moocchat-left-panel-direction h3">
-              Other students' responses are shown below. 
-              Discuss these assumptions in order to prepare for a question shown on the next screen.
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-11 moocchat-reading well"><%== @question.text %></div>
-          </div>
-          <div class="row">
-            <div class="col-sm-11 moocchat-post-reading-direction h3"></div>
-          </div>
-          <div class="row">
-            <div class="col-sm-11">
-              <div class="list-group">
-                <%- @data.each_with_index do |learner, index| %>
-		  <% if index == @me %>
-		  <div class="list-group-item">
-		    <h4 class="list-group-item-heading"><span class="student-1">
+<head>
+  <%= javascript_include_tag 'application' %>
+  <%= stylesheet_link_tag "application", :media=>"all" %>
+  <title>Page <%= @counter %></title>
+</head>
+<body>
+<%= interstitial %>
+<%= @start_form_tag %>
+<div id="main-task-page" class="moocchat-page">
+  <div class="container">
+    <div class="col-md-6 moocchat-left-panel">
+      <div class="row">
+        <div class="col-sm-11 moocchat-left-panel-direction h3">
+          Other students' responses to the question are shown below. Discuss these responses. You will be able to revise your response on the next screen.
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11 moocchat-reading well"><%== @question.text %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11 moocchat-post-reading-direction h3"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11">
+          <div class="list-group">
+            <%- @data.each_with_index do |learner, index| %>
+            <% if index == @me %>
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading"><span class="student-1">
 			You chose '<%= learner["choice"] -%>'
-		    </h4>
-		  </div>
-		  <% else %>
-		  <div class="list-group-item">
-		    <h4 class="list-group-item-heading"><span class="student-1">
+              </h4>
+            </div>
+            <% else %>
+            <div class="list-group-item">
+              <h4 class="list-group-item-heading"><span class="student-1">
 			Learner <%= index+1 -%> chose '<%= learner["choice"] -%>'
-		    </h4>
-		  </div>
-		  <% end %>
-                <% end %>
-              </div>
+              </h4>
             </div>
-          </div>
-	  <div class="row answer-box-js">
-            <% @question.answers.each_with_index do |answer, index| %>
-            <% choice_letter = index_to_letter(index) %>
-            <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
-              <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
-                <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
-                  <div class="moocchat-choice-box moocchat-choice-box-<%= index -%> letter-box letter-box-<%= index -%>">
-                    <%= choice_letter -%>
-                  </div>
-                  <label for="u_choice_<%= choice_letter -%>" class="list-group-item-heading moocchat-choice-statement">
-                    <%== answer %> 
-                  </label>
-                </div>
-              </div>
-            </div>
+            <% end %>
             <% end %>
           </div>
         </div>
-        <div class="col-md-6 moocchat-right-panel">
-          <div class="row">
-            <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
-              <button type="button" class="col-sm-5 btn btn-lg btn-info main-task-timer">Timer <span id="main-task-timer-time"><%= timer(700) %></span></button>
-              <%= vote %>
-            </div>
-            <div class="row">
-              <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">You may request to end the chat to proceed before the timer runs out.</div>
-            </div>
-            <div class="row">
-              <div class="col-sm-11 col-sm-offset-1 moocchat-chat-area moocchat-discussion-low moocchat-discussion-high moocchat-main-task-stage-1 moocchat-main-task-stage-6 moocchat-conditional">
-                <%= chat %>
+      </div>
+      <div class="row answer-box-js">
+        <% @question.answers.each_with_index do |answer, index| %>
+        <% choice_letter = index_to_letter(index) %>
+        <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
+          <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
+            <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
+              <div class="moocchat-choice-box moocchat-choice-box-<%= index -%> letter-box letter-box-<%= index -%>">
+                <%= choice_letter -%>
               </div>
+              <label for="u_choice_<%= choice_letter -%>" class="list-group-item-heading moocchat-choice-statement">
+                <%== answer %>
+              </label>
             </div>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6 moocchat-right-panel">
+      <div class="row">
+        <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
+          <button type="button" class="col-sm-5 btn btn-lg btn-info main-task-timer">Timer <span id="main-task-timer-time"><%= timer(700) %></span></button>
+          <%= vote %>
+        </div>
+        <div class="row">
+          <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">You may request to end the chat to proceed before the timer runs out.</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-11 col-sm-offset-1 moocchat-chat-area moocchat-discussion-low moocchat-discussion-high moocchat-main-task-stage-1 moocchat-main-task-stage-6 moocchat-conditional">
+            <%= chat %>
           </div>
         </div>
       </div>
     </div>
-  </form>
+  </div>
+</div>
+</form>
 </body>
 </html>

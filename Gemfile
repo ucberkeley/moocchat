@@ -13,6 +13,7 @@ gem 'foreman'
 gem 'capybara-puma'
 gem 'foreigner'			#foreign key support for rails
 gem 'pg'
+gem 'rack-p3p'
 
 group :development, :test do
   gem 'debugger'

@@ -22,7 +22,8 @@ When /^the timer expires and the server assigns me to (a|no) chat group$/ do |no
   WaitingRoom.stub(:process_all!)
   @task.assign_to_chat_group(none =~ /no/ ?
     WaitingRoom::CHAT_GROUP_NONE :
-    Task.chat_group_name_from_tasks([@task]))
+    Task.chat_group_name_from_tasks([@task]),
+    true)
   expire_timer_and_continue
 end
 

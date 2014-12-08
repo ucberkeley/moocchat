@@ -53,7 +53,8 @@ Moocchat::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Enable threaded mode
-  config.threadsafe!
+  # Disabled to fix race condition between next_page and collect_response which caused user_state to not be recorded
+  # config.threadsafe!
 
   # Allow dependencies to be loaded if running as part of a rake task
   # (normally threadsafe turns off dependency loading)

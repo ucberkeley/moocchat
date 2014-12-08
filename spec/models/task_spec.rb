@@ -96,7 +96,7 @@ describe Task do
     before :each do
       @tasks = Array.new(3) { create :task }
       @group = Task.chat_group_name_from_tasks(@tasks)
-      @tasks.each { |t| t.assign_to_chat_group @group }
+      @tasks.each { |t| t.assign_to_chat_group(@group, true) }
     end
     it 'forms group from sorted and unsorted task IDs' do
       Task.chat_group_name_from_tasks(@tasks.reverse).should == @group
