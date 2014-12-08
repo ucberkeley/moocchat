@@ -35,4 +35,12 @@ class Condition < ActiveRecord::Base
     return time_filler.questions
   end
   
+  def process_activity_schema_input(activity_schema)
+    if activity_schema != ""
+      activity_schema = ActivitySchema.find(activity_schema.to_i)
+    else
+      activity_schema = nil
+    end
+    return activity_schema
+  end
 end
