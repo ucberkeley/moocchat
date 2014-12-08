@@ -1,66 +1,65 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <%= javascript_include_tag 'application' %>
-    <%= stylesheet_link_tag    "application", :media => "all" %>
-    <title>Page <%= @counter %></title>
-  </head>
-  <body>
-    <%= interstitial %>
-    <%= @start_form_tag %>
+<head>
+  <%= javascript_include_tag 'application' %>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <title>Page <%= @counter %></title>
+</head>
+<body>
+<%= interstitial %>
+<%= @start_form_tag %>
 
-    <div id="main-task-page" class="moocchat-page">
-      <div class="container">
-        <!-- left side -->
-        <div class="col-md-6 moocchat-left-panel">
-          <div class="row">
-            <div class="col-sm-11 moocchat-left-panel-direction h3">
-              For the essay below, select one of the <%= @question.answers.size %> choices.
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-11 moocchat-reading well"><%== @question.text %></div>
-          </div>
-          <div class="row answer-box-js">
-            <p>Select the best answer:</p>
-            <!-- capture learner's answer as a letter A, B, C, ... -->
-            <% @question.answers.each_with_index do |answer, index| %>
-            <% choice_letter = index_to_letter(index) %>
-            <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
-              <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
-                <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
-                  <%= radio_button_tag "u[choice]", choice_letter, checked=false, :class => 'choice-button', 'data-index' => index %>
-                  <div class="moocchat-choice-box moocchat-choice-box-<%= index -%> letter-box letter-box-<%= index -%>">
-                    <%= choice_letter -%>
-                  </div>
-                  <label for="u_choice_<%= choice_letter -%>" class="list-group-item-heading moocchat-choice-statement">
-                    <%== answer %> 
-                  </label>
-                </div>
+<div id="main-task-page" class="moocchat-page">
+  <div class="container">
+    <!-- left side -->
+    <div class="col-md-6 moocchat-left-panel">
+      <div class="row">
+        <div class="col-sm-11 moocchat-left-panel-direction h3">
+          For the essay below, select one of the <%= @question.answers.size %> choices.
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11 moocchat-reading well"><%== @question.text %></div>
+      </div>
+      <div class="row answer-box-js">
+        <p>Select the best answer:</p>
+        <!-- capture learner's answer as a letter A, B, C, ... -->
+        <% @question.answers.each_with_index do |answer, index| %>
+        <% choice_letter = index_to_letter(index) %>
+        <div class="col-sm-11 moocchat-choice-area moocchat-conditional answer-box">
+          <div class="llist-group-item active moocchat-probing-question-choice answer-box1">
+            <div class="list-group-item moocchat-choice moocchat-choice-<%= index -%> answer-box">
+              <%= radio_button_tag "u[choice]", choice_letter, checked=false, :class => 'choice-button', 'data-index' => index %>
+              <div class="moocchat-choice-box moocchat-choice-box-<%= index -%> letter-box letter-box-<%= index -%>">
+                <%= choice_letter -%>
               </div>
-            </div>
-            <% end %>
-          </div>
-        </div>
-        <!--right side -->
-        <div class="col-md-6 moocchat-right-panel">
-          <div class="row">
-            <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
-              <button type="button" class="col-sm-5 btn btn-lg btn-default main-task-timer disabled">Timer <span id="main-task-timer-time"> <%= timer(120) %></span></button>
-              
-              <button type="submit" id="learning-button" class="col-sm-6 col-md-offset-1 btn btn-lg btn-info moocchat-next-button ">Next</button>
+              <label for="u_choice_<%= choice_letter -%>" class="list-group-item-heading moocchat-choice-statement">
+                <%== answer %>
+              </label>
             </div>
           </div>
-          <div class="row">
-            <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">Submit your answer and justification before the timer runs out.</div>
-          </div>
-
-
-          <textarea id="answer-justification" class="col-sm-11 col-sm-offset-1 justify"></textarea>
         </div>
-        <!-- </div> -->
+        <% end %>
       </div>
     </div>
+    <!--right side -->
+    <div class="col-md-6 moocchat-right-panel">
+      <div class="row">
+        <div class="col-sm-11 col-sm-offset-1 moocchat-control-panel">
+          <button type="button" class="col-sm-5 btn btn-lg btn-default main-task-timer disabled">Timer <span id="main-task-timer-time"> <%= timer(120) %></span></button>
+
+          <button type="submit" id="learning-button" class="col-sm-6 col-md-offset-1 btn btn-lg btn-info moocchat-next-button ">Next</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-11 col-sm-offset-1 alert alert-info moocchat-right-panel-direction h4">Submit your answer and justification before the timer runs out.</div>
+      </div>
+
+      <%= text_area_tag "u[justification]", nil, class: 'col-sm-11 col-sm-offset-1 justify' %>
+
+    </div>
+  </div>
+</div>
 </form>
 <%= vote %>
 </body>

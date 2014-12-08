@@ -34,9 +34,15 @@ class TasksController < ApplicationController
   #  All methods below this point rely on the before_filter to set up @task
   #
   def welcome
+    # Consider initial welcome page request to also be a heartbeat
+    # This deals with an edge case where someone arrives at the last moment and
+    # transitions to the next page before they can send a heartbeat message.
+    @task.last_heartbeat = Time.zone.now
+
     unless (@timer = session[:timer])
       redirect_to :action => 'sorry', :notice => 'Timer value was not found.'
     end
+    @heartbeat_seconds = WaitingRoom.heartbeat_seconds
     # never start with a timer of zero. If timer is zero, bump up to
     # next start time.
     if @timer.zero? then @timer += @task.condition.starts_every end
@@ -51,6 +57,9 @@ class TasksController < ApplicationController
   end
 
   def join_group
+    @task.last_heartbeat = Time.zone.now # Consider join_group request to also be a heartbeat
+    @task.save!
+    
     WaitingRoom.process_all!
     case @task.chat_group
     when WaitingRoom::CHAT_GROUP_NONE
@@ -144,5 +153,19 @@ class TasksController < ApplicationController
 
   def error
 
+  end
+
+  def disconnect
+    render(:nothing => true, :status => 403) and return unless request.xhr?
+    task_id = params[:id].to_i
+    @task.group_tasks.each { |t| Task.find(t).remove_from_chat_group task_id }
+    render :nothing => true
+  end
+
+  def heartbeat
+    render(:nothing => true, :status => 403) and return unless request.xhr?
+    @task.last_heartbeat = Time.zone.now
+    @task.save!
+    render :nothing => true
   end
 end

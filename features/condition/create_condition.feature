@@ -22,6 +22,7 @@ Scenario: Create a condition, valid conditions,Administrator
   And I select "time_filler_activity_schema" from "time_filler_id"
   And I press "Create Condition"
   Then I should see "Default"
+  Then I should see "primary_activity_schema"
   Then I should see "time_filler_activity_schema"
 
 Scenario: Create a condition, missing name,Administrator

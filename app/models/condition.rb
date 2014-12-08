@@ -13,8 +13,7 @@ class Condition < ActiveRecord::Base
   MAX_ALLOWABLE_GROUP_SIZE = 20
 
   # Human-friendly name for the condition or experiment; must be unique
-  attr_accessible :name, :prologue_pages, :body_pages, :epilogue_pages,:preferred_group_size, :minimum_group_size, :body_repeat_count, :time_filler
-  attr_accessible :primary_activity_schema
+  attr_accessible :name, :prologue_pages, :body_pages, :epilogue_pages,:preferred_group_size, :minimum_group_size, :body_repeat_count, :time_filler, :primary_activity_schema
   validates_presence_of :name, :primary_activity_schema
   validates_uniqueness_of :name
   validates_numericality_of(:preferred_group_size,

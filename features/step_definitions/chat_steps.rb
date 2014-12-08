@@ -2,7 +2,7 @@
 
 Given /^I am a learner assigned to a singleton waiting room$/ do
   @task = create :task, :with_chat_group
-  @task.assign_to_chat_group Task.chat_group_name_from_tasks([@task])
+  @task.assign_to_chat_group(Task.chat_group_name_from_tasks([@task]), true)
   @task.save!
 end
 

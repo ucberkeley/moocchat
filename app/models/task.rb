@@ -24,7 +24,7 @@ class Task < ActiveRecord::Base
   # Tasks log interesting events to an +EventLog+.
   has_one :event_log	
 
-  attr_accessible :condition, :learner, :activity_schema, :completed, :chat_group, :sequence_state
+  attr_accessible :condition, :learner, :activity_schema, :completed, :original_chat_group, :chat_group, :sequence_state
 
   # Exception raised when learner tries to create task for an activity that
   # isn't open yet
@@ -56,12 +56,13 @@ class Task < ActiveRecord::Base
     condition = Condition.find  cond
     learner = Learner.find_or_create_by_name! params[:learner_name]
 
-    #raise ActivityNotOpenError unless activity_schema.enabled?
+    raise ActivityNotOpenError unless condition.primary_activity_schema.enabled?
     
     @t = Task.create!(
       :condition => condition,
       :learner => learner,
       :completed => false,
+      :original_chat_group => nil,
       :chat_group => nil,
       :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count) # , :num_questions => activity_schema.num_questions)
       )
@@ -112,7 +113,6 @@ class Task < ActiveRecord::Base
       chat_group.to_s.split(',').map(&:to_i)
     end
   end
-  private :group_tasks
 
   # Returns the +Template+ object that should be rendered for the
   # current page in the task sequence.
@@ -139,10 +139,21 @@ class Task < ActiveRecord::Base
     reload
   end
 
+  def remove_from_chat_group(task_id)
+    chat_group_ids = self.group_tasks
+    if chat_group_ids.include? task_id   # Ignore if already removed
+      chat_group_ids.delete(task_id)
+      chat_group = chat_group_ids.map { |task_id| Task.find(task_id) }
+      new_group_name = Task.chat_group_name_from_tasks(chat_group)
+      self.assign_to_chat_group(new_group_name, false)
+    end
+  end
+
   # Assign this task to a particular chat group.  As a side effect, this removes the task
   # from its waiting room.
-  def assign_to_chat_group(group)
+  def assign_to_chat_group(group, original_assignment)
     self.chat_group = group
+    if original_assignment then self.original_chat_group = self.chat_group end
     self.waiting_room = nil
     self.save!
   end
