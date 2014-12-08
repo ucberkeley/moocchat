@@ -63,7 +63,7 @@ class Task < ActiveRecord::Base
       :learner => learner,
       :completed => false,
       :chat_group => nil,
-      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count, :num_questions => activity_schema.num_questions)
+      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count) # , :num_questions => activity_schema.num_questions)
       )
   end
 
@@ -149,7 +149,7 @@ class Task < ActiveRecord::Base
 
   # Returns the next question to be consumed for the task.
   def current_question
-    activity_schema.questions[question_counter]
+    condition.primary_activity_schema.questions[question_counter]
   end
 
   # Log an interesting event related to this task. Denormalize the various
@@ -161,7 +161,7 @@ class Task < ActiveRecord::Base
       :value => value,
       :task => self,
       :learner => self.learner,
-      :activity_schema => self.activity_schema,
+      # :activity_schema => self.activity_schema,
       :condition => self.condition,
       :counter => self.counter,
       :subcounter => self.subcounter,

@@ -37,10 +37,10 @@ describe Task do
     context 'when activity is enabled' do
       before :each do
         @condition = mock_model(Condition, :valid? => true)
-        @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => true, :num_questions => 2)
+        # @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => true, :num_questions => 2)
         @args = {
           :condition_id => @condition.id,
-          :activity_schema_id => @activity_schema.id,
+          # :activity_schema_id => @activity_schema.id,
           :learner_name => 'joe'
         }
         Condition.stub(:find).and_return(@condition)
@@ -51,7 +51,7 @@ describe Task do
           subject { Task.create_from_params @args }
           it { should be_valid }
           its(:condition) { should == @condition }
-          its(:activity_schema) { should == @activity_schema }
+          # its(:activity_schema) { should == @activity_schema }
           its('learner.name') { should == 'joe' }
         end
       end
@@ -72,25 +72,27 @@ describe Task do
         it_should_behave_like 'starting task'
       end
     end
-    context 'when activity is not enabled' do
-      before :each do
-        @condition = mock_model(Condition, :valid? => true)
-        @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => false)
-        @args = {
-          :condition_id => @condition.id,
-          :activity_schema_id => @activity_schema.id,
-          :learner_name => 'joe'
-        }
-        Condition.stub(:find).and_return(@condition)
-        ActivitySchema.stub(:find).and_return(@activity_schema)
-      end
-      it 'raises exception' do
-        expect { Task.create_from_params @args }.to raise_error(Task::ActivityNotOpenError)
-      end
-      it 'does not create task' do
-        expect { lambda { Task.create_from_params @args }}.not_to change { Task.count }
-      end
-    end
+
+    # These tests should probably go into the condition spec
+    # context 'when activity is not enabled' do
+    #   before :each do
+    #     @condition = mock_model(Condition, :valid? => true)
+    #     # @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => false)
+    #     @args = {
+    #       :condition_id => @condition.id,
+    #       # :activity_schema_id => @activity_schema.id,
+    #       :learner_name => 'joe'
+    #     }
+    #     Condition.stub(:find).and_return(@condition)
+    #     ActivitySchema.stub(:find).and_return(@activity_schema)
+    #   end
+    #   it 'raises exception' do
+    #     expect { Task.create_from_params @args }.to raise_error(Task::ActivityNotOpenError)
+    #   end
+    #   it 'does not create task' do
+    #     expect { lambda { Task.create_from_params @args }}.not_to change { Task.count }
+    #   end
+    # end
   end
 
   describe 'chat group name' do

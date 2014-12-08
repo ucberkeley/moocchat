@@ -4,6 +4,7 @@ describe Condition do
   describe 'basic model' do
     let(:args) { {
         :name => 'x',
+        :primary_activity_schema => create(:activity_schema, :name => 'test_activity_schema', :questions => [create(:question)]),
         :preferred_group_size => 2,
         :minimum_group_size => 1,
         :body_pages => [create(:template)],

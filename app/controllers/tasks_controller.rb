@@ -39,7 +39,7 @@ class TasksController < ApplicationController
     end
     # never start with a timer of zero. If timer is zero, bump up to
     # next start time.
-    if @timer.zero? then @timer += @task.activity_schema.starts_every end
+    if @timer.zero? then @timer += @task.condition.starts_every end
   end
 
   def force_continue

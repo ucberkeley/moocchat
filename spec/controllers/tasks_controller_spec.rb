@@ -3,7 +3,7 @@ require 'spec_helper'
 describe TasksController do
   describe 'establishing session' do
     before :all do 
-      @dummy_params = { :activity_schema_id => '0', :learner_name => 'x', :condition_id => '1' }
+      @dummy_params = {:learner_name => 'x', :condition_id => '1' }
     end
     describe 'successfully' do
       before :each do
