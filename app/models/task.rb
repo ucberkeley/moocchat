@@ -6,7 +6,6 @@ class Task < ActiveRecord::Base
   belongs_to :activity_schema
   belongs_to :learner
   belongs_to :condition
-  validates_associated :activity_schema
   validates_associated :learner
   validates_associated :condition
 
@@ -56,14 +55,14 @@ class Task < ActiveRecord::Base
     condition = Condition.find  cond
     learner = Learner.find_or_create_by_name! params[:learner_name]
 
-    #raise ActivityNotOpenError unless activity_schema.enabled?
+    raise ActivityNotOpenError unless condition.primary_activity_schema.enabled?
     
     @t = Task.create!(
       :condition => condition,
       :learner => learner,
       :completed => false,
       :chat_group => nil,
-      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count, :num_questions => activity_schema.num_questions)
+      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count, :num_questions => condition.primary_activity_schema.num_questions)
       )
   end
 
