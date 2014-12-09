@@ -5,8 +5,8 @@ class Condition < ActiveRecord::Base
   has_many_inline :prologue_pages, :class_name => :template
   has_many_inline :body_pages, :class_name => :template
   has_many_inline :epilogue_pages, :class_name => :template
-  has_one :primary_activity_schema, :class_name => "ActivitySchema"
-  has_one :time_filler, :class_name => "ActivitySchema"
+  belongs_to :primary_activity_schema, :class_name => "ActivitySchema"
+  belongs_to :time_filler, :class_name => "ActivitySchema"
 
   # The maximum allowable group size; experiments cannot specify chat groups
   # containing more than this number of learners.
@@ -33,14 +33,5 @@ class Condition < ActiveRecord::Base
 
   def time_filler_questions
     return time_filler.questions
-  end
-  
-  def process_activity_schema_input(activity_schema)
-    if activity_schema != ""
-      activity_schema = ActivitySchema.find(activity_schema.to_i)
-    else
-      activity_schema = nil
-    end
-    return activity_schema
   end
 end

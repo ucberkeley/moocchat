@@ -30,14 +30,8 @@ class ConditionsController < ApplicationController
 
   # POST /conditions
   def create
-    logger.error("primary raw: " + params[:condition][:primary_activity_schema])
-    logger.error("time filler raw: " + params[:condition][:time_filler])
-
-    #params[:condition][:primary_activity_schema] = (params[:condition][:primary_activity_schema] == "")? nil : ActivitySchema.find(params[:condition][:primary_activity_schema].to_i)
-    #params[:condition][:time_filler] = (params[:condition][:time_filler] == "")? nil : ActivitySchema.find(params[:condition][:time_filler].to_i)
-    
-    logger.error("primary raw: " + params[:condition][:primary_activity_schema].id.to_s)
-    logger.error("time filler raw: " + params[:condition][:time_filler].id.to_s)
+    params[:condition][:primary_activity_schema] = (params[:condition][:primary_activity_schema] == "")? nil : ActivitySchema.find(params[:condition][:primary_activity_schema].to_i)
+    params[:condition][:time_filler] = (params[:condition][:time_filler] == "")? nil : ActivitySchema.find(params[:condition][:time_filler].to_i)
 
     #to handle the collection_select to object array
     @prologue=params[:condition][:prologue_pages]
@@ -58,16 +52,8 @@ class ConditionsController < ApplicationController
   def update
     @condition = Condition.find(params[:id])
 
-    puts("primary raw: " + params[:condition][:primary_activity_schema])
-    puts("time filler raw: " + params[:condition][:time_filler])
-    params[:condition][:primary_activity_schema] = @condition.process_activity_schema_input(params[:condition][:primary_activity_schema])
-    params[:condition][:time_filler] = @condition.process_activity_schema_input(params[:condition][:time_filler])
-
-    #params[:condition][:primary_activity_schema] = (params[:condition][:primary_activity_schema] == "")? nil : ActivitySchema.find(params[:condition][:primary_activity_schema].to_i)
-    #params[:condition][:time_filler] = (params[:condition][:time_filler] == "")? nil : ActivitySchema.find(params[:condition][:time_filler].to_i)
-    
-    puts("primary raw: " + params[:condition][:primary_activity_schema].id.to_s)
-    puts("time filler raw: " + params[:condition][:time_filler].id.to_s)
+    params[:condition][:primary_activity_schema] = (params[:condition][:primary_activity_schema] == "")? nil : ActivitySchema.find(params[:condition][:primary_activity_schema].to_i)
+    params[:condition][:time_filler] = (params[:condition][:time_filler] == "")? nil : ActivitySchema.find(params[:condition][:time_filler].to_i)
 
     #to handle the collection_select to object array
     @prologue=params[:condition][:prologue_pages]

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141202100938) do
+ActiveRecord::Schema.define(:version => 20141209012014) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(:version => 20141202100938) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "starts_every"
-    t.integer  "condition_id"
   end
 
   create_table "cohorts", :force => true do |t|
@@ -46,8 +45,8 @@ ActiveRecord::Schema.define(:version => 20141202100938) do
   end
 
   create_table "conditions", :force => true do |t|
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
     t.string   "name"
     t.text     "prologue_pages"
     t.text     "body_pages"
@@ -55,6 +54,8 @@ ActiveRecord::Schema.define(:version => 20141202100938) do
     t.integer  "preferred_group_size"
     t.integer  "minimum_group_size"
     t.integer  "body_repeat_count"
+    t.integer  "primary_activity_schema_id"
+    t.integer  "time_filler_id"
   end
 
   create_table "event_logs", :force => true do |t|
