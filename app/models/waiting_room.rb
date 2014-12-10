@@ -56,7 +56,7 @@ class WaitingRoom < ActiveRecord::Base
   def self.add task
     wr = WaitingRoom.
       find_or_create_by_activity_schema_id_and_condition_id!(
-      task.activity_schema_id, task.condition_id)
+      task.condition.primary_activity_schema_id, task.condition_id)
 
     current_time = Time.zone.now
     # If more than a minute has passed since this room expired, destroy it and make a new one
@@ -130,11 +130,11 @@ class WaitingRoom < ActiveRecord::Base
 
   def timer_until(task)
     timer_base = self.expires_at - Time.zone.now
-    puts('task.activity_schema.starts_every: ' + task.activity_schema.starts_every.to_s)
-    max_fuzz_seconds = 60 * task.activity_schema.starts_every
+    puts('task.activity_schema.starts_every: ' + task.condition.primary_activity_schema.starts_every.to_s)
+    max_fuzz_seconds = 60 * task.condition.primary_activity_schema.starts_every
     fuzz = Integer(
       self.tasks.size / MAX_USERS / (1000 / SERVICE_TIME_IN_MS))
-    timer_base + [fuzz, 60 * task.activity_schema.starts_every].min
+    timer_base + [fuzz, 60 * task.condition.primary_activity_schema.starts_every].min
   end  
 
   private

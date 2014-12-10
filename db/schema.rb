@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141209012014) do
+ActiveRecord::Schema.define(:version => 20141209020704) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -91,7 +91,6 @@ ActiveRecord::Schema.define(:version => 20141209012014) do
   create_table "tasks", :force => true do |t|
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
-    t.integer  "activity_schema_id"
     t.integer  "learner_id"
     t.integer  "condition_id"
     t.string   "chat_group"
@@ -104,7 +103,6 @@ ActiveRecord::Schema.define(:version => 20141209012014) do
     t.datetime "last_heartbeat"
   end
 
-  add_index "tasks", ["activity_schema_id"], :name => "index_tasks_on_activity_schema_id"
   add_index "tasks", ["condition_id"], :name => "index_tasks_on_condition_id"
   add_index "tasks", ["learner_id"], :name => "index_tasks_on_learner_id"
   add_index "tasks", ["waiting_room_id"], :name => "index_tasks_on_waiting_room_id"
