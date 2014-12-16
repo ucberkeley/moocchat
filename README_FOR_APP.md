@@ -66,15 +66,13 @@ scenarios can assume that an admin is logged in.
 0. `sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver`
 0. `sudo ln -s /usr/lib/chromium-browser/libs/lib*.so /usr/lib/`
 0. `sudo su postgres -c psql` (this will enter the postgres environment where you will set up the database)
-0. `CREATE USER yourusername WITH PASSWORD 'development';` (use your UNIX username in place of `yourusername`)
-0. CREATE DATABASE development_master OWNER yourusername; (use your branch name in place of `master` with `/` and `-` characters replaced by `_`)
-0. CREATE DATABASE test_master OWNER dcoetzee;
+0. `CREATE USER yourusername CREATEDB;` (use your UNIX username in place of `yourusername`)
 0. `\q` (to exit postgres)
 0. `curl -sSL https://get.rvm.io | bash`
 0. `source ~/.rvm/scripts/rvm`
 0. `git clone git@github.com:ucberkeley/moocchat.git`
 0. `cd moocchat`
-0. `rvm install ruby-1.9.3-p547`
+0. `rvm install ruby-1.9.3-p547 --disable-binary`
 0. `bundle install`
 0. `make check`
 0. `foreman run local`
