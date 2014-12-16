@@ -134,5 +134,6 @@ FactoryGirl.define do
 
   factory :waiting_room do
     condition { create(:condition, :primary_activity_schema => create(:activity_schema), :time_filler => create(:activity_schema, :questions => [create(:question)]))}
+    activity_schema {create(:activity_schema)}
   end
 end
