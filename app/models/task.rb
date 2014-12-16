@@ -1,12 +1,10 @@
 class Task < ActiveRecord::Base
 
-  # Ties together a +Learner+, +ActivitySchema+, and +Condition+ into
+  # Ties together a +Learner+, and +Condition+ into
   # a task that steps the learner through a sequence of pages.
 
-  belongs_to :activity_schema
   belongs_to :learner
   belongs_to :condition
-  validates_associated :activity_schema
   validates_associated :learner
   validates_associated :condition
 
@@ -24,7 +22,7 @@ class Task < ActiveRecord::Base
   # Tasks log interesting events to an +EventLog+.
   has_one :event_log	
 
-  attr_accessible :condition, :learner, :activity_schema, :completed, :original_chat_group, :chat_group, :sequence_state
+  attr_accessible :condition, :learner, :completed, :original_chat_group, :chat_group, :sequence_state
 
   # Exception raised when learner tries to create task for an activity that
   # isn't open yet
@@ -64,7 +62,7 @@ class Task < ActiveRecord::Base
       :completed => false,
       :original_chat_group => nil,
       :chat_group => nil,
-      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count) # , :num_questions => activity_schema.num_questions)
+      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count, :num_questions => condition.primary_activity_schema.num_questions)
       )
   end
 
@@ -172,7 +170,7 @@ class Task < ActiveRecord::Base
       :value => value,
       :task => self,
       :learner => self.learner,
-      # :activity_schema => self.activity_schema,
+      :activity_schema => self.condition.primary_activity_schema,
       :condition => self.condition,
       :counter => self.counter,
       :subcounter => self.subcounter,

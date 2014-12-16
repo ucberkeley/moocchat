@@ -10,7 +10,7 @@ Background:
   And a condition "Chat 1"
   When I start activity "Quiz review" with condition "Chat 1" as "Armando"
   Then I should see "Greetings, Armando!"
-  And I should see /"Quiz review" will start automatically/
+  And I should see /"test_primary_activity_schema" will start automatically/
   And I should see a timer
 
 Scenario: learner assigned to a chat group

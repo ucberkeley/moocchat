@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141202100938) do
+ActiveRecord::Schema.define(:version => 20141209020704) do
 
   create_table "activity_schemas", :force => true do |t|
     t.datetime "created_at",    :null => false
@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(:version => 20141202100938) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer  "starts_every"
-    t.integer  "condition_id"
   end
 
   create_table "cohorts", :force => true do |t|
@@ -46,8 +45,8 @@ ActiveRecord::Schema.define(:version => 20141202100938) do
   end
 
   create_table "conditions", :force => true do |t|
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
     t.string   "name"
     t.text     "prologue_pages"
     t.text     "body_pages"
@@ -55,6 +54,8 @@ ActiveRecord::Schema.define(:version => 20141202100938) do
     t.integer  "preferred_group_size"
     t.integer  "minimum_group_size"
     t.integer  "body_repeat_count"
+    t.integer  "primary_activity_schema_id"
+    t.integer  "time_filler_id"
   end
 
   create_table "event_logs", :force => true do |t|
@@ -90,7 +91,6 @@ ActiveRecord::Schema.define(:version => 20141202100938) do
   create_table "tasks", :force => true do |t|
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
-    t.integer  "activity_schema_id"
     t.integer  "learner_id"
     t.integer  "condition_id"
     t.string   "chat_group"
@@ -103,7 +103,6 @@ ActiveRecord::Schema.define(:version => 20141202100938) do
     t.datetime "last_heartbeat"
   end
 
-  add_index "tasks", ["activity_schema_id"], :name => "index_tasks_on_activity_schema_id"
   add_index "tasks", ["condition_id"], :name => "index_tasks_on_condition_id"
   add_index "tasks", ["learner_id"], :name => "index_tasks_on_learner_id"
   add_index "tasks", ["waiting_room_id"], :name => "index_tasks_on_waiting_room_id"

@@ -7,17 +7,15 @@ Feature: start new task using Static Page
 Background:
 
   Given a condition "Chat sequence 1"
-  Given an activity schema "Quiz review"
 
 Scenario: static root page, new learner
 
   Given I start on the Static Page
   When I fill in "Steven" for "learner_name"
   And I select "Chat sequence 1" from "Condition"
-  And I select "Quiz review" from "Activity"
   When I press "SUBMIT"
   Then I should see "Greetings, Steven!" 
-  And I should see /"Quiz review" will start automatically/
+  And I should see /"test_primary_activity_schema" will start automatically/
 
 @javascript
 Scenario: static root page, missing activity schema, new learner

@@ -7,7 +7,7 @@ describe WaitingRoom do
       expect { WaitingRoom.add(@t) }.to change { WaitingRoom.count }.by 1
     end
     it 'does not create waiting room if it exists' do
-      create :waiting_room, :activity_schema => @t.activity_schema, :condition => @t.condition
+      create :waiting_room, :activity_schema => @t.condition.primary_activity_schema, :condition => @t.condition
       expect { WaitingRoom.add(@t) }.not_to change { WaitingRoom.count }
     end
     it 'raises exception if same task added >1 time' do
@@ -25,7 +25,8 @@ describe WaitingRoom do
         specify "to #{Time.at(time_to_go).strftime('%M:%S')} if it's #{now}" do
           Timecop.freeze(now) do
             a = create :activity_schema, :starts_every => 5
-            t = create :task, :activity_schema => a
+            c = create :condition, :primary_activity_schema => a
+            t = create :task, :condition => c
             WaitingRoom.add(t).should == time_to_go
           end
         end
@@ -47,8 +48,10 @@ describe WaitingRoom do
     ].each do |users,fuzz|
       it "adds #{fuzz}s when there are #{users} users" do
         Timecop.freeze(Time.zone.now) do
-          @t = mock_model Task
-          @t.stub_chain(:activity_schema, :starts_every).and_return(1)
+          #@c = mock_model Condition
+          #@c.stub_chain(:primary_activity_schema, :starts_every).and_return(1)
+          @t = mock_model Task#, :condition => @c
+          @t.stub_chain(:condition, :primary_activity_schema, :starts_every).and_return(1)
           @w = WaitingRoom.new
           @w.expires_at = Time.zone.now
           @w.stub_chain(:tasks, :size).and_return(users)
@@ -107,8 +110,8 @@ describe WaitingRoom do
     # how to test transactional integrity, since we have to atomically
     # empty the waiting room and assign tasks to groups?
     before :each do
-      @condition = create :condition
       @activity = create :activity_schema
+      @condition = create :condition, :primary_activity_schema => @activity
     end
     # test cases:
     # q length, pref'd grp size, min grp size, expected #grps, expected #small grps, expected # rejects
@@ -127,7 +130,7 @@ describe WaitingRoom do
       describe "Split #{len} learners into groups of #{size} and small-groups of #{min_size}" do
         before :each do
           @condition.update_attributes(:preferred_group_size => size, :minimum_group_size => min_size)
-          len.times { WaitingRoom.add(create(:task, :condition => @condition, :activity_schema => @activity)) }
+          len.times { WaitingRoom.add(create(:task, :condition => @condition)) }
           @w = WaitingRoom.find_by_activity_schema_id_and_condition_id!(@activity.id, @condition.id)
           @w.process
           @tasks_by_chat_group = Task.all.group_by(&:chat_group) # ActiveRelation's GROUP and HAVING are wonky in PGSql

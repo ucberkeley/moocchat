@@ -3,7 +3,7 @@
 <%= render(:partial => 'tasks/force_continue_button') if @test_user %>
 <%= form_tag task_join_group_path(@task), :id => '_main' do %>
   <p> 
-    Your activity <strong>"<%= @task.activity_schema.name %>"</strong>
+    Your activity <strong>"<%= @task.condition.primary_activity_schema.name %>"</strong>
     will start automatically in: 
     <span class="timer">
       <%= timer(@timer, {:heartbeat_seconds => @heartbeat_seconds, :heartbeat_url => '/tasks/' + @task.id.to_s + '/heartbeat'}) %>

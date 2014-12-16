@@ -4,7 +4,7 @@ describe EventLog do
   describe 'when created' do
     before :each do
       @t = create :task
-      @valid_args = {:task => @t, :activity_schema => @t.activity_schema,
+      @valid_args = {:task => @t, :activity_schema => @t.condition.primary_activity_schema,
         :condition => @t.condition, :learner => @t.learner,
         :name => EventLog::EVENTS.first}
     end

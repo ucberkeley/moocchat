@@ -9,9 +9,10 @@ def expire_timer_and_continue
 end
 
 When /^I start activity "(.+)" with condition "(.+)" as "(.+)"/ do |activity, condition, learner_name|
-  steps %Q{When I post to the URL for learner: "#{learner_name}", activity schema: "#{activity}", condition: "#{condition}"}
+  Condition.find_by_name!(condition).primary_activity_schema = ActivitySchema.find_by_name!(activity)
+  steps %Q{When I post to the URL for learner: "#{learner_name}", condition: "#{condition}"}
   # get the newly created task
-  @task = Task.where("learner_id = #{Learner.find_by_name!(learner_name).id} AND activity_schema_id = #{@activity_schema.id} AND condition_id = #{@condition.id}").first
+  @task = Task.where("learner_id = #{Learner.find_by_name!(learner_name).id} AND condition_id = #{@condition.id}").first
 end
 
 #  The step defs that handle assigning a learner to a chat group (or not)
