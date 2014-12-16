@@ -130,7 +130,6 @@ class WaitingRoom < ActiveRecord::Base
 
   def timer_until(task)
     timer_base = self.expires_at - Time.zone.now
-    puts('task.activity_schema.starts_every: ' + task.condition.primary_activity_schema.starts_every.to_s)
     max_fuzz_seconds = 60 * task.condition.primary_activity_schema.starts_every
     fuzz = Integer(
       self.tasks.size / MAX_USERS / (1000 / SERVICE_TIME_IN_MS))
