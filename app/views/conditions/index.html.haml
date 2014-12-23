@@ -25,8 +25,7 @@
               = link_to page.name, edit_template_path(page)
               %br
         %td= condition.updated_at.to_formatted_s
-        - primary_activity_schema_name = (condition.primary_activity_schema == nil)? "nil" : condition.primary_activity_schema.name
-        %td= primary_activity_schema_name
+        %td= condition.primary_activity_schema.name
         - time_filler_name = (condition.time_filler == nil)? "nil" : condition.time_filler.name
         %td= time_filler_name
         %td
