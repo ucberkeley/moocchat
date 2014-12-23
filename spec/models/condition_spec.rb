@@ -34,6 +34,9 @@ describe Condition do
     end
     it 'requires a name' do
       Condition.new(args.except(:name)).should_not be_valid
+    #it 'requires a primary activity schema' do
+      #Condition.new(args.except(:primary_activity_schema)).should_not be_valid
+
     end
 
     it 'returns time_filler_questions correctly' do

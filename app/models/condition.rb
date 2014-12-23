@@ -14,7 +14,7 @@ class Condition < ActiveRecord::Base
 
   # Human-friendly name for the condition or experiment; must be unique
   attr_accessible :name, :prologue_pages, :body_pages, :epilogue_pages,:preferred_group_size, :minimum_group_size, :body_repeat_count, :time_filler, :primary_activity_schema
-  validates_presence_of :name, :primary_activity_schema
+  validates_presence_of :name#, :primary_activity_schema
   validates_uniqueness_of :name
   validates_numericality_of(:preferred_group_size,
     :greater_than_or_equal_to => 1,
