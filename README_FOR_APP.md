@@ -62,7 +62,7 @@ scenarios can assume that an admin is logged in.
 0. `mkdir .ssh`
 0. Install your SSH key for Github in `~/.ssh/id_rsa`
 0. `chmod 600 ~/.ssh/id_rsa`
-0. `sudo apt-get install git curl libpq-dev phantomjs chromium-chromedriver python-selenium nodejs postgresql`
+0. `sudo apt-get install git curl libpq-dev phantomjs chromium-chromedriver python-selenium nodejs postgresql default-jre`
 0. `sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver`
 0. `sudo ln -s /usr/lib/chromium-browser/libs/lib*.so /usr/lib/`
 0. `sudo su postgres -c psql` (this will enter the postgres environment where you will set up the database)
