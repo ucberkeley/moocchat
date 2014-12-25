@@ -32,6 +32,7 @@ Moocchat::Application.routes.draw do
   # login and establish a session
   post '/tasks/:learner_name/:activity_schema_id/:condition_id' => 'tasks#create', :as => 'task_create'
   post '/tasks' => 'tasks#create' # regular form posting
+  get '/tasks/turk/:condition_id' => 'tasks#create_turk' # entry point for Turk workers
 
   # admin/test learner can force task to continue without waiting for WaitingRoom expiration
   post '/tasks/:id/force_continue', :to => 'tasks#force_continue', :as => 'task_force_continue'

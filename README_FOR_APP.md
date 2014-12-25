@@ -118,6 +118,7 @@ to verify that there is no bug introduced
 
 ## To deploy on Heroku for your own testing:
 
+0. Install the Heroku tools as instructed here: https://toolbelt.heroku.com
 0. First time: `heroku apps:create pick-some-app-name` (or to use the existing moocchat deployment, `heroku git:remote -a moocchat`)
 0. Make sure your changes are committed locally
 0. `git push heroku master`

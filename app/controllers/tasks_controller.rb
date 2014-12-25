@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
 
-  before_filter :check_if_test_user, :except => [:create, :static]
+  before_filter :check_if_test_user, :except => [:create, :create_turk, :static]
   skip_before_filter :require_authenticated_user
 
   protected
@@ -17,6 +17,20 @@ class TasksController < ApplicationController
   end
 
   def create
+    self.create_from_params(params.merge(:turk_params => nil))
+  end
+
+  def create_turk
+    if params[:assignmentId]=='ASSIGNMENT_ID_NOT_AVAILABLE'
+      render "turk_preview"
+    else
+      self.create_from_params({:condition_id => params[:condition_id],
+                               :learner_name => 'Turk worker ' + params[:workerId],
+                               :turk_params => params})
+    end
+  end
+
+  def create_from_params(params)
     begin
       @task = Task.create_from_params(params)
       @timer = session[:timer] = WaitingRoom.add(@task)
@@ -102,6 +116,7 @@ class TasksController < ApplicationController
     @submit_to = task_next_page_path @task
     @me = @task.learner_index
     @data = @task.user_state_for_all
+    @turk_params = @task.turk_params
     @u = @data[@me] || {}
     # HTML text that will be injected into generic uber-template
     @html = @template.html

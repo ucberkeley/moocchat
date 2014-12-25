@@ -41,6 +41,17 @@
         </div>
         <% end %>
       </div>
+      <div class="row">
+        <% if not @turk_params.empty? %>
+          <div class="col-sm-11">
+            Turk parameters:
+            assignmentId <%== @turk_params['assignmentId'] %>,
+            hitId <%== @turk_params['hitId'] %>,
+            workerID: <%== @turk_params['workerId'] %>,
+            turkSubmitTo: <%== @turk_params['turkSubmitTo'] %>
+          </div>
+        <% end %>
+      </div>
     </div>
     <!--right side -->
     <div class="col-md-6 moocchat-right-panel">
