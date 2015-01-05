@@ -12,7 +12,7 @@ class ChatServer
   class MalformedWebsocketUrlError < RuntimeError;  end
   
   KEEPALIVE_TIME = 30 # in seconds
-  GREETING = "Learner %s"
+  GREETING = "Student %s"
   GENERIC_ASYNC_RACK_RESPONSE = [ -1, {}, [] ]
   attr_accessor :groups
   def initialize(app)
@@ -94,8 +94,9 @@ class ChatServer
     end
     if type == "message"
       speaker_position = channel.split(/,/).index(taskid.to_s)
-      speaker = "Learner #{1+speaker_position}"
-      json = create_text_message "#{speaker}: #{message}", taskid
+      speaker = "Student #{1+speaker_position}"
+      style_class = "student-#{1+speaker_position}"
+      json = create_text_message "#{speaker}: #{message}", taskid, style_class
     end
     if type == "end-vote"
       json = create_end_vote taskid
@@ -127,8 +128,8 @@ class ChatServer
     JSON.parse(event)['type']
   end
 
-  def create_text_message(text, taskid)
-    {:text => text, :type => "message", :taskid => taskid }.to_json
+  def create_text_message(text, taskid, style_class)
+    {:text => text, :type => "message", :taskid => taskid, :style_class => style_class }.to_json
   end
 
   def create_end_vote(taskid)

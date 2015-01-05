@@ -91,9 +91,9 @@ var web_socket = {
     this.checkVote(); // the disconnecting learner may have been the last one who didn't vote, in which case proceed
   },
 
-  showMessage: function(text) {
+  showMessage: function(text, style_class) {
     if ($("#chat-system").length) {
-      $("#chat-system").append("<blockquote class='moocchat-message system'><p>" + text + "</p></blockquote>");
+      $("#chat-system").append("<blockquote class='moocchat-message " + style_class + "'><p>" + text + "</p></blockquote>");
       $("#chat-system").scrollTop($("#chat-system")[0].scrollHeight); // ensure automatic scroll to bottom of chat window
     }
   },
@@ -103,7 +103,7 @@ var web_socket = {
     this.ws.onmessage = function(message) {
       var data = JSON.parse(message.data)
       if (data.type == "message" & self.isBoth()) {
-        self.showMessage(data.text);
+        self.showMessage(data.text, data.style_class);
       }
       if (data.type == "end-vote") {
         self.vote(data.taskid);
@@ -177,7 +177,7 @@ var web_socket = {
 
   showWelcomeMessage: function(){
     if (this.group.length == 1) {
-      this.showMessage("No one is currently available to chat with you. You may use this chatroom to reflect on the question. Click the end button above when done.");
+      this.showMessage("No one is currently available to chat with you. You may use this chatroom to reflect on the question. Click the end button above when done.", "system");
     } else if (this.group.length == 2) {
       var you_learner = '';
       var learner = '';
@@ -188,7 +188,7 @@ var web_socket = {
             learner = i + 1;
           }
       }
-      this.showMessage("You are Learner " + you_learner + ". Learner " + learner + " is also here.");
+      this.showMessage("You are Student " + you_learner + ". Student " + learner + " is also here.", "system");
     } else if (this.group.length == 3) {
       var you_learner = '';
       var learners = '';
@@ -203,7 +203,7 @@ var web_socket = {
               }
           }
       }
-      this.showMessage("You are Learner " + you_learner + ". Learners " + learners + " are also here.");
+      this.showMessage("You are Student " + you_learner + ". Students " + learners + " are also here.", "system");
     }
   },
 
