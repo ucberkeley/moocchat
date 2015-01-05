@@ -31,6 +31,12 @@ class TasksController < ApplicationController
   end
 
   def create_from_params(params)
+    learner = User.find_by_name(params[:learner_name])
+    if learner and not learner.for_testing and Task.where(["chat_group IS NOT NULL AND learner_id=?", learner.id]).present?
+      render "already_completed_task"
+      return
+    end
+
     begin
       @task = Task.create_from_params(params)
       @timer = session[:timer] = WaitingRoom.add(@task)
