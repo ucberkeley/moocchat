@@ -18,6 +18,12 @@ var ContinueButton =  {
     // disable the Submit button from multiple presses
     $('form#_main :submit').prop('disabled', true);
     event.preventDefault();
+
+    // If there is no timer on this page (only permitted after final
+    // chat stage is complete) submit form right away.
+    if ($('#_timer_').length == 0) {
+      $('form#_main').submit();
+    }
   },
   clickVote: function() {
     $('#vote-button').click();
