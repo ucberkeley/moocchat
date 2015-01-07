@@ -8,7 +8,6 @@ class ReportsController < ApplicationController
 
   def chatlog_show
     @eventlog = EventLog.where(created_at: parse_datetime_picker_date(params[:datetime_start])..parse_datetime_picker_date(params[:datetime_end]))
-    puts @eventlog
 
     respond_to do |format|
       format.html # 'chatlog_show.html.erb'
