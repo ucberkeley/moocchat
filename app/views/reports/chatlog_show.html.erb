@@ -1,13 +1,39 @@
 <%- model_class = EventLog -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-</div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:created_at) %>:</strong></dt>
-  <dd><%= @eventlog.created_at %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @eventlog.name %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:value) %>:</strong></dt>
-  <dd><%= @eventlog.value %></dd>
-</dl>
+<table class="table">
+<tr>
+  <th><%= model_class.human_attribute_name(:created_at) %></th>
+  <th><%= model_class.human_attribute_name(:task_id) %></th>
+  <th><%= model_class.human_attribute_name(:chat_group) %></th>
+  <th><%= model_class.human_attribute_name(:name) %></th>
+  <th><%= model_class.human_attribute_name(:value) %></th>
+</tr>
+
+<% prev_orig_chat_group = nil %>
+<!-- Order by original chat group, which is property on Task -->
+<% @eventlog.order(:created_at).sort{|x,y| Task.find(x['task_id']).original_chat_group <=> Task.find(y['task_id']).original_chat_group}.each do |event| %>
+
+<% orig_chat_group = Task.find(event.task_id).original_chat_group %>
+<% if prev_orig_chat_group and prev_orig_chat_group != orig_chat_group then %>
+</table>
+<table class="table">
+<tr>
+  <th><%= model_class.human_attribute_name(:created_at) %></th>
+  <th><%= model_class.human_attribute_name(:task_id) %></th>
+  <th><%= model_class.human_attribute_name(:chat_group) %></th>
+  <th><%= model_class.human_attribute_name(:name) %></th>
+  <th><%= model_class.human_attribute_name(:value) %></th>
+</tr>
+<% end %>
+<% prev_orig_chat_group = orig_chat_group %>
+
+<tr>
+  <td><%= event.created_at %></td>
+  <td><%= event.task_id %></td>
+  <td><%= event.chat_group %></td>
+  <td><%= event.name %></td>
+  <td><%= event.value %></td>
+</tr>
+<% end %>
+
+</table>
