@@ -73,6 +73,10 @@ Moocchat::Application.routes.draw do
   # Check whether a user has consented to participate in the experiment
   get "users/check_consent"
 
+  # Reports
+  get '/reports/chatlog' => 'reports#chatlog'
+  post '/reports/chatlog/show' => 'reports#chatlog_show'
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

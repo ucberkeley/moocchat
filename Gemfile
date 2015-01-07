@@ -11,9 +11,11 @@ gem 'jquery-rails'
 gem 'date_validator'            # datetime validations for ActiveRecord
 gem 'foreman'
 gem 'capybara-puma'
-gem 'foreigner'			#foreign key support for rails
+gem 'foreigner'			# foreign key support for rails
 gem 'pg'
 gem 'rack-p3p'
+gem 'momentjs-rails'            # prereq of datetimepicker
+gem 'bootstrap3-datetimepicker-rails'
 
 group :development, :test do
   gem 'debugger'
