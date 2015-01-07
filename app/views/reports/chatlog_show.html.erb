@@ -13,7 +13,8 @@
 <!-- Order by original chat group, which is property on Task -->
 <% @eventlog.joins(:task).order('tasks.original_chat_group', :created_at).each do |event| %>
 
-<% orig_chat_group = Task.find(event.task_id).original_chat_group %>
+<% orig_chat_group = event.task.original_chat_group %>
+<% if Task.where(original_chat_group: orig_chat_group).any? {|t| t.learner and t.learner.for_testing } then next end %>
 <% if prev_orig_chat_group and prev_orig_chat_group != orig_chat_group then %>
 </table>
 <table class="table">
