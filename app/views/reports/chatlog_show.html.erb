@@ -11,19 +11,7 @@
 
 <% prev_orig_chat_group = nil %>
 <!-- Order by original chat group, which is property on Task -->
-<% @eventlog.order(:created_at).sort{|x,y|
-     t1 = Task.find(x['task_id'])
-     t2 = Task.find(y['task_id'])
-     if t1 and t2 then
-       if t1.original_chat_group == t2.original_chat_group then
-         x.created_at <=> y.created_at
-       else
-         t1.original_chat_group <=> t2.original_chat_group
-       end
-     else
-       t1.nil? <=> t2.nil?
-     end
-   }.each do |event| %>
+<% @eventlog.joins(:task).order('tasks.original_chat_group', :created_at).each do |event| %>
 
 <% orig_chat_group = Task.find(event.task_id).original_chat_group %>
 <% if prev_orig_chat_group and prev_orig_chat_group != orig_chat_group then %>
