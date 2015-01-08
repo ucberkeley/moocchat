@@ -76,6 +76,7 @@ Moocchat::Application.routes.draw do
   # Reports
   get '/reports/chatlog' => 'reports#chatlog'
   post '/reports/chatlog/show' => 'reports#chatlog_show'
+  get '/reports/users/show' => 'reports#users_show'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
