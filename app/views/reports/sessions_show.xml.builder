@@ -1,7 +1,6 @@
 xml.instruct!
 xml.sessions do
   @sessions.each do |session|
-    puts session
     xml.session do
       xml.chat_group session[:chat_group]
       xml.group_size session[:group_size]
