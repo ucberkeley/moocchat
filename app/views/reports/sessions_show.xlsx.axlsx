@@ -1,0 +1,22 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Sessions") do |sheet|
+  time_format = wb.styles.add_style :format_code => 'MM/DD hh:mm:ss'
+  sheet.add_row ['chat_group', 'group_size',
+                 'question_id', 'correct_choice',
+                 'start_time_0', 'start_time_1', 'start_time_2',
+                 'initial_choice_0', 'initial_choice_1', 'initial_choice_2',
+                 'final_choice_0', 'final_choice_1', 'final_choice_2']
+  @sessions.each do |session|
+    sheet.add_row [session[:chat_group], session[:group_size],
+                   session[:question_id], session[:correct_choice],
+                   session[:start_time_0], session[:start_time_1], session[:start_time_2],
+                   session[:initial_choice_0], session[:initial_choice_1], session[:initial_choice_2],
+                   session[:final_choice_0], session[:final_choice_1], session[:final_choice_2]],
+      :style => [nil, nil, nil, nil, time_format, time_format, time_format],
+      :types => [:string, :integer,
+                 :integer, :string,
+                 :time, :time, :time,
+                 :string, :string, :string,
+                 :string, :string, :string]
+  end
+end

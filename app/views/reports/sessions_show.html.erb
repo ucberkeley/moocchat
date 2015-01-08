@@ -1,0 +1,34 @@
+<table class="table">
+<tr>
+  <th>chat_group</th>
+  <th>group_size</th>
+  <th>question_id</th>
+  <th>correct_choice</th>
+  <th>start_time_0</th>
+  <th>start_time_1</th>
+  <th>start_time_2</th>
+  <th>initial_choice_0</th>
+  <th>initial_choice_1</th>
+  <th>initial_choice_2</th>
+  <th>final_choice_0</th>
+  <th>final_choice_1</th>
+  <th>final_choice_2</th>
+</tr>
+<% @sessions.each do |session| %>
+  <tr>
+    <td><%= session[:chat_group] %></td>
+    <td><%= session[:group_size] %></td>
+    <td><%= session[:question_id] %></td>
+    <td><%= session[:correct_choice] %></td>
+    <td><%= session[:start_time_0] %></td>
+    <td><%= session[:start_time_1] %></td>
+    <td><%= session[:start_time_2] %></td>
+    <td><%= session[:initial_choice_0] %></td>
+    <td><%= session[:initial_choice_1] %></td>
+    <td><%= session[:initial_choice_2] %></td>
+    <td><%= session[:final_choice_0] %></td>
+    <td><%= session[:final_choice_1] %></td>
+    <td><%= session[:final_choice_2] %></td>
+  </tr>
+<% end %>
+</table>

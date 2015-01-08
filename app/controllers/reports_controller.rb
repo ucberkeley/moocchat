@@ -29,8 +29,9 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       format.html # 'chatlog_show.html.erb'
-      format.xml # 'chatlog_show.xml.builder'
-      format.json { render json: @eventlog_sessions }
+      format.xml  # 'chatlog_show.xml.builder'
+      format.csv  # 'chatlog_show.csv.csvbuilder'
+      format.xlsx # 'chatlog_show.xlsx.axlsx'
     end
   end
 
@@ -65,8 +66,10 @@ class ReportsController < ApplicationController
     end
 
     respond_to do |format|
+      format.html # 'sessions_show.html.erb'
       format.xml  # 'sessions_show.xml.builder'
-      format.json { render json: @sessions }
+      format.csv  # 'sessions_show.csv.csvbuilder'
+      format.xlsx # 'sessions_show.xlsx.axlsx'
     end
   end
 end

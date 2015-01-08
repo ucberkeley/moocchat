@@ -16,6 +16,10 @@ gem 'pg'
 gem 'rack-p3p'
 gem 'momentjs-rails'            # prereq of datetimepicker
 gem 'bootstrap3-datetimepicker-rails'
+gem 'rubyzip',  "~> 1.0.0"      # prereq of axlsx, axlsx 2.0.1 requires old version
+gem 'axlsx', "~> 2.0.1"
+gem 'axlsx_rails'
+gem 'csv_builder'
 
 group :development, :test do
   gem 'debugger'

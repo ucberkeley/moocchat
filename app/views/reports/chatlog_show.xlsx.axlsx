@@ -1,0 +1,18 @@
+model_class = EventLog
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Chat Log") do |sheet|
+  time_format = wb.styles.add_style :format_code => 'MM/DD hh:mm:ss'
+  sheet.add_row (['Session chat group'] + [:created_at, :task_id, :chat_group, :name, :value].map{|attr| model_class.human_attribute_name(attr)})
+  @eventlog_sessions.each do |session|
+    session.each do |event|
+      sheet.add_row [event.task.original_chat_group,
+                     event.created_at,
+                     event.task_id,
+                     event.chat_group,
+                     event.name,
+                     event.value],
+        :style => [nil, time_format],
+        :types => [:string, :time, :integer, :string, :string, :string]
+    end
+  end
+end
