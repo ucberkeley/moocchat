@@ -104,6 +104,10 @@ class Task < ActiveRecord::Base
     end
   end
 
+  def self.parse_group_tasks(group_tasks)
+    group_tasks.to_s.split(',').map(&:to_i)
+  end
+
   def group_tasks # :nodoc:
     case chat_group
     when blank?
@@ -111,7 +115,7 @@ class Task < ActiveRecord::Base
     when WaitingRoom::CHAT_GROUP_NONE
       raise LearnerNotInGroupError, "Learner was kicked out of Waiting Room"
     else
-      chat_group.to_s.split(',').map(&:to_i)
+      Task.parse_group_tasks(chat_group)
     end
   end
 
