@@ -1,11 +1,9 @@
 xml.instruct!
 xml.events do
-  session_num = 0
   @eventlog_sessions.each do |session|
-    session_num += 1
     session.each do |event|
       xml.event do
-        xml.session_num session_num
+        xml.session_chat_group event.task.original_chat_group
         xml.created_at event.created_at
         xml.task_id event.task_id
         xml.chat_group event.chat_group
