@@ -30,11 +30,9 @@ class ConditionsController < ApplicationController
 
   # POST /conditions
   def create
-    if params[:condition][:time_filler] != ""
-      params[:condition][:time_filler] = ActivitySchema.find(params[:condition][:time_filler].to_i)
-    else
-      params[:condition][:time_filler] = nil
-    end
+    params[:condition][:primary_activity_schema] = (params[:condition][:primary_activity_schema] == "")? nil : ActivitySchema.find(params[:condition][:primary_activity_schema].to_i)
+    params[:condition][:time_filler] = (params[:condition][:time_filler] == "")? nil : ActivitySchema.find(params[:condition][:time_filler].to_i)
+
     #to handle the collection_select to object array
     @prologue=params[:condition][:prologue_pages]
     @body=params[:condition][:body_pages]
@@ -53,11 +51,10 @@ class ConditionsController < ApplicationController
   # PUT /conditions/1
   def update
     @condition = Condition.find(params[:id])
-    if params[:condition][:time_filler] != ""
-      params[:condition][:time_filler] = ActivitySchema.find(params[:condition][:time_filler].to_i)
-    else
-      params[:condition][:time_filler] = nil
-    end
+
+    params[:condition][:primary_activity_schema] = (params[:condition][:primary_activity_schema] == "")? nil : ActivitySchema.find(params[:condition][:primary_activity_schema].to_i)
+    params[:condition][:time_filler] = (params[:condition][:time_filler] == "")? nil : ActivitySchema.find(params[:condition][:time_filler].to_i)
+
     #to handle the collection_select to object array
     @prologue=params[:condition][:prologue_pages]
     @body=params[:condition][:body_pages]
@@ -67,6 +64,7 @@ class ConditionsController < ApplicationController
     params[:condition][:epilogue_pages] = array_for(@epilogue) unless @epilogue == nil 
     
     if @condition.update_attributes(params[:condition])
+      puts(@condition)
       redirect_to @condition, notice: 'Condition was successfully updated.'
     else
       render action: "edit"

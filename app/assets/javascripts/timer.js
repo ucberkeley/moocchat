@@ -3,6 +3,9 @@ var Timer = {
   selectorToUpdate: '#_timer_',
   submitUrl: '',                // only if no form on this page
   nextTimeout: null,
+  heartbeatSent: false,
+  heartbeatSeconds: 0, // Time before end of timer when heartbeat is sent
+  heartbeatUrl: '',
   updateDisplay: function() {
     var min = Math.max(0, Math.floor(this.seconds/60));
     var sec = Math.max(0, this.seconds % 60);
@@ -10,8 +13,11 @@ var Timer = {
     var secString = (sec < 10 ? '0'+sec.toString() : sec.toString());
     $(this.selectorToUpdate).text(minString + ':' + secString);
   },
-  initialize: function(seconds, submitUrl) {
+  initialize: function(seconds, submitUrl, heartbeatSeconds, heartbeatUrl) {
     this.seconds = seconds;
+    this.submitUrl = submitUrl;
+    this.heartbeatSeconds = heartbeatSeconds;
+    this.heartbeatUrl = heartbeatUrl;
     this.updateDisplay();
     this.countdown();
   },
@@ -32,6 +38,19 @@ var Timer = {
     this.updateDisplay();
     if (this.seconds > 0) {
       this.countdown();
+      if (this.seconds < this.heartbeatSeconds && !this.heartbeatSent) {
+        $.ajax({
+            type: "POST",
+            url: this.heartbeatUrl,
+            success: function(data, textStatus, jqXHR){
+                console.log("sucessfully sent heartbeat when timer was near zero");
+            },
+            error: function (data, textStatus, jqXHR){
+                console.log("failed to send heartbeat when timer was near zero");
+            }
+        });
+        this.heartbeatSent = true;
+      }
     } else {
       this.submitForm();
     }
@@ -39,8 +58,7 @@ var Timer = {
   setup: function() {
     var t = $('#_timer_');
     if (t.length > 0) { // the page has a timer on it
-      Timer.initialize(t.data('countfrom'), t.data('submit'));
-
+      Timer.initialize(t.data('countfrom'), t.data('submit'), t.data('heartbeatsecs'), t.data('heartbeaturl'));
     }
   },
 };

@@ -4,11 +4,10 @@ Feature: start new task
   So that I can participate in a peer learning activity
   I want to start a new task using instructor-provided link
 
-Scenario: valid condition and activity schema, new learner
+Scenario: valid condition, new learner
 
   Given a new learner named "Armando"
-  And an activity schema "Quiz review"
   And a condition "Chat sequence 1"
-  When I post to the URL for learner: "Armando", activity schema: "Quiz review", condition: "Chat sequence 1"
+  When I post to the URL for learner: "Armando", condition: "Chat sequence 1"
   Then I should see "Greetings, Armando!" 
-  And I should see /"Quiz review" will start automatically/
+  And I should see /"test_primary_activity_schema" will start automatically/

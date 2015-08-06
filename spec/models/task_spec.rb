@@ -36,14 +36,13 @@ describe Task do
     end
     context 'when activity is enabled' do
       before :each do
-        @condition = mock_model(Condition, :valid? => true)
         @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => true, :num_questions => 2)
+        @condition = mock_model(Condition, :primary_activity_schema => @activity_schema, :valid? => true)
         @args = {
           :condition_id => @condition.id,
-          :activity_schema_id => @activity_schema.id,
           :learner_name => 'joe'
         }
-        Condition.stub(:find).and_return(@condition)
+        Condition.stub(:find).and_return(@condition)  
         ActivitySchema.stub(:find).and_return(@activity_schema)
       end
       shared_examples_for 'starting task' do
@@ -51,7 +50,7 @@ describe Task do
           subject { Task.create_from_params @args }
           it { should be_valid }
           its(:condition) { should == @condition }
-          its(:activity_schema) { should == @activity_schema }
+          its('condition.primary_activity_schema') { should == @activity_schema }
           its('learner.name') { should == 'joe' }
         end
       end
@@ -74,11 +73,10 @@ describe Task do
     end
     context 'when activity is not enabled' do
       before :each do
-        @condition = mock_model(Condition, :valid? => true)
-        @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => false)
+        @activity_schema = mock_model(ActivitySchema, :valid? => true, :enabled? => false, :num_questions => 2)
+        @condition = mock_model(Condition, :primary_activity_schema => @activity_schema, :valid? => true)
         @args = {
           :condition_id => @condition.id,
-          :activity_schema_id => @activity_schema.id,
           :learner_name => 'joe'
         }
         Condition.stub(:find).and_return(@condition)
@@ -98,7 +96,7 @@ describe Task do
     before :each do
       @tasks = Array.new(3) { create :task }
       @group = Task.chat_group_name_from_tasks(@tasks)
-      @tasks.each { |t| t.assign_to_chat_group @group }
+      @tasks.each { |t| t.assign_to_chat_group(@group, true) }
     end
     it 'forms group from sorted and unsorted task IDs' do
       Task.chat_group_name_from_tasks(@tasks.reverse).should == @group

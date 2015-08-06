@@ -9,6 +9,7 @@ describe("chat socket", function() {
 	var prodcution = "test";
 	var hello = "Hello World";
 	var chatJSON = JSON.stringify({ text : hello, taskid: taskID, type: "message" });
+	var sendEndVoteMessageJSON = JSON.stringify({ text : "has voted to quit chat", taskid: taskID, type: "message" });
 	var sendEndVoteJSON = JSON.stringify({ text : "", taskid: taskID, type: "end-vote" });
 	var receiveEndVoteJSON1 = JSON.stringify({ text : "", taskid: otherTaskId1, type: "end-vote" });
 	var receiveEndVoteJSON3 = JSON.stringify({ text : "", taskid: otherTaskId3, type: "end-vote" });
@@ -120,6 +121,7 @@ describe("chat socket", function() {
 
 			it('sends the message to the server', function() {
 				expect(this.sendSpy).toHaveBeenCalledWith(sendEndVoteJSON);
+				expect(this.sendSpy).toHaveBeenCalledWith(sendEndVoteMessageJSON);
 			});
 
 			it('logs the vote', function() {

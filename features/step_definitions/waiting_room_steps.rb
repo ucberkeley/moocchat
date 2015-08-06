@@ -9,9 +9,10 @@ def expire_timer_and_continue
 end
 
 When /^I start activity "(.+)" with condition "(.+)" as "(.+)"/ do |activity, condition, learner_name|
-  steps %Q{When I post to the URL for learner: "#{learner_name}", activity schema: "#{activity}", condition: "#{condition}"}
+  Condition.find_by_name!(condition).primary_activity_schema = ActivitySchema.find_by_name!(activity)
+  steps %Q{When I post to the URL for learner: "#{learner_name}", condition: "#{condition}"}
   # get the newly created task
-  @task = Task.where("learner_id = #{Learner.find_by_name!(learner_name).id} AND activity_schema_id = #{@activity_schema.id} AND condition_id = #{@condition.id}").first
+  @task = Task.where("learner_id = #{Learner.find_by_name!(learner_name).id} AND condition_id = #{@condition.id}").first
 end
 
 #  The step defs that handle assigning a learner to a chat group (or not)
@@ -22,7 +23,8 @@ When /^the timer expires and the server assigns me to (a|no) chat group$/ do |no
   WaitingRoom.stub(:process_all!)
   @task.assign_to_chat_group(none =~ /no/ ?
     WaitingRoom::CHAT_GROUP_NONE :
-    Task.chat_group_name_from_tasks([@task]))
+    Task.chat_group_name_from_tasks([@task]),
+    true)
   expire_timer_and_continue
 end
 

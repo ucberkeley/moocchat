@@ -30,7 +30,7 @@ describe ChatServer do
     end
     
     it 'goes to everyone else' do
-      result = {:text => "Learner 2: Message", :type => "message", :taskid => "4"}.to_json
+      result = {:text => "Student 2: Message", :type => "message", :taskid => "4", :style_class => "student-2"}.to_json
       @ws[0].should_receive(:send).with(result)
       @ws[1].should_receive(:send).with(result)
       @ws[2].should_receive(:send).with(result)
@@ -64,12 +64,11 @@ describe ChatServer do
       ChatServer.send :public, :extract_text, :create_text_message
     end
     specify 'containing text' do
-      @app.create_text_message('foo bar', 2).should include_json(:text => 'foo bar', :type => "message", :taskid => 2)
+      @app.create_text_message('foo bar', 2, 'student-1').should include_json(:text => 'foo bar', :type => "message", :taskid => 2, :style_class => 'student-1')
     end
     
     specify 'extracting text' do
-      event = double('event', :data => @app.create_text_message('foo bar', 2))
-      @app.extract_text(event).should == "foo bar"
+      @app.extract_text(@app.create_text_message('foo bar', 2, 'student-1')).should == "foo bar"
     end
   end
 end

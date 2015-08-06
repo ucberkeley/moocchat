@@ -1,0 +1,12 @@
+model_class = EventLog
+csv << ['Session chat group'] + [:created_at, :task_id, :chat_group, :name, :value].map{|attr| model_class.human_attribute_name(attr)}
+@eventlog_sessions.each do |session|
+  session.each do |event|
+    csv << [event.task.original_chat_group,
+            event.created_at,
+            event.task_id,
+            event.chat_group,
+            event.name,
+            event.value]
+  end
+end

@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
 
-  before_filter :check_if_test_user, :except => [:create, :static]
+  before_filter :check_if_test_user, :except => [:create, :create_turk, :static]
+  skip_before_filter :require_authenticated_user
 
   protected
 
@@ -16,6 +17,26 @@ class TasksController < ApplicationController
   end
 
   def create
+    self.create_from_params(params.merge(:turk_params => nil))
+  end
+
+  def create_turk
+    if params[:assignmentId]=='ASSIGNMENT_ID_NOT_AVAILABLE'
+      render "turk_preview"
+    else
+      self.create_from_params({:condition_id => params[:condition_id],
+                               :learner_name => 'Turk worker ' + params[:workerId],
+                               :turk_params => params})
+    end
+  end
+
+  def create_from_params(params)
+    learner = User.find_by_name(params[:learner_name])
+    if learner and not learner.for_testing and Task.where(["chat_group IS NOT NULL AND learner_id=?", learner.id]).present?
+      render "already_completed_task"
+      return
+    end
+
     begin
       @task = Task.create_from_params(params)
       @timer = session[:timer] = WaitingRoom.add(@task)
@@ -33,12 +54,18 @@ class TasksController < ApplicationController
   #  All methods below this point rely on the before_filter to set up @task
   #
   def welcome
+    # Consider initial welcome page request to also be a heartbeat
+    # This deals with an edge case where someone arrives at the last moment and
+    # transitions to the next page before they can send a heartbeat message.
+    @task.last_heartbeat = Time.zone.now
+
     unless (@timer = session[:timer])
       redirect_to :action => 'sorry', :notice => 'Timer value was not found.'
     end
+    @heartbeat_seconds = WaitingRoom.heartbeat_seconds
     # never start with a timer of zero. If timer is zero, bump up to
     # next start time.
-    if @timer.zero? then @timer += @task.activity_schema.starts_every end
+    if @timer.zero? then @timer += @task.condition.primary_activity_schema.starts_every end
   end
 
   def force_continue
@@ -50,6 +77,9 @@ class TasksController < ApplicationController
   end
 
   def join_group
+    @task.last_heartbeat = Time.zone.now # Consider join_group request to also be a heartbeat
+    @task.save!
+    
     WaitingRoom.process_all!
     case @task.chat_group
     when WaitingRoom::CHAT_GROUP_NONE
@@ -92,6 +122,7 @@ class TasksController < ApplicationController
     @submit_to = task_next_page_path @task
     @me = @task.learner_index
     @data = @task.user_state_for_all
+    @turk_params = @task.turk_params
     @u = @data[@me] || {}
     # HTML text that will be injected into generic uber-template
     @html = @template.html
@@ -143,5 +174,19 @@ class TasksController < ApplicationController
 
   def error
 
+  end
+
+  def disconnect
+    render(:nothing => true, :status => 403) and return unless request.xhr?
+    task_id = params[:id].to_i
+    @task.group_tasks.each { |t| Task.find(t).remove_from_chat_group task_id }
+    render :nothing => true
+  end
+
+  def heartbeat
+    render(:nothing => true, :status => 403) and return unless request.xhr?
+    @task.last_heartbeat = Time.zone.now
+    @task.save!
+    render :nothing => true
   end
 end

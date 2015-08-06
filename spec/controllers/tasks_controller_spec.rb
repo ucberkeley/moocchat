@@ -3,7 +3,7 @@ require 'spec_helper'
 describe TasksController do
   describe 'establishing session' do
     before :all do 
-      @dummy_params = { :activity_schema_id => '0', :learner_name => 'x', :condition_id => '1' }
+      @dummy_params = {:learner_name => 'x', :condition_id => '1' }
     end
     describe 'successfully' do
       before :each do
@@ -75,7 +75,7 @@ describe TasksController do
     it 'serves user state when next page is displayed' do
       Task.any_instance.stub(:current_page).and_return(Template.first)
       @task.update_attribute(:user_state, @user_state)
-      @task.assign_to_chat_group Task.chat_group_name_from_tasks([@task])
+      @task.assign_to_chat_group(Task.chat_group_name_from_tasks([@task]), true)
       get :page, :id => @task
       assigns(:u).should == @user_state
     end
@@ -85,7 +85,7 @@ describe TasksController do
     before :each do
       @t = Array.new(3)  { |n| create(:task, :user_state => {'val' => n}) }
       chat_group = Task.chat_group_name_from_tasks(@t)
-      @t.each { |task| task.assign_to_chat_group chat_group }
+      @t.each { |task| task.assign_to_chat_group(chat_group, true) }
     end
     it "sets @me" do
       @t.each_with_index do |task,n|
@@ -149,7 +149,7 @@ describe TasksController do
 
   it 'sets up template variables' do
     @task = create :task, :user_state => {'foo' => '1'}
-    @task.assign_to_chat_group(group = Task.chat_group_name_from_tasks([@task]))
+    @task.assign_to_chat_group(group = Task.chat_group_name_from_tasks([@task]), true)
     get :page, :id => @task
     assigns(:task_id).to_i.should == @task.id
     assigns(:question).should be_a Question

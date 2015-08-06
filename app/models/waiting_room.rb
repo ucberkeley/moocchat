@@ -27,10 +27,13 @@ class WaitingRoom < ActiveRecord::Base
   # Sentinel value meaning you're not assigned to any chat group
   CHAT_GROUP_NONE = 'NONE'
 
+  # The number of seconds before the timer expires that a heartbeat is sent
+  @heartbeat_seconds = 15
+
   # Any time a new +WaitingRoom+ is created, its expiration time is automatically set
   # to the next 'boundary' of when the experiment repeats.
   before_create do
-    self.expires_at ||= compute_expiration_time
+    self.expires_at ||= activity_schema.compute_expiration_time
   end
 
   # When the class method +process_all!+ is called, all waiting rooms
@@ -42,6 +45,10 @@ class WaitingRoom < ActiveRecord::Base
 
   public
 
+  def self.heartbeat_seconds
+    @heartbeat_seconds
+  end
+
   # Add a task to a waiting room.
   # If the waiting room for this condition and activity doesn't exist,
   # create it.
@@ -49,7 +56,15 @@ class WaitingRoom < ActiveRecord::Base
   def self.add task
     wr = WaitingRoom.
       find_or_create_by_activity_schema_id_and_condition_id!(
-      task.activity_schema_id, task.condition_id)
+      task.condition.primary_activity_schema_id, task.condition_id)
+
+    current_time = Time.zone.now
+    # If more than a minute has passed since this room expired, destroy it and make a new one
+    if current_time > wr.expires_at + 60 then
+      wr.destroy
+      return self.add task
+    end
+
     wr.add task
     return wr.timer_until(task)
   end
@@ -86,13 +101,24 @@ class WaitingRoom < ActiveRecord::Base
   # someone out is done by placing the sentinel value +CHAT_GROUP_NONE+ as the
   # chat group ID for those learners' tasks.
   def process
+    self.remove_disconnected
     # create as many groups of the preferred size as we can...
     leftovers = create_groups_of(condition.preferred_group_size, tasks)
+    # For this run we want to create groups larger than the minimum size if possible
+    (condition.preferred_group_size - 1).downto(condition.minimum_group_size + 1) { |size|
+      leftovers = leftovers.empty? ? [ ] : create_groups_of(size, leftovers)
+    }
     # if there are leftover people, create groups of the minimum size (which could be singletons)...
     rejects = leftovers.empty? ? [ ] : create_groups_of(condition.minimum_group_size, leftovers)
     # if there are any singletons now, they're rejects
-    rejects.each { |t| t.assign_to_chat_group CHAT_GROUP_NONE }
+    rejects.each { |t| t.assign_to_chat_group(CHAT_GROUP_NONE, true) }
     self.destroy
+  end
+
+  def remove_disconnected
+    current_time = Time.zone.now
+    # Add 10 seconds to give some buffer room for network delay in the join_group call
+    self.tasks = self.tasks.select{ |t| !t.last_heartbeat.nil? && current_time - t.last_heartbeat < WaitingRoom.heartbeat_seconds + 10 }
   end
 
   # Stretch out timer so users don't all bang on the server at once to
@@ -104,10 +130,10 @@ class WaitingRoom < ActiveRecord::Base
 
   def timer_until(task)
     timer_base = self.expires_at - Time.zone.now
-    max_fuzz_seconds = 60 * task.activity_schema.starts_every
+    max_fuzz_seconds = 60 * task.condition.primary_activity_schema.starts_every
     fuzz = Integer(
       self.tasks.size / MAX_USERS / (1000 / SERVICE_TIME_IN_MS))
-    timer_base + [fuzz, 60 * task.activity_schema.starts_every].min
+    timer_base + [fuzz, 60 * task.condition.primary_activity_schema.starts_every].min
   end  
 
   private
@@ -125,18 +151,7 @@ class WaitingRoom < ActiveRecord::Base
   # Create a chat group from a list of tasks
   def create_group_from task_list # :nodoc:
     group_name = Task.chat_group_name_from_tasks(task_list)
-    task_list.each { |t| t.assign_to_chat_group group_name }
-  end
-
-  # Compute the expiration date of a waiting room that is being created.
-  # The +ActivitySchema+ knows the start and end times and how often the waiting rooms empty.
-  # Since the repeat interval must be an integral divisor of 60 minutes, we just set the
-  # expiration time to round *strictly up* to the nearest minute-boundary of a repeat, that is,
-  # if the repeat is every 6 minutes and it's currently 16 after the hour, round up to 18.
-  def compute_expiration_time
-    repeat = activity_schema.starts_every
-    minutes_to_add = repeat - (Time.zone.now.min % repeat)
-    (Time.zone.now + minutes_to_add.minutes).change(:sec => 0)
+    task_list.each { |t| t.assign_to_chat_group(group_name, true) }
   end
 
 end

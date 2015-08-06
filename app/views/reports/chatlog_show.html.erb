@@ -1,0 +1,22 @@
+<%- model_class = EventLog -%>
+
+<% @eventlog_sessions.each do |session| %>
+  <table class="table">
+  <tr>
+    <th><%= model_class.human_attribute_name(:created_at) %></th>
+    <th><%= model_class.human_attribute_name(:task_id) %></th>
+    <th><%= model_class.human_attribute_name(:chat_group) %></th>
+    <th><%= model_class.human_attribute_name(:name) %></th>
+    <th><%= model_class.human_attribute_name(:value) %></th>
+  </tr>
+  <% session.each do |event| %>
+    <tr>
+      <td><%= event.created_at %></td>
+      <td><%= event.task_id %></td>
+      <td><%= event.chat_group %></td>
+      <td><%= event.name %></td>
+      <td><%= event.value %></td>
+    </tr>
+  <% end %>
+  </table>
+<% end %>

@@ -5,6 +5,7 @@ Feature: test learner starts task
   So that I can test out my condition flow
   I want to be a test learner who can skip past initial group-formation timer
 
+@wip
 Scenario: skip past welcome page timer
 
   When I start test driving condition "C1" with group size 1

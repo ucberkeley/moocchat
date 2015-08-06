@@ -1,0 +1,53 @@
+<div class= "container">
+  <center><h1 class="title"><strong>Chat Log Report</strong></h1></center>
+  <br><br>
+  <%= form_tag '/reports/chatlog/show' , :class => 'form-warning' do  %>
+  <div class="row">
+    <div class="field">
+      <div class='col-sm-2'>
+        <label for="datetimepicker_start"><b>Start date/time</b></label><br/>
+      </div>
+      <div class='col-sm-6'>
+          <div class="form-group">
+              <div class='input-group date' id='datetimepicker_start'>
+                  <input type='text' name="datetime_start" class="form-control" />
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+              </div>
+          </div>
+      </div>
+      <script type="text/javascript">
+          $(function () { $('#datetimepicker_start').datetimepicker(); });
+      </script>
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <div class='col-sm-2'>
+        <label for="datetimepicker_end"><b>End date/time</b></label><br/>
+      </div>
+      <div class='col-sm-6'>
+          <div class="form-group">
+              <div class='input-group date' id='datetimepicker_end'>
+                  <input type='text' name="datetime_end" class="form-control" />
+                  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+              </div>
+          </div>
+      </div>
+      <script type="text/javascript">
+          $(function () { $('#datetimepicker_end').datetimepicker(); });
+      </script>
+    </div>
+  </div>
+  <div class="row">
+    <div class='col-sm-2'>
+      <label for="datetimepicker_start"><b>Format</b></label><br/>
+    </div>
+    <div class='col-sm-1'>
+      <%= select_tag(:format, options_for_select([['HTML', 'html'], ['XML', 'xml'], ['CSV', 'csv'], ['XLSX (Excel)', 'xlsx']])) %>
+    </div>
+  </div>
+  <br><br>
+  <div class="actions">
+    <%= submit_tag "SUBMIT" , :class => "btn btn-primary"%>
+  </div>
+<% end %>

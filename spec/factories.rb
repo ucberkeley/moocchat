@@ -53,13 +53,16 @@ FactoryGirl.define do
     body_pages { [create(:template)] }
     epilogue_pages []
     body_repeat_count 1
+    primary_activity_schema {create :activity_schema, :questions => [create(:question)]}    
     time_filler {create :activity_schema, :questions => [create(:question)]}
   end
 
-  factory :learner do
-    sequence(:name) { |n| "Learner#{n}" }
+  %w(learner instructor administrator).each do |user_type|
+    factory user_type do
+      sequence(:name) { |n| "#{user_type}#{n}" }
+    end
   end
-
+  
   factory :question do
     sequence(:text) { |n| "Question #{n}" }
     answers ["Wrong", "Wrong", "Right"]
@@ -74,8 +77,7 @@ FactoryGirl.define do
       group_size 2
     end
     learner { create :learner }
-    condition { create :condition, :body_repeat_count => body_repeat_count, :preferred_group_size => group_size, :time_filler => create(:activity_schema, :questions => [create(:question)])}
-    activity_schema { build :activity_schema, :num_questions => num_questions }
+    condition { create :condition, :body_repeat_count => body_repeat_count, :preferred_group_size => group_size, :primary_activity_schema => create(:activity_schema, :num_questions => num_questions), :time_filler => create(:activity_schema, :questions => [create(:question)])}
     sequence_state { Task::Sequencer.new(:body_repeat_count => body_repeat_count, :num_questions => num_questions) }
     chat_group nil
     completed false
@@ -131,7 +133,7 @@ FactoryGirl.define do
   end
 
   factory :waiting_room do
-    condition { create(:condition, :time_filler => create(:activity_schema, :questions => [create(:question)]))}
-    activity_schema { create :activity_schema }
+    condition { create(:condition, :primary_activity_schema => create(:activity_schema), :time_filler => create(:activity_schema, :questions => [create(:question)]))}
+    activity_schema {create(:activity_schema)}
   end
 end

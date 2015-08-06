@@ -6,12 +6,20 @@ gem 'puma'
 gem 'faye-websocket'
 gem 'haml'
 gem 'omniauth'
+gem 'omniauth-google-oauth2'
 gem 'jquery-rails'
 gem 'date_validator'            # datetime validations for ActiveRecord
 gem 'foreman'
 gem 'capybara-puma'
-gem 'foreigner'			#foreign key support for rails
+gem 'foreigner'			# foreign key support for rails
 gem 'pg'
+gem 'rack-p3p'
+gem 'momentjs-rails'            # prereq of datetimepicker
+gem 'bootstrap3-datetimepicker-rails'
+gem 'rubyzip',  "~> 1.0.0"      # prereq of axlsx, axlsx 2.0.1 requires old version
+gem 'axlsx', "~> 2.0.1"
+gem 'axlsx_rails'
+gem 'csv_builder'
 
 group :development, :test do
   gem 'debugger'
@@ -36,6 +44,7 @@ group :test do
 end
 
 group :production do
+  gem 'rack-ssl-enforcer'
   gem 'newrelic_rpm'
   gem 'rails_12factor'
 end

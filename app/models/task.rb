@@ -1,12 +1,10 @@
 class Task < ActiveRecord::Base
 
-  # Ties together a +Learner+, +ActivitySchema+, and +Condition+ into
+  # Ties together a +Learner+, and +Condition+ into
   # a task that steps the learner through a sequence of pages.
 
-  belongs_to :activity_schema
   belongs_to :learner
   belongs_to :condition
-  validates_associated :activity_schema
   validates_associated :learner
   validates_associated :condition
 
@@ -21,10 +19,12 @@ class Task < ActiveRecord::Base
   require_relative './task/task_sequencer'
   serialize :sequence_state, Sequencer
 
+  serialize :turk_params, Hash
+
   # Tasks log interesting events to an +EventLog+.
   has_one :event_log	
 
-  attr_accessible :condition, :learner, :activity_schema, :completed, :chat_group, :sequence_state
+  attr_accessible :condition, :learner, :completed, :original_chat_group, :chat_group, :sequence_state, :turk_params
 
   # Exception raised when learner tries to create task for an activity that
   # isn't open yet
@@ -49,25 +49,23 @@ class Task < ActiveRecord::Base
   # of +Learner+ will be created.
  
   def self.create_from_params(params)
-    act = params[:activity_schema_id]
     cond = params[:condition_id]
-    if(act.is_a?(Hash) && cond.is_a?(Hash)) #suggested by github to handle collection select(which returns {:id => value} rather than value)
-      act = act[:id]
+    if(cond.is_a?(Hash)) #suggested by github to handle collection select(which returns {:id => value} rather than value)
       cond = cond[:id]
     end
     condition = Condition.find  cond
-    activity_schema = ActivitySchema.find act
     learner = Learner.find_or_create_by_name! params[:learner_name]
 
-    raise ActivityNotOpenError unless activity_schema.enabled?
+    raise ActivityNotOpenError unless condition.primary_activity_schema.enabled?
     
     @t = Task.create!(
       :condition => condition,
       :learner => learner,
       :completed => false,
+      :original_chat_group => nil,
       :chat_group => nil,
-      :activity_schema => activity_schema,
-      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count, :num_questions => activity_schema.num_questions)
+      :sequence_state => Sequencer.new(:body_repeat_count => condition.body_repeat_count, :num_questions => condition.primary_activity_schema.num_questions),
+      :turk_params => params[:turk_params]
       )
   end
 
@@ -106,6 +104,10 @@ class Task < ActiveRecord::Base
     end
   end
 
+  def self.parse_group_tasks(group_tasks)
+    group_tasks.to_s.split(',').map(&:to_i)
+  end
+
   def group_tasks # :nodoc:
     case chat_group
     when blank?
@@ -113,10 +115,9 @@ class Task < ActiveRecord::Base
     when WaitingRoom::CHAT_GROUP_NONE
       raise LearnerNotInGroupError, "Learner was kicked out of Waiting Room"
     else
-      chat_group.to_s.split(',').map(&:to_i)
+      Task.parse_group_tasks(chat_group)
     end
   end
-  private :group_tasks
 
   # Returns the +Template+ object that should be rendered for the
   # current page in the task sequence.
@@ -143,17 +144,28 @@ class Task < ActiveRecord::Base
     reload
   end
 
+  def remove_from_chat_group(task_id)
+    chat_group_ids = self.group_tasks
+    if chat_group_ids.include? task_id   # Ignore if already removed
+      chat_group_ids.delete(task_id)
+      chat_group = chat_group_ids.map { |task_id| Task.find(task_id) }
+      new_group_name = Task.chat_group_name_from_tasks(chat_group)
+      self.assign_to_chat_group(new_group_name, false)
+    end
+  end
+
   # Assign this task to a particular chat group.  As a side effect, this removes the task
   # from its waiting room.
-  def assign_to_chat_group(group)
+  def assign_to_chat_group(group, original_assignment)
     self.chat_group = group
+    if original_assignment then self.original_chat_group = self.chat_group end
     self.waiting_room = nil
     self.save!
   end
 
   # Returns the next question to be consumed for the task.
   def current_question
-    activity_schema.questions[question_counter]
+    condition.primary_activity_schema.questions[question_counter]
   end
 
   # Log an interesting event related to this task. Denormalize the various
@@ -165,7 +177,7 @@ class Task < ActiveRecord::Base
       :value => value,
       :task => self,
       :learner => self.learner,
-      :activity_schema => self.activity_schema,
+      :activity_schema => self.condition.primary_activity_schema,
       :condition => self.condition,
       :counter => self.counter,
       :subcounter => self.subcounter,

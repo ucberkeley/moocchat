@@ -8,6 +8,7 @@ Background: singleton-friendly condition exists
 
   Given a condition "C1" with group size 1..3
 
+@wip
 Scenario: test drive as singleton learner
 
   Given I am on the conditions page

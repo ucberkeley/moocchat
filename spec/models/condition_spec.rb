@@ -7,6 +7,7 @@ describe Condition do
         :preferred_group_size => 2,
         :minimum_group_size => 1,
         :body_pages => [create(:template)],
+        :primary_activity_schema =>create(:activity_schema, :name => 'primary_activity_schema', :questions => [create(:question)]),
         :time_filler => create(:activity_schema, :name => 'test_activity_schema', :questions => [create(:question)]),
         :body_repeat_count => 1
       }}
@@ -33,6 +34,9 @@ describe Condition do
     end
     it 'requires a name' do
       Condition.new(args.except(:name)).should_not be_valid
+    end
+    it 'requires a primary activity schema' do
+      Condition.new(args.except(:primary_activity_schema)).should_not be_valid
     end
 
     it 'returns time_filler_questions correctly' do
